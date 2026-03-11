@@ -30,12 +30,13 @@ public class Inimigo {
         return vidaInicial;
     }
 
-    public void receberDano(int danoSofrido){
+    public int receberDano(int danoSofrido){
         int danoReal = danoSofrido - escudo;
         if (danoReal > 0) {
             this.vida -= danoReal;
             System.out.println(nome + " recebeu " + danoReal + " de dano!" );
         }
+        return danoReal;
     }
 
     public String atualizaVida() {
@@ -103,7 +104,6 @@ public class Inimigo {
 
     public int atacar(){
         return ataque;
-
     }
 
 
