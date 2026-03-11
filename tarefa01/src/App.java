@@ -8,7 +8,7 @@ public class App {
         Scanner entrada = new Scanner (System.in);
         String leitura = entrada.nextLine();
         System.out.printf("\nSeja muito bem vindo, %s! Escolha o seu inimigo:\n", leitura);
-        Heroi heroi = new Heroi(leitura, 20, 0, 20, 3, 5);
+        Heroi heroi = new Heroi(leitura, 10, 0, 20, 3, 3);
         Inimigo inimigoEscolhido = null;
         
 
@@ -19,10 +19,10 @@ public class App {
             System.out.print("Digite a opção: ");
             int escolha = entrada.nextInt();
             if (escolha == 1) {
-                inimigoEscolhido = new Inimigo("Zumbi", 20, 2, 2, 2);
+                inimigoEscolhido = new Inimigo("Zumbi", 20, 2, 5, 2);
 
             } else if (escolha == 2) {
-                inimigoEscolhido = new Inimigo("Esqueleto", 30, 0, 5, 2);
+                inimigoEscolhido = new Inimigo("Esqueleto", 10, 3, 10, 3);
         
             } else if (escolha == 3) {
                 inimigoEscolhido = new Inimigo("Creeper", 25, 0, 10, 2);
@@ -52,14 +52,14 @@ public class App {
                 CartaEscudo CartaEscudo = new CartaEscudo("carta de escudo", 1, 1);
                 if (opcao == 1) {
                     if (heroi.getExp() >= CartaDano.getCustoExp()) {
-                        inimigoEscolhido.receberDano(CartaDano.usar());
+                        int danoRealInimigo = inimigoEscolhido.receberDano(CartaDano.usar());
                         heroi.gastarExp(CartaDano.getCustoExp());
                         Limpa();
                         heroi.titulo();
                         heroi.atualiza();
                         System.out.println("\nvs\n");
                         inimigoEscolhido.atualiza();
-                        System.out.println(heroi.getNome() + " usou a carta de dano!");
+                        System.out.println(heroi.getNome() + " usou a carta de dano! " + inimigoEscolhido.getNome() + " levou " + danoRealInimigo + " de dano.");
                     } else {
                         System.out.println("Você não tem experiência suficiente para usar essa carta!");
                     }
@@ -83,6 +83,7 @@ public class App {
                         System.out.println("Você não tem experiência suficiente para usar essa carta!");
                     }
                 } else if (opcao == 3) {
+                    heroi.receberDano(inimigoEscolhido.atacar());
                     heroi.resetarExp();
                     heroi.resetarEscudo();
                     Limpa();
@@ -94,9 +95,15 @@ public class App {
                     
                 }
             } else {
-                System.out.println(heroi.getNome() + " encerrou o turno!");
+                int danoReal = heroi.receberDano(inimigoEscolhido.atacar());
                 heroi.resetarExp();
                 heroi.resetarEscudo();
+                Limpa();
+                heroi.titulo();
+                heroi.atualiza();
+                System.out.println("\nvs\n");
+                inimigoEscolhido.atualiza();
+                System.out.println(heroi.getNome() + " encerrou o turno! "  + inimigoEscolhido.getNome() + " atacou e causou " + danoReal + " de dano.");
             }
               
         }

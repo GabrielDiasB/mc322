@@ -142,14 +142,13 @@ public class Heroi {
         System.out.println("\u001B[1;36m=-=-=-=-= CRAFT & COMBATE =-=-=-=-=\u001B[m\n");
     }
 
-    public String receberDano() {
-        
-        return "\u001B[31m" + nome + " recebeu 2 de dano! " + "\u001B[0m"  + "Vida: " + vida + "/" + vidaInicial ;
-    }
-
-    public String ganharEscudo() {
-        escudo++;
-        return "\u001B[32m" + "Ganhei escudo! "  + "\u001B[0m" + "Escudo: " + escudo;
+    public int receberDano(int danoSofrido) {
+        int danoReal = danoSofrido - escudo;
+        if (danoReal > 0) {
+            this.vida -= danoReal;
+            System.out.println(nome + " recebeu " + danoReal + " de dano!" );
+        }
+        return danoReal;
     }
 
     public void receberEscudo(int escudoRecebido){
