@@ -1,0 +1,6 @@
+
+# Ignore VS Code workspace settings
+.vscode/
+
+# Ignore nested git directory (if present)
+.git/

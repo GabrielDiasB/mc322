@@ -111,7 +111,8 @@ public class App {
             System.out.println("\n\u001B[1;32mPARABÉNS!!! Você derrotou o inimigo!\u001B[m\n");
         }
         if (inimigoEscolhido.estaVivo()) {
-            System.out.println("\n\u001B[1;31mNão foi dessa vez... Tente novamente!\u001B[m\n");
+            System.out.println("\n\u001B[1;31mQUE PENA, você foi derrotado!\u001B[m");
+            System.out.println("\u001B[1;31mNão foi dessa vez... Tente novamente!\u001B[m\n");
         }
 
     }
