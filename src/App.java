@@ -37,7 +37,7 @@ public class App {
         heroi.atualiza();
         System.out.println("\nvs\n");
         inimigoEscolhido.atualiza();
-        System.out.println(heroi.getNome() + " escolheu " + inimigoEscolhido.getNome());
+        System.out.println("\u001B[33m>> " + heroi.getNome() + " escolheu " + inimigoEscolhido.getNome() + "\u001B[m");
         while (heroi.estaVivo() && inimigoEscolhido.estaVivo()) {
             if (heroi.getExp() > 0) {
                 System.out.println("\u001B[36m" + "\n[ 1 ] Usar carta de dano (Custo: 1 XP)\n[ 2 ] Usar carta de escudo (Custo: 1 XP)\n[ 3 ] Encerrar turno (Custo: 0 XP)\n" + "\u001B[0m");
@@ -59,15 +59,15 @@ public class App {
                         heroi.atualiza();
                         System.out.println("\nvs\n");
                         inimigoEscolhido.atualiza();
-                        System.out.println(heroi.getNome() + " usou a carta de dano! " + inimigoEscolhido.getNome() + " levou " + danoRealInimigo + " de dano.");
+                        System.out.println("\u001B[33m>> " + heroi.getNome() + " usou a carta de dano! " + inimigoEscolhido.getNome() + " levou " + danoRealInimigo + " de dano. \u001B[m");
                     } else {
-                        System.out.println("Você não tem experiência suficiente para usar essa carta!");
+                        System.out.println("\u001B[31m>> Você não tem experiência suficiente para usar essa carta!\u001B[m");
                     }
                 
                 } else if (opcao == 2) {
                     if (heroi.getExp() >= 1) {
                         if (heroi.getEscudo() >= heroi.getEscudoInicial()) {
-                            System.out.println("Escudo já está no máximo!");
+                            System.out.println("\u001B[31m>> Escudo já está no máximo!\u001B[m");
                         } else {
                             heroi.gastarExp(1);
                             heroi.receberEscudo(CartaEscudo.usar());
@@ -76,11 +76,11 @@ public class App {
                             heroi.atualiza();
                             System.out.println("\nvs\n");
                             inimigoEscolhido.atualiza();
-                            System.out.println(heroi.getNome() + " usou a carta de escudo!");
+                            System.out.println("\u001B[33m>> " + heroi.getNome() + " usou a carta de escudo! \u001B[m");
                         }
                         
                     } else {
-                        System.out.println("Você não tem experiência suficiente para usar essa carta!");
+                        System.out.println("\u001B[31mVocê não tem experiência suficiente para usar essa carta!\u001B[m");
                     }
                 } else if (opcao == 3) {
                     heroi.receberDano(inimigoEscolhido.atacar());
@@ -91,7 +91,7 @@ public class App {
                     heroi.atualiza();
                     System.out.println("\nvs\n");
                     inimigoEscolhido.atualiza();
-                    System.out.println(heroi.getNome() + " encerrou o turno!");
+                    System.out.println("\u001B[33m>> " + heroi.getNome() + " encerrou o turno!\u001B[m");
                     
                 }
             } else {
@@ -103,7 +103,7 @@ public class App {
                 heroi.atualiza();
                 System.out.println("\nvs\n");
                 inimigoEscolhido.atualiza();
-                System.out.println(heroi.getNome() + " encerrou o turno! "  + inimigoEscolhido.getNome() + " atacou e causou " + danoReal + " de dano.");
+                System.out.println("\u001B[33m>> " + heroi.getNome() + " encerrou o turno! "  + inimigoEscolhido.getNome() + " atacou e causou " + danoReal + " de dano.\u001B[m");
             }
               
         }
@@ -126,7 +126,6 @@ public class App {
                 System.out.flush();
             }
         } catch (Exception e) {
-            // Trata possíveis erros
         }
     }
 }
