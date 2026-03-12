@@ -54,14 +54,14 @@ Isso iniciará o programa e o combate sera executado no terminal.
 
 Durante o combate:
 
-- O jogador controla um **heroi**
+- O jogador controla um **herói**
 - O jogador usa cartas de **dano** e **escudo**
-- As cartas afetam os atributos de combate entre heroi e inimigos
+- As cartas afetam os atributos de combate entre herói e inimigos
 - As açõess acontecem em **turnos**
 
 O combate termina quando:
 
-- o **heroi e derrotado**, ou
+- o **herói é derrotado**, ou
 - o **inimigo é derrotado**
 
 # Tecnologias Utilizadas
