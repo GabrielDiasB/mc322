@@ -8,7 +8,7 @@ public class App {
         Scanner entrada = new Scanner (System.in);
         String leitura = entrada.nextLine();
         System.out.printf("\nSeja muito bem vindo, %s! Escolha o seu inimigo:\n", leitura);
-        Heroi heroi = new Heroi(leitura, 10, 0, 20, 3, 3);
+        Heroi heroi = new Heroi(leitura, 10, 0, 3);
         Inimigo inimigoEscolhido = null;
         
 
@@ -19,13 +19,13 @@ public class App {
             System.out.print("Digite a opção: ");
             int escolha = entrada.nextInt();
             if (escolha == 1) {
-                inimigoEscolhido = new Inimigo("Zumbi", 20, 2, 5, 2);
+                inimigoEscolhido = new Inimigo("Zumbi", 20, 2, 3);
 
             } else if (escolha == 2) {
-                inimigoEscolhido = new Inimigo("Esqueleto", 10, 3, 10, 3);
+                inimigoEscolhido = new Inimigo("Esqueleto", 10, 1, 4);
         
             } else if (escolha == 3) {
-                inimigoEscolhido = new Inimigo("Creeper", 25, 0, 10, 2);
+                inimigoEscolhido = new Inimigo("Creeper", 25, 0, 10);
             } else {
                 System.out.println("Opção inválida. Tente novamente...");
                 System.out.println("Escolha novamente:");
@@ -66,18 +66,14 @@ public class App {
                 
                 } else if (opcao == 2) {
                     if (heroi.getExp() >= 1) {
-                        if (heroi.getEscudo() >= heroi.getEscudoInicial()) {
-                            System.out.println("Escudo já está no máximo!");
-                        } else {
-                            heroi.gastarExp(1);
-                            heroi.receberEscudo(CartaEscudo.usar());
-                            Limpa();
-                            heroi.titulo();
-                            heroi.atualiza();
-                            System.out.println("\nvs\n");
-                            inimigoEscolhido.atualiza();
-                            System.out.println(heroi.getNome() + " usou a carta de escudo!");
-                        }
+                        heroi.gastarExp(1);
+                        heroi.receberEscudo(CartaEscudo.usar());
+                        Limpa();
+                        heroi.titulo();
+                        heroi.atualiza();
+                        System.out.println("\nvs\n");
+                        inimigoEscolhido.atualiza();
+                        System.out.println(heroi.getNome() + " usou a carta de escudo!");
                         
                     } else {
                         System.out.println("Você não tem experiência suficiente para usar essa carta!");
