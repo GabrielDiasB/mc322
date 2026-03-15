@@ -1,3 +1,8 @@
+public class Heroi extends Entidade {
+
+    private int exp; // energia
+    private int expInicial;
+    
 import java.util.Random;
 
 public class Heroi {
@@ -13,11 +18,8 @@ public class Heroi {
     private int diamante;
     private int la;
 
-    public Heroi(String nome, int vida, int escudo, int vidaInicial, int exp, int escudoInicial){
-        this.nome = nome;
-        this.vida = vida;
-        this.escudo = escudo;
-        this.vidaInicial = vida;
+    public Heroi(String nome, int vida, int escudo, int exp){
+        super(nome, vida, escudo, vida, escudo);
         this.exp = exp;
         this.expInicial = exp;
         this.escudoInicial = escudoInicial;
@@ -41,8 +43,6 @@ public class Heroi {
         return escudo;
     }
 
-    public int getVidaInicial() {
-        return vidaInicial;
     }
 
     public int getExp() {
@@ -111,15 +111,6 @@ public class Heroi {
         System.out.println("\u001B[1;36m=-=-=-=-= CRAFT & COMBATE =-=-=-=-=\u001B[m\n");
     }
 
-    public int receberDano(int danoSofrido) {
-        int danoReal = danoSofrido - escudo;
-        if (danoReal > 0) {
-            this.vida -= danoReal;
-            System.out.println(nome + " recebeu " + danoReal + " de dano!" );
-        }
-        return danoReal;
-    }
-
     public void receberEscudo(int escudoRecebido){
         escudo += escudoRecebido;
         System.out.println("Recebi +" + escudoRecebido + " de escudo!");
@@ -139,14 +130,5 @@ public class Heroi {
 
     public void zerarExp() {
         exp = 0;
-    }
-
-
-    public boolean estaVivo() {
-        if (vida <= 0) {
-            return false;
-        } else {
-            return true;
-        }
     }
 }

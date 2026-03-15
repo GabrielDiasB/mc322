@@ -1,22 +1,10 @@
-public class Inimigo {
-    private String nome;
-    private int vida;
-    private int escudo;
+public class Inimigo extends Entidade {
     private int ataque;
-    private int vidaInicial;
-    private int escudoInicial;
 
-    public Inimigo(String nome, int vida, int escudo, int ataque, int escudoInicial){
-        this.nome = nome;
-        this.vida = vida;
-        this.vidaInicial = vida;
-        this.escudo = escudo;
+
+    public Inimigo(String nome, int vida, int escudo, int ataque){
+        super(nome, vida, escudo, vida, escudo);
         this.ataque = ataque;
-        this.escudoInicial = escudoInicial;
-    }
-
-    public String getNome() {
-        return nome;
     }
 
     public int getVida() {
@@ -64,11 +52,4 @@ public class Inimigo {
     }
 
 
-    public boolean estaVivo(){
-        if (vida <= 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 }
