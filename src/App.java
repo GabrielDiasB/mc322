@@ -7,15 +7,86 @@ public class App {
         System.out.printf("Digite o nome do seu personagem: ");
         Scanner entrada = new Scanner (System.in);
         String leitura = entrada.nextLine();
-        System.out.printf("\nSeja muito bem vindo, %s! Escolha o seu inimigo:\n", leitura);
+        System.out.printf("\nSeja muito bem vindo, %s! Está um lindo dia ensolarado, vamos coletar recursos antes que anoiteça e sejamos atacados.\n", leitura);
+        System.out.printf("\nUse o seu XP para explorar o mundo e obter matérias-primas. ");
+        char res = 'n';
+        Scanner resposta = new Scanner (System.in);
+        while (res != 's') {
+            System.out.print("Vamos começar nossa aventura? [s/n] ");
+            res = resposta.next().charAt(0);
+            if (res == 'n') {
+                System.out.println("Que pena... Quando estiver pronto só falar.");
+            }
+        }
         Heroi heroi = new Heroi(leitura, 10, 0, 20, 3, 3);
         Inimigo inimigoEscolhido = null;
-        
+        Limpa();
+        heroi.titulo();
+        heroi.atualiza();
+        System.out.println("\n\u001B[33m>> Está de dia! Aproveite para se preparar " + heroi.getNome() + "!\u001B[m");
+        while (true) {
+            System.out.println("\n[ 1 ] Ganhar recursos \u001B[35m(-1XP)\u001B[m\n[ 2 ] Inventário e melhorias\u001B[m\n[ 3 ] Estou pronto\n");
+            System.out.print("Digite a opção: ");
+            int selecione = entrada.nextInt();
+            while (selecione != 1 && selecione !=2 && selecione != 3) {
+                System.out.println("\nOpção inválida. Tente novamente...\n");
+                System.out.print("Digite a opção: ");
+                selecione = entrada.nextInt();
+            }
+            if (selecione == 1) {
+                if (heroi.getExp() >= 1) {
+                    heroi.gastarExp(1);
+                    Limpa();
+                    heroi.titulo();
+                    heroi.atualiza();
 
+                    System.out.println("\n\u001B[33m>> " + heroi.getNome() + " explorou e obteve " + heroi.recursos() + "\u001B[m");
+                } else {
+                    Limpa();
+                    heroi.titulo();
+                    heroi.atualiza();
+                    System.out.println("\n\u001B[31m>> Você não tem experiência suficiente para ganhar mais recursos.\u001B[m");
+                }
+            
+            } else if (selecione == 2) {
+                Limpa();
+                heroi.titulo();
+                heroi.atualiza();
+                System.out.println(heroi.inventario());
+                System.out.println("\n\u001B[33m>> Veja o seu inventário, " + heroi.getNome() + ". Quer melhorar algo: \u001B[m");
+                while (true) {
+                    System.out.println("\n[ 1 ] Soco >>>>> Espada de madeira \u001B[35m(-1XP e -2 madeiras)\u001B[m\n[ 2 ] Roupa normal >>>>> Armadura de Ferro \u001B[35m(-1XP e -2 ferros)\u001B[m\n[ 3 ] Voltar\n");
+                    System.out.print("Digite a opção: ");
+                    Scanner entra = new Scanner (System.in);
+                    int n = entra.nextInt();
+                    if (n == 1) {
+                        
+                    } else if (n == 2) {
 
-        
+                    } else if (n == 3) {
+                        Limpa();
+                        heroi.titulo();
+                        heroi.atualiza();
+                        System.out.println("\n\u001B[33m>> Está de dia! Aproveite para se preparar " + heroi.getNome() + "!\u001B[m");
+                        break;
+                    } else {
+                        System.out.println("Opção inválida, tente novamente...");
+                    }
+                    entra.close();
+                }
+                
+            
+            } else if (selecione == 3) {
+                heroi.resetarExp();
+                Limpa();
+                heroi.titulo();
+                heroi.atualiza();
+                System.out.println("\n\u001B[33m>> " + heroi.getNome() + " encerrou o turno e a noite chegou! Escolha quem irá enfrentar: \u001B[m");
+                break;
+            }   
+        }
         while (inimigoEscolhido == null) {
-            System.out.println("\u001B[31m\n[ 1 ] Zumbi\n[ 2 ] Esqueleto\n[ 3 ] Creeper\n\u001B[m");
+            System.out.println("\n[ 1 ]\u001B[31m Zumbi\u001B[m\n[ 2 ]\u001B[31m Esqueleto\u001B[m\n[ 3 ]\u001B[31m Creeper\u001B[m\n");
             System.out.print("Digite a opção: ");
             int escolha = entrada.nextInt();
             if (escolha == 1) {
@@ -40,11 +111,11 @@ public class App {
         System.out.println("\u001B[33m>> " + heroi.getNome() + " escolheu " + inimigoEscolhido.getNome() + "\u001B[m");
         while (heroi.estaVivo() && inimigoEscolhido.estaVivo()) {
             if (heroi.getExp() > 0) {
-                System.out.println("\u001B[36m" + "\n[ 1 ] Usar carta de dano (Custo: 1 XP)\n[ 2 ] Usar carta de escudo (Custo: 1 XP)\n[ 3 ] Encerrar turno (Custo: 0 XP)\n" + "\u001B[0m");
+                System.out.println("\n[ 1 ] Usar espada: +5 de dano \u001B[35m(-1XP)\u001B[m\n[ 2 ] Usar armadura: +1 de escudo \u001B[35m(-1XP)\u001B[m\n[ 3 ] Encerrar turno\n");
                 System.out.print("Digite a opção: ");
                 int opcao = entrada.nextInt();
                 while (opcao != 1 && opcao !=2 && opcao != 3) {
-                    System.out.println("Opção inválida. Tente novamente...");
+                    System.out.println("\nOpção inválida. Tente novamente...\n");
                     System.out.print("Digite a opção: ");
                     opcao = entrada.nextInt();
                 }
@@ -113,6 +184,8 @@ public class App {
         if (inimigoEscolhido.estaVivo()) {
             System.out.println("\n\u001B[1;31mQUE PENA, você foi derrotado!\u001B[m");
             System.out.println("\u001B[1;31mNão foi dessa vez... Tente novamente!\u001B[m\n");
+            entrada.close();
+            resposta.close();
         }
 
     }
