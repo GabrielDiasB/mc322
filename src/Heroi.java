@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Heroi {
     private String nome;
     private int vida;
@@ -6,6 +8,10 @@ public class Heroi {
     private int exp; // energia
     private int expInicial;
     private int escudoInicial;
+    private int madeira;
+    private int ferro;
+    private int diamante;
+    private int la;
 
     public Heroi(String nome, int vida, int escudo, int vidaInicial, int exp, int escudoInicial){
         this.nome = nome;
@@ -15,6 +21,10 @@ public class Heroi {
         this.exp = exp;
         this.expInicial = exp;
         this.escudoInicial = escudoInicial;
+        this.madeira = 0;
+        this.ferro = 0;
+        this.diamante = 0;
+        this.la = 0;
     }
 
     public String getNome() {
@@ -50,89 +60,48 @@ public class Heroi {
     public String atualizaVida() {
         if (vida < 0) {
             vida = 0;
-        }
-        if(vida == vidaInicial) {
-            return "VIDA: [■■■■■■■■■■] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 90){
-            return "VIDA: [■■■■■■■■■-] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 80) {
-            return "VIDA: [■■■■■■■■--] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 70) {
-            return "VIDA: [■■■■■■■---] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 60) {
-            return "VIDA: [■■■■■■----] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 50) {
-            return "VIDA: [■■■■■-----] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 40) {
-            return "VIDA: [■■■■------] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 30) {
-            return "VIDA: [■■■-------] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 20) {
-            return "VIDA: [■■--------] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 10) {
-            return "VIDA: [■---------] " + vida + "/" + vidaInicial;
-        } else {
-            return "VIDA: [----------] " + vida + "/" + vidaInicial;
         } 
+        return "VIDA: [" + "■".repeat(vida) + "-".repeat(vidaInicial - vida) + "] " + vida + "/" + vidaInicial;
+        
     }
 
     public String atualizaEscudo() {
         if (escudo < 0) {
             escudo = 0;
         }
-        if(escudo == escudoInicial) {
-            return "ESCUDO: [■■■■■■■■■■] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 90){
-            return "ESCUDO: [■■■■■■■■■-] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 80) {
-            return "ESCUDO: [■■■■■■■■--] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 70) {
-            return "ESCUDO: [■■■■■■■---] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 60) {
-            return "ESCUDO: [■■■■■■----] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 50) {
-            return "ESCUDO: [■■■■■-----] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 40) {
-            return "ESCUDO: [■■■■------] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 30) {
-            return "ESCUDO: [■■■-------] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 20) {
-            return "ESCUDO: [■■--------] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 10) {
-            return "ESCUDO: [■---------] " + escudo + "/" + escudoInicial;
-        } else {
-            return "ESCUDO: [----------] " + escudo + "/" + escudoInicial;
-        } 
+        return "ESCUDO: [" + "■".repeat(escudo) + "-".repeat(escudoInicial - escudo) + "] " + escudo + "/" + escudoInicial;
     }
 
     public String atualizaXp() {
         if (exp < 0) {
             exp = 0;
         }
-        if(exp == expInicial) {
-            return "XP: [■■■■■■■■■■] " + exp + "/" + expInicial;
-        } else if (100 * exp/expInicial >= 90){
-            return "XP: [■■■■■■■■■-] " + exp + "/" + expInicial;
-        } else if (100 * exp/expInicial >= 80) {
-            return "XP: [■■■■■■■■--] " + exp + "/" + expInicial;
-        } else if (100 * exp/expInicial >= 70) {
-            return "XP: [■■■■■■■---] " + exp + "/" + expInicial;
-        } else if (100 * exp/expInicial >= 60) {
-            return "XP: [■■■■■■----] " + exp + "/" + expInicial;
-        } else if (100 * exp/expInicial >= 50) {
-            return "XP: [■■■■■-----] " + exp + "/" + expInicial;
-        } else if (100 * exp/expInicial >= 40) {
-            return "XP: [■■■■------] " + exp + "/" + expInicial;
-        } else if (100 * exp/expInicial >= 30) {
-            return "XP: [■■■-------] " + exp + "/" + expInicial;
-        } else if (100 * exp/expInicial >= 20) {
-            return "XP: [■■--------] " + exp + "/" + expInicial;
-        } else if (100 * exp/expInicial >= 10) {
-            return "XP: [■---------] " + exp + "/" + expInicial;
-        } else {
-            return "XP: [----------] " + exp + "/" + expInicial;
-        } 
+        return "XP: [" + "■".repeat(exp) + "-".repeat(expInicial - exp) + "] "+ exp + "/" + expInicial;
     }
+
+    public String inventario() {
+        return "\nMadeira: " + madeira + " | Ferro: " + ferro + " | Diamante: " + diamante + " | Lã: " + la;
+    }
+
+    public String recursos() {
+        Random rand = new Random();
+        int num = rand.nextInt(10);
+
+        if (num < 5) {
+            madeira++;
+            return "1 madeira";
+        } else if (num < 7) {
+            ferro++;
+            return "1 ferro";
+        } else if (num < 9) {
+            la++;
+            return "1 lã";
+        } else {
+            diamante++;
+            return "1 diamante";
+        }
+    }
+
 
     public void atualiza() {
         System.out.println(getNome() + " " + "\u001B[32m" + atualizaVida() + "\u001B[m | " + "\u001B[34m" + atualizaEscudo() + "\u001B[m" + "\u001B[m | " + "\u001B[35m" + atualizaXp() + "\u001B[m");

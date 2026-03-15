@@ -42,59 +42,16 @@ public class Inimigo {
     public String atualizaVida() {
         if (vida < 0) {
             vida = 0;
-        }
-        if(vida == vidaInicial) {
-            return "VIDA: [■■■■■■■■■■] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 90){
-            return "VIDA: [■■■■■■■■■-] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 80) {
-            return "VIDA: [■■■■■■■■--] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 70) {
-            return "VIDA: [■■■■■■■---] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 60) {
-            return "VIDA: [■■■■■■----] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 50) {
-            return "VIDA: [■■■■■-----] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 40) {
-            return "VIDA: [■■■■------] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 30) {
-            return "VIDA: [■■■-------] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 20) {
-            return "VIDA: [■■--------] " + vida + "/" + vidaInicial;
-        } else if (100 * vida/vidaInicial >= 10) {
-            return "VIDA: [■---------] " + vida + "/" + vidaInicial;
-        } else {
-            return "VIDA: [----------] " + vida + "/" + vidaInicial;
         } 
+        return "VIDA: [" + "■".repeat(vida) + "-".repeat(vidaInicial - vida) + "] " + vida + "/" + vidaInicial;
+        
     }
 
     public String atualizaEscudo() {
         if (escudo < 0) {
             escudo = 0;
         }
-        if(escudo == escudoInicial) {
-            return "ESCUDO: [■■■■■■■■■■] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 90){
-            return "ESCUDO: [■■■■■■■■■-] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 80) {
-            return "ESCUDO: [■■■■■■■■--] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 70) {
-            return "ESCUDO: [■■■■■■■---] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 60) {
-            return "ESCUDO: [■■■■■■----] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 50) {
-            return "ESCUDO: [■■■■■-----] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 40) {
-            return "ESCUDO: [■■■■------] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 30) {
-            return "ESCUDO: [■■■-------] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 20) {
-            return "ESCUDO: [■■--------] " + escudo + "/" + escudoInicial;
-        } else if (100 * escudo/escudoInicial >= 10) {
-            return "ESCUDO: [■---------] " + escudo + "/" + escudoInicial;
-        } else {
-            return "ESCUDO: [----------] " + escudo + "/" + escudoInicial;
-        } 
+        return "ESCUDO: [" + "■".repeat(escudo) + "-".repeat(escudoInicial - escudo) + "] " + escudo + "/" + escudoInicial;
     }
 
     public void atualiza() {
