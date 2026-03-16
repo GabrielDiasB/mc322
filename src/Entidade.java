@@ -38,8 +38,20 @@ abstract class Entidade {
     public String atualizaVida() {
         if (vida < 0) {
             vida = 0;
-        } 
-        return "VIDA: [" + "■".repeat(vida) + "-".repeat(vidaInicial - vida) + "] " + vida + "/" + vidaInicial;
+        }
+        if (vidaInicial <= 0) {
+            return "VIDA: [----------] " + vida + "/" + vidaInicial;
+        }
+
+        int quadrados = (vida * 10) / vidaInicial;
+        if (quadrados < 0) {
+            quadrados = 0;
+        }
+        if (quadrados > 10) {
+            quadrados = 10;
+        }
+
+        return "VIDA: [" + "■".repeat(quadrados) + "-".repeat(10 - quadrados) + "] " + vida + "/" + vidaInicial;
         
     }
 

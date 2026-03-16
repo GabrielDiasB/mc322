@@ -1,27 +1,16 @@
-public class CartaDano {
-    private String nome;
-    private int custoExp;
+public class CartaDano extends Carta {
+
     private int dano;
 
-    public CartaDano(String nome, int custoExp, int dano) {
-        this.nome = nome;
-        this.custoExp = custoExp;
+    public CartaDano(String nome, String descricao, int custo, int dano) {
+        super(nome, descricao, custo);
         this.dano = dano;
     }
 
-    public String getNome() {
-        return nome;
+
+    public int usar(Heroi heroi, Inimigo inimigo) {
+        return inimigo.receberDano(dano);
     }
-
-    public int getCustoExp() {
-        return custoExp;
-    }
-
-    public int usar(){
-        return dano;
-    }
-
-
 
 }
 
