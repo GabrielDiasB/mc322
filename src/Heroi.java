@@ -1,18 +1,8 @@
-public class Heroi extends Entidade {
-
-    private int exp; // energia
-    private int expInicial;
-    
 import java.util.Random;
 
-public class Heroi {
-    private String nome;
-    private int vida;
-    private int escudo;
-    private int vidaInicial;
+public class Heroi extends Entidade {
     private int exp; // energia
     private int expInicial;
-    private int escudoInicial;
     private int madeira;
     private int ferro;
     private int diamante;
@@ -22,27 +12,10 @@ public class Heroi {
         super(nome, vida, escudo, vida, escudo);
         this.exp = exp;
         this.expInicial = exp;
-        this.escudoInicial = escudoInicial;
         this.madeira = 0;
         this.ferro = 0;
         this.diamante = 0;
         this.la = 0;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public int getVida() {
-        if (vida < 0) {
-            vida = 0;
-        }
-        return vida;
-    }
-    public int getEscudo() {
-        return escudo;
-    }
-
     }
 
     public int getExp() {
@@ -51,25 +24,6 @@ public class Heroi {
 
     public int getExpInicial() {
         return expInicial;
-    }
-
-    public int getEscudoInicial() {
-        return escudoInicial;
-    }
-
-    public String atualizaVida() {
-        if (vida < 0) {
-            vida = 0;
-        } 
-        return "VIDA: [" + "■".repeat(vida) + "-".repeat(vidaInicial - vida) + "] " + vida + "/" + vidaInicial;
-        
-    }
-
-    public String atualizaEscudo() {
-        if (escudo < 0) {
-            escudo = 0;
-        }
-        return "ESCUDO: [" + "■".repeat(escudo) + "-".repeat(escudoInicial - escudo) + "] " + escudo + "/" + escudoInicial;
     }
 
     public String atualizaXp() {
@@ -113,7 +67,6 @@ public class Heroi {
 
     public void receberEscudo(int escudoRecebido){
         escudo += escudoRecebido;
-        System.out.println("Recebi +" + escudoRecebido + " de escudo!");
     }
 
     public void gastarExp(int custo) {
