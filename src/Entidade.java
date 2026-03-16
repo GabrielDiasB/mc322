@@ -35,37 +35,19 @@ abstract class Entidade {
         return escudoInicial;
     }
 
-    public String atualizaVida(){
+    public String atualizaVida() {
         if (vida < 0) {
             vida = 0;
-        }
-        if (vidaInicial <= 0) {
-            return "VIDA: [----------] " + vida + "/" + vidaInicial;
-        }
-
-        int quadradosPreenchidos = (vida * 10) / vidaInicial;
-        if (quadradosPreenchidos < 0) {
-            quadradosPreenchidos = 0;
-        }
-        if (quadradosPreenchidos > 10) {
-            quadradosPreenchidos = 10;
-        }
-
-        return "VIDA: [" + "■".repeat(quadradosPreenchidos) + "-".repeat(10 - quadradosPreenchidos) + "] " + vida + "/" + vidaInicial;
+        } 
+        return "VIDA: [" + "■".repeat(vida) + "-".repeat(vidaInicial - vida) + "] " + vida + "/" + vidaInicial;
+        
     }
 
     public String atualizaEscudo() {
         if (escudo < 0) {
             escudo = 0;
         }
-        if (escudoInicial <= 0 || escudo > escudoInicial) {
-            return "ESCUDO: [" + "■".repeat(escudo) + "] " + escudo;
-        }
-        if (escudo == escudoInicial) {
-            return "ESCUDO: [" + "■".repeat(escudo) + "] " + escudo + "/" + escudoInicial;
-        } else {
-            return "ESCUDO: [" + "■".repeat(escudo) + "-".repeat(escudoInicial - escudo) + "] " + escudo + "/" + escudoInicial;
-        }
+        return "ESCUDO: [" + "■".repeat(escudo) + "-".repeat(escudoInicial - escudo) + "] " + escudo + "/" + escudoInicial;
     }
 
         public int receberDano(int danoSofrido){
