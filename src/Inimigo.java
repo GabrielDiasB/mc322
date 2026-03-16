@@ -28,11 +28,7 @@ public class Inimigo extends Entidade {
     }
 
     public String atualizaVida() {
-        if (vida < 0) {
-            vida = 0;
-        } 
-        return "VIDA: [" + "■".repeat(vida) + "-".repeat(vidaInicial - vida) + "] " + vida + "/" + vidaInicial;
-        
+        return super.atualizaVida();
     }
 
     public String atualizaEscudo() {
