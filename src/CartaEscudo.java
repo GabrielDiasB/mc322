@@ -1,26 +1,15 @@
-public class CartaEscudo {
-    private String nome;
-    private int custoExp;
+public class CartaEscudo extends Carta {
     private int escudo;
 
-    public CartaEscudo(String nome, int custoExp, int escudo) {
-        this.nome = nome;
-        this.custoExp = custoExp;
+    public CartaEscudo(String nome, String descricao, int custo, int escudo) {
+        super(nome, descricao, custo);
         this.escudo = escudo;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public int getCustoExp() {
-        return custoExp;
-    }
-
-    public int usar(){
+    public int usar(Heroi heroi, Inimigo inimigo) {
+        heroi.receberEscudo(escudo);
         return escudo;
     }
-
 
 
 }

@@ -120,12 +120,12 @@ public class App {
                     System.out.print("Digite a opção: ");
                     opcao = entrada.nextInt();
                 }
-                CartaDano CartaDano = new CartaDano("carta de dano", 1, 5);
-                CartaEscudo CartaEscudo = new CartaEscudo("carta de escudo", 1, 1);
+                CartaDano CartaDano = new CartaDano("carta de dano","Uma carta que causa dano", 1, 5);
+                CartaEscudo CartaEscudo = new CartaEscudo("carta de escudo", "Uma carta que concede escudo", 1, 1);
                 if (opcao == 1) {
-                    if (heroi.getExp() >= CartaDano.getCustoExp()) {
-                        int danoRealInimigo = inimigoEscolhido.receberDano(CartaDano.usar());
-                        heroi.gastarExp(CartaDano.getCustoExp());
+                    if (heroi.getExp() >= CartaDano.getCusto()) {
+                        int danoRealInimigo = CartaDano.usar(heroi, inimigoEscolhido);
+                        heroi.gastarExp(CartaDano.getCusto());
                         Limpa();
                         heroi.titulo();
                         heroi.atualiza();
@@ -137,12 +137,12 @@ public class App {
                     }
                 
                 } else if (opcao == 2) {
-                    if (heroi.getExp() >= 1) {
+                    if (heroi.getExp() >= CartaEscudo.getCusto()) {
                         if (heroi.getEscudo() >= heroi.getEscudoInicial()) {
                             System.out.println("\u001B[31m>> Escudo já está no máximo!\u001B[m");
                         } else {
-                            heroi.gastarExp(1);
-                            heroi.receberEscudo(CartaEscudo.usar());
+                            heroi.gastarExp(CartaEscudo.getCusto());
+                            CartaEscudo.usar(heroi, inimigoEscolhido);
                             Limpa();
                             heroi.titulo();
                             heroi.atualiza();
