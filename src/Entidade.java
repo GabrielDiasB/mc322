@@ -59,6 +59,9 @@ abstract class Entidade {
         if (escudo < 0) {
             escudo = 0;
         }
+        if (escudoInicial <= 0 || escudo > escudoInicial) {
+            return "ESCUDO: [" + "■".repeat(escudo) + "] " + escudo;
+        }
         return "ESCUDO: [" + "■".repeat(escudo) + "-".repeat(escudoInicial - escudo) + "] " + escudo + "/" + escudoInicial;
     }
 
