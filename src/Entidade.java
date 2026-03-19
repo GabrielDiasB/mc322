@@ -69,10 +69,8 @@ abstract class Entidade {
         int danoReal = danoSofrido - escudo;
         if (danoReal > 0) {
             this.vida -= danoReal;
-            System.out.println(nome + " recebeu " + danoReal + " de dano!" );
             return danoReal;
         } else {
-            System.out.println(nome + " bloqueou o ataque com o escudo!");
             return 0;
         }
 

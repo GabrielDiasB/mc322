@@ -1,99 +1,87 @@
 import java.util.Scanner; 
 
 public class App {
+    private static Scanner scanner = new Scanner (System.in);
     public static void main(String[] args) throws Exception {
         Limpa();
-        System.out.println("\u001B[1;36m=-=-=-=-= CRAFT & COMBATE =-=-=-=-=\u001B[m\n");
-        System.out.printf("Digite o nome do seu personagem: ");
-        Scanner entrada = new Scanner (System.in);
-        String leitura = entrada.nextLine();
-        Heroi heroi = new Heroi(leitura, 100, 3, 3);
+        titulo();
+        destaque("Digite o nome do seu personagem: ");
+        String nomeHeroi = scanner.nextLine();
+        Heroi heroi = new Heroi(nomeHeroi, 100, 10, 3);
         heroi.resetarEscudo();
-        System.out.printf("\nSeja muito bem vindo, %s! Está um lindo dia ensolarado, vamos coletar recursos antes que anoiteça e sejamos atacados.\n", leitura);
-        System.out.printf("\nUse o seu XP para explorar o mundo e obter matérias-primas. ");
+        DequeHeroi cartas = new DequeHeroi();
+        cartas.addCarta(new CartaDano("Chute Voadora", "+3 Dano", 1, 3));
+        cartas.addCarta(new CartaDano("Golpe de Punho", "+2 Dano", 1, 2));
+        cartas.addCarta(new CartaDano("Soco Mortal", "+3 Dano", 1, 3));
+        cartas.addCarta(new CartaDano("Flechada Precisa", "+7 Dano", 2, 7));
+        cartas.addCarta(new CartaDano("Espadada Aguda", "+5 Dano", 2, 5));
+        cartas.addCarta(new CartaDano("Espadada Afiada", "+6 Dano", 2, 6));
+        cartas.addCarta(new CartaEscudo("Desvio Ágil", "+1 Escudo", 1, 1));
+        cartas.addCarta(new CartaEscudo("Reflexo Aguçado", "+2 Escudo", 1, 2));
+        cartas.addCarta(new CartaEscudo("Defesa Armadura", "+5 Escudo", 2, 5));
+        cartas.addCarta(new CartaEscudo("Escudo Potente", "+3 Escudo", 1, 3));
+        
+        System.out.printf("\nSeja muito bem vindo, %s!\n", nomeHeroi);
+        System.out.printf("\nEstá um lindo dia ensolarado, vamos coletar recursos antes que anoiteça e sejamos atacados.\n", nomeHeroi);
+        System.out.println("\nUse o seu XP para explorar o mundo e obter matérias-primas.\n");
         char res = 'n';
-        Scanner resposta = new Scanner (System.in);
         while (res != 's') {
-            System.out.print("Vamos começar nossa aventura? [s/n] ");
-            res = resposta.next().charAt(0);
+            destaque("Vamos começar nossa aventura? [s/n] ");
+            res = scanner.next().charAt(0);
             if (res == 'n') {
-                System.out.println("Que pena... Quando estiver pronto só falar.");
+                System.out.println("\nQue pena... Quando estiver pronto só falar.\n");
             }
         }
 
         for (int num_batalha = 0; num_batalha < 4; num_batalha++) {
+            if (!heroi.estaVivo()) {
+                break;
+            }
+            heroi.expProgresso(num_batalha);
             heroi.resetarExp();
-            Limpa();
-            heroi.titulo();
-            heroi.atualiza();
+            atualizaTela(heroi);
             if (num_batalha > 0) {
-                System.out.println("\n\u001B[33m>> Você venceu a " + num_batalha + "ª batalha! Já amanheceu, continue progredindo!\u001B[m");
+                destaque("\n>> Você venceu a " + num_batalha + "ª batalha e ganhou +" + num_batalha + "XP! Já amanheceu, continue progredindo!\n");
             } else {
-                System.out.println("\n\u001B[33m>> Está de dia! Aproveite para se preparar " + heroi.getNome() + "!\u001B[m");
+                destaque("\n>> Está de dia! Aproveite para se preparar " + heroi.getNome() + "!\n");
             }
 
             while (true) {
-                System.out.println("\n[ 1 ] Ganhar recursos \u001B[35m(-1XP)\u001B[m\n[ 2 ] Inventário e melhorias\u001B[m\n[ 3 ] Estou pronto\n");
+                System.out.println("\n\u001B[36m[ 1 ]\u001B[m Explorar o mapa (-1XP)\n\u001B[36m[ 2 ]\u001B[m Ataques e defesas\u001B[m\n\u001B[36m[ 3 ]\u001B[m Estou pronto para a noite!\n");
                 System.out.print("Digite a opção: ");
-                int selecione = entrada.nextInt();
+                int selecione = scanner.nextInt();
                 while (selecione != 1 && selecione !=2 && selecione != 3) {
                     System.out.println("\nOpção inválida. Tente novamente...\n");
                     System.out.print("Digite a opção: ");
-                    selecione = entrada.nextInt();
+                    selecione = scanner.nextInt();
                 }
                 if (selecione == 1) {
                     if (heroi.getExp() >= 1) {
                         heroi.gastarExp(1);
-                        Limpa();
-                        heroi.titulo();
-                        heroi.atualiza();
+                        atualizaTela(heroi);
 
-                        System.out.println("\n\u001B[33m>> " + heroi.getNome() + " explorou e obteve " + heroi.recursos() + "\u001B[m");
+                        destaque("\n\u001B[33m>> " + heroi.getNome() + " explorou e obteve " + heroi.recursos() + "\n");
                     } else {
-                        Limpa();
-                        heroi.titulo();
-                        heroi.atualiza();
+                        atualizaTela(heroi);
                         System.out.println("\n\u001B[31m>> Você não tem experiência suficiente para ganhar mais recursos.\u001B[m");
                     }
                 
                 } else if (selecione == 2) {
-                    Limpa();
-                    heroi.titulo();
-                    heroi.atualiza();
-                    System.out.println(heroi.inventario());
-                    System.out.println("\n\u001B[33m>> Veja o seu inventário, " + heroi.getNome() + ". Quer melhorar algo: \u001B[m");
-                    while (true) {
-                        System.out.println("\nCartas atuais:\n\n. Soco (5 de dano)\n\n[ 1 ] Craftar espada de madeira (7 de dano) \u001B[35m(-1XP e -2 madeiras)\u001B[m\n[ 2 ] Craftar armadura de ferro (+1 escudo fixo) \u001B[35m(-1XP e -2 ferros)\u001B[m\n[ 3 ] Voltar\n");
-                        System.out.print("Digite a opção: ");
-                        Scanner entra = new Scanner (System.in);
-                        int n = entra.nextInt();
-                        if (n == 1) {
-                        } else if (n == 2) {
-                            break;
-                        } else if (n == 3) {
-                            Limpa();
-                            heroi.titulo();
-                            heroi.atualiza();
-                            System.out.println("\n\u001B[33m>> Está de dia! Aproveite para se preparar " + heroi.getNome() + "!\u001B[m");
-                            break;
-                        } else {
-                            System.out.println("Opção inválida, tente novamente...");
-                        }
-                        entra.close();
-                    }
+                    atualizaTela(heroi);
+                    System.out.println("\n=========== Cartas Desbloqueadas ===========\n");
+                    cartas.mostraCartas();
+                    System.out.println("\n===========================================");
                     
                 
                 } else if (selecione == 3) {
-                    heroi.resetarExp();
-                    Limpa();
-                    heroi.titulo();
-                    heroi.atualiza();
                     break;
                 }   
             }
-            DequeInimigo filaBatalhas = new DequeInimigo();
 
-            
+            DequeInimigo filaBatalhas = new DequeInimigo();
+            cartas.inicializacao();
+            cartas.comprarAtual();
+
             if (num_batalha == 3) {
                 filaBatalhas.adicionaNoFim(criarBossFinal());
             } else {
@@ -105,84 +93,62 @@ public class App {
 
                 heroi.resetarExp();
                 heroi.resetarEscudo();
-
-                Limpa();
-                heroi.titulo();
-                heroi.atualiza();
+                atualizaTela(heroi);
                 System.out.println("\nvs\n");
                 inimigoEscolhido.atualiza();
 
                 if (num_batalha == 3) {
-                    System.out.println("\u001B[31m>> BATALHA FINAL contra " + inimigoEscolhido.getNome() + "!\u001B[m");
+                    destaque(">> Batalha final contra " + inimigoEscolhido.getNome() + "!\n");
                 } else {
-                    System.out.println("\u001B[33m>> " + heroi.getNome() + " encerrou a preparação e a " + (num_batalha + 1) + "ª de 4 noites chegou. Você irá enfrentar " + inimigoEscolhido.getNome() + "!\u001B[m");
+                    destaque(">> Preparação encerrada e a " + (num_batalha + 1) + "ª de 4 noites chegou. " + heroi.getNome() + " irá enfrentar " + inimigoEscolhido.getNome() + "!\n");
                 }
 
                 while (heroi.estaVivo() && inimigoEscolhido.estaVivo()) {
                     if (heroi.getExp() > 0) {
-                        System.out.println("\n[ 1 ] Usar espada: +5 de dano \u001B[35m(-1XP)\u001B[m\n[ 2 ] Usar armadura: +1 de escudo \u001B[35m(-1XP)\u001B[m\n[ 3 ] Encerrar turno\n");
+                        System.out.println("\n=========== Escolha suas cartas ===========\n");
+                        cartas.mostraAtual();
+                        System.out.println("\n[ 0 ] " + "Encerrar turno\n");
+                        System.out.println("===========================================\n");
                         System.out.print("Digite a opção: ");
-                        int opcao = entrada.nextInt();
-                        while (opcao != 1 && opcao !=2 && opcao != 3) {
-                            System.out.println("\nOpção inválida. Tente novamente...\n");
-                            System.out.print("Digite a opção: ");
-                            opcao = entrada.nextInt();
-                        }
-                        CartaDano CartaDano = new CartaDano("carta de dano","Uma carta que causa dano", 1, 5);
-                        CartaEscudo CartaEscudo = new CartaEscudo("carta de escudo", "Uma carta que concede escudo", 1, 1);
-                        if (opcao == 1) {
-                            if (heroi.getExp() >= CartaDano.getCusto()) {
-                                int danoRealInimigo = CartaDano.usar(heroi, inimigoEscolhido);
-                                heroi.gastarExp(CartaDano.getCusto());
-                                Limpa();
-                                heroi.titulo();
-                                heroi.atualiza();
+                        int opcao = scanner.nextInt();
+                        
+                        if (opcao == 0) {
+                            heroi.zerarExp();
+                        } else {
+                            if (cartas.getAtual().get(opcao - 1).getCusto() > heroi.getExp()) {
+                                atualizaTela(heroi);
                                 System.out.println("\nvs\n");
                                 inimigoEscolhido.atualiza();
-                                System.out.println("\u001B[33m>> " + heroi.getNome() + " usou a carta de dano! " + inimigoEscolhido.getNome() + " levou " + danoRealInimigo + " de dano. \u001B[m");
+                                System.out.println("\u001B[31m>> Sem XP suficiente para essa carta!\u001B[m");   
                             } else {
-                                System.out.println("\u001B[31m>> Você não tem experiência suficiente para usar essa carta!\u001B[m");
-                            }
-
-                        } else if (opcao == 2) {
-                            if (heroi.getExp() >= CartaEscudo.getCusto()) {
-                                heroi.gastarExp(CartaEscudo.getCusto());
-                                CartaEscudo.usar(heroi, inimigoEscolhido);
-                                Limpa();
-                                heroi.titulo();
-                                heroi.atualiza();
+                                int dado = cartas.getAtual().get(opcao - 1).usar(heroi, inimigoEscolhido);
+                                String texto = cartas.getAtual().get(opcao - 1).usarTexto(heroi, inimigoEscolhido, dado);
+                                heroi.gastarExp(cartas.getAtual().get(opcao - 1).getCusto());
+                                cartas.usar(opcao - 1);
+                                atualizaTela(heroi);
                                 System.out.println("\nvs\n");
                                 inimigoEscolhido.atualiza();
-                                System.out.println("\u001B[33m>> " + heroi.getNome() + " usou a carta de escudo! \u001B[m");
-
-                            } else {
-                                System.out.println("\u001B[31mVocê não tem experiência suficiente para usar essa carta!\u001B[m");
+                                destaque(">> " + texto);  
                             }
-                        } else if (opcao == 3) {
-                            heroi.receberDano(inimigoEscolhido.atacar());
-                            heroi.resetarExp();
-                            heroi.resetarEscudo();
-                            Limpa();
-                            heroi.titulo();
-                            heroi.atualiza();
-                            System.out.println("\nvs\n");
-                            inimigoEscolhido.atualiza();
-                            System.out.println("\u001B[33m>> " + heroi.getNome() + " encerrou o turno!\u001B[m");
-
+                             
                         }
                     } else {
                         int danoReal = heroi.receberDano(inimigoEscolhido.atacar());
                         heroi.resetarExp();
                         heroi.resetarEscudo();
-                        Limpa();
-                        heroi.titulo();
-                        heroi.atualiza();
+                        cartas.descartarAtual();
+                        cartas.comprarAtual();
+                        atualizaTela(heroi);
                         System.out.println("\nvs\n");
                         inimigoEscolhido.atualiza();
-                        System.out.println("\u001B[33m>> " + heroi.getNome() + " encerrou o turno! "  + inimigoEscolhido.getNome() + " atacou e causou " + danoReal + " de dano.\u001B[m");
+                        if (danoReal > 0) {
+                            destaque(">> " + heroi.getNome() + " encerrou o turno! " + inimigoEscolhido.getNome() + " atacou e causou " + danoReal + " de dano.\n");
+                        } else {
+                            destaque(">> " + heroi.getNome() + " encerrou o turno! " + heroi.getNome() + " bloqueou o ataque com o escudo!\n");
+                        }
                     }
-
                 }
+
             }
 
             if (heroi.estaVivo()) {
@@ -193,8 +159,6 @@ public class App {
             }
 
         }
-        entrada.close();
-        resposta.close();
     }
         
 
@@ -215,23 +179,40 @@ public class App {
             } else if (sorteio == 1){
                 return new Inimigo("Enderman", 30, 1, 10);
             } else {
-                return new Inimigo("Esqueleto Whiter", 15, 8, 10);    
+                return new Inimigo("Esqueleto Whiter", 15, 4, 10);    
             }
         }
         if (fase == 2){
             if (sorteio ==0){
-                return new Inimigo("Whiter", 30, 8, 12);
+                return new Inimigo("Whiter", 30, 4, 12);
             } else if (sorteio == 1){
-                return new Inimigo ("Warden", 40, 5, 15);
+                return new Inimigo ("Warden", 40, 3, 15);
             } else {
-                return new Inimigo("Guaridão", 30, 5, 10);
+                return new Inimigo("Guaridão", 30, 4, 10);
             }
         }
         return null;
     }
 
     public static Inimigo criarBossFinal(){
-        return new Inimigo("Ender Dragon", 50, 10, 20);
+        return new Inimigo("Ender Dragon", 50, 5, 20);
+    }
+
+
+    public static void titulo() {
+        System.out.println("\u001B[1;36m╔══════════════════════════════════╗\u001B[m");
+        System.out.println("\u001B[1;36m║         CRAFT & COMBATE          ║\u001B[m");
+        System.out.println("\u001B[1;36m╚══════════════════════════════════╝\u001B[m\n");
+    }
+
+    public static void atualizaTela(Heroi heroi) {
+        Limpa();
+        titulo();
+        heroi.atualiza();
+    }
+
+    public static void destaque(String texto) {
+        System.out.print("\u001B[33m" + texto + "\u001B[m");
     }
 
     public static void Limpa() {

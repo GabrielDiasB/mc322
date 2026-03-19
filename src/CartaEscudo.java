@@ -11,6 +11,9 @@ public class CartaEscudo extends Carta {
         return escudo;
     }
 
+    public String usarTexto(Heroi heroi, Inimigo inimigo, int dado) {
+        return (heroi.getNome() + " usou a carta de escudo! Aumentou em +" + dado + " o escudo\n");
+    }
 
 }
 
