@@ -2,6 +2,7 @@ import java.util.Random;
 
 public class Inimigo extends Entidade {
     private static int qtdAcoes = 3;
+    private static int escudoMax = 30;
     private static Random RANDOM = new Random();
     private AcaoInimigo[] acoes;
     private AcaoInimigo proximaAcao;
@@ -44,21 +45,46 @@ public class Inimigo extends Entidade {
     }
 
     public String atualizaEscudo() {
-        return super.atualizaEscudo();
+        if (escudo < 0) {
+            escudo = 0;
+        }
+
+        int escudoExibicao = Math.min(escudo, escudoMax);
+        int blocosCheios = (escudoExibicao * 10) / escudoMax;
+        return "ESCUDO: [" + "■".repeat(blocosCheios) + "-".repeat(10 - blocosCheios) + "] " + escudo + "/" + escudoMax;
     }
 
     public void atualiza() {
         System.out.println("\u001B[31m" + getNome() + " " + atualizaVida() + "\u001B[m | " + "\u001B[31m" + atualizaEscudo() + "\u001B[m\n");
     }
 
+    private boolean escudoNoLimite() {
+        return escudo >= escudoMax;
+    }
+
 
     private AcaoInimigo escolherAcao() {
-        int somaChances = 100;
+        AcaoInimigo[] acoesElegiveis = new AcaoInimigo[qtdAcoes];
+        int qtdElegiveis = 0;
+        int somaChances = 0;
+
+        for (AcaoInimigo acao : acoes) {
+            if (escudoNoLimite() && acao.getTipo() == TipoAcaoInimigo.Defesa) {
+                continue;
+            }
+            acoesElegiveis[qtdElegiveis++] = acao;
+            somaChances += acao.getChanceEscolha();
+        }
+
+        if (qtdElegiveis == 0) {
+            return acoes[0];
+        }
 
         int sorteio = RANDOM.nextInt(somaChances) + 1;
         int acumulado = 0;
 
-        for (AcaoInimigo acao : acoes) {
+        for (int i = 0; i < qtdElegiveis; i++) {
+            AcaoInimigo acao = acoesElegiveis[i];
 
             acumulado += acao.getChanceEscolha();
             if (sorteio <= acumulado) {
@@ -66,7 +92,7 @@ public class Inimigo extends Entidade {
             }
         }
 
-        return acoes[0];
+        return acoesElegiveis[qtdElegiveis - 1];
     }
 
     private boolean acertouComPrecisao(int precisao) {
@@ -79,7 +105,11 @@ public class Inimigo extends Entidade {
         if (proximaAcao.getTipo() == TipoAcaoInimigo.Ataque) {
             return " " + getNome() + " pretende usar " + proximaAcao.getNome() + " e causará " + proximaAcao.getValor() + " de dano.";
         }
-        return " " + getNome() + " pretende usar " + proximaAcao.getNome() + " e ganhará " + proximaAcao.getValor() + " de escudo.";
+        int ganhoPrevisto = Math.min(proximaAcao.getValor(), escudoMax - escudo);
+        if (ganhoPrevisto < 0) {
+            ganhoPrevisto = 0;
+        }
+        return " " + getNome() + " pretende usar " + proximaAcao.getNome() + " e ganhará " + ganhoPrevisto + " de escudo.";
     }
 
     public ResultadoAcaoInimigo executarTurno(Heroi heroi) {
@@ -111,13 +141,17 @@ public class Inimigo extends Entidade {
             );
         }
 
-        escudo += acao.getValor();
+        int escudoAntes = escudo;
+        int escudoDepois = Math.min(escudoMax, escudoAntes + acao.getValor());
+        int ganhoReal = escudoDepois - escudoAntes;
+        escudo = escudoDepois;
+
         return new ResultadoAcaoInimigo(
             acao.getNome(),
             true,
             0,
-            acao.getValor(),
-            getNome() + " usou " + acao.getNome() + " e ganhou " + acao.getValor() + " de escudo."
+            ganhoReal,
+            getNome() + " usou " + acao.getNome() + " e ganhou " + ganhoReal + " de escudo."
         );
     }
 
