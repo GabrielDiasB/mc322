@@ -66,6 +66,11 @@ abstract class Entidade {
     }
 
         public int receberDano(int danoSofrido){
+        int danoReal = danoSofrido - escudo;
+        if (danoReal > 0) {
+            this.vida -= danoReal;
+            return danoReal;
+        } else {
         int escudoAntes = escudo;
 
         if (escudo >= danoSofrido) {
