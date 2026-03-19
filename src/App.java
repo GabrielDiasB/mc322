@@ -104,6 +104,10 @@ public class App {
                 }
 
                 while (heroi.estaVivo() && inimigoEscolhido.estaVivo()) {
+                    if (heroi.getExp() == heroi.getExpInicial()) {
+                        System.out.println("\u001B[36m>> " + inimigoEscolhido.anunciarProximaAcao() + "\u001B[m");
+                    }
+
                     if (heroi.getExp() > 0) {
                         System.out.println("\n=========== Escolha suas cartas ===========\n");
                         cartas.mostraAtual();
@@ -131,9 +135,20 @@ public class App {
                                 destaque(">> " + texto);  
                             }
                              
+                        } else if (opcao == 3) {
+                            ResultadoAcaoInimigo resultadoAcao = inimigoEscolhido.executarTurno(heroi);
+                            heroi.resetarExp();
+                            heroi.resetarEscudo();
+                            Limpa();
+                            heroi.titulo();
+                            heroi.atualiza();
+                            System.out.println("\nvs\n");
+                            inimigoEscolhido.atualiza();
+                            System.out.println("\u001B[33m>> " + heroi.getNome() + " encerrou o turno! " + resultadoAcao.getMensagemCombate() + "\u001B[m");
+
                         }
                     } else {
-                        int danoReal = heroi.receberDano(inimigoEscolhido.atacar());
+                        ResultadoAcaoInimigo resultadoAcao = inimigoEscolhido.executarTurno(heroi);
                         heroi.resetarExp();
                         heroi.resetarEscudo();
                         cartas.descartarAtual();
@@ -146,6 +161,7 @@ public class App {
                         } else {
                             destaque(">> " + heroi.getNome() + " encerrou o turno! " + heroi.getNome() + " bloqueou o ataque com o escudo!\n");
                         }
+                        System.out.println("\u001B[33m>> " + heroi.getNome() + " encerrou o turno! " + resultadoAcao.getMensagemCombate() + "\u001B[m");
                     }
                 }
 
@@ -166,20 +182,63 @@ public class App {
         int sorteio =  (int) (Math.random() * 3);
         if (fase == 0) {
             if (sorteio == 0) {
-                return new Inimigo("Zumbi", 20, 2, 3);
+                return new Inimigo(
+                    "Zumbi",
+                    20,
+                    2,
+                    new AcaoInimigo("Arranhao", TipoAcaoInimigo.Ataque, 4, 85, 55),
+                    new AcaoInimigo("Mordida", TipoAcaoInimigo.Ataque, 7, 60, 30),
+                    new AcaoInimigo("Pele endurecida", TipoAcaoInimigo.Defesa, 1, 100, 15)
+                );
             } else if (sorteio == 1) {
-                return new Inimigo("Esqueleto", 10, 1, 4);
+                return new Inimigo(
+                    "Esqueleto",
+                    10,
+                    1,
+                    new AcaoInimigo("Flecha rapida", TipoAcaoInimigo.Ataque, 5, 90, 60),
+                    new AcaoInimigo("Flecha pesada", TipoAcaoInimigo.Ataque, 8, 65, 25),
+                    new AcaoInimigo("Postura defensiva", TipoAcaoInimigo.Defesa, 1, 100, 15)
+                );
             } else {
-                return new Inimigo("Creeper", 20, 0, 5);
+                return new Inimigo(
+                    "Creeper",
+                    20,
+                    0,
+                    new AcaoInimigo("Investida explosiva", TipoAcaoInimigo.Ataque, 9, 45, 35),
+                    new AcaoInimigo("Estouro curto", TipoAcaoInimigo.Ataque, 5, 85, 50),
+                    new AcaoInimigo("Carapaca de poeira", TipoAcaoInimigo.Defesa, 1, 100, 15)
+                );
             }
         }
         if (fase == 1){
             if (sorteio == 0){
-                return new Inimigo("Blaze", 25, 3, 8);
+                return new Inimigo(
+                    "Blaze",
+                    25,
+                    3,
+                    new AcaoInimigo("Rajada de fogo", TipoAcaoInimigo.Ataque, 9, 75, 55),
+                    new AcaoInimigo("Chama intensa", TipoAcaoInimigo.Ataque, 12, 50, 30),
+                    new AcaoInimigo("Aura flamejante", TipoAcaoInimigo.Defesa, 2, 100, 15)
+                );
             } else if (sorteio == 1){
-                return new Inimigo("Enderman", 30, 1, 10);
+                return new Inimigo(
+                    "Enderman",
+                    30,
+                    1,
+                    new AcaoInimigo("Golpe teleportado", TipoAcaoInimigo.Ataque, 10, 70, 50),
+                    new AcaoInimigo("Soco sombrio", TipoAcaoInimigo.Ataque, 13, 50, 30),
+                    new AcaoInimigo("Desvio dimensional", TipoAcaoInimigo.Defesa, 2, 100, 20)
+                );
             } else {
                 return new Inimigo("Esqueleto Whiter", 15, 4, 10);    
+                return new Inimigo(
+                    "Esqueleto Whiter",
+                    15,
+                    8,
+                    new AcaoInimigo("Golpe sombrio", TipoAcaoInimigo.Ataque, 10, 80, 55),
+                    new AcaoInimigo("Corte perfurante", TipoAcaoInimigo.Ataque, 14, 45, 25),
+                    new AcaoInimigo("Ossos reforcados", TipoAcaoInimigo.Defesa, 2, 100, 20)
+                );
             }
         }
         if (fase == 2){
@@ -189,6 +248,32 @@ public class App {
                 return new Inimigo ("Warden", 40, 3, 15);
             } else {
                 return new Inimigo("Guaridão", 30, 4, 10);
+                return new Inimigo(
+                    "Whiter",
+                    30,
+                    8,
+                    new AcaoInimigo("Cabeçada de wither", TipoAcaoInimigo.Ataque, 12, 78, 55),
+                    new AcaoInimigo("Rajada devastadora", TipoAcaoInimigo.Ataque, 16, 48, 25),
+                    new AcaoInimigo("Armadura negra", TipoAcaoInimigo.Defesa, 2, 100, 20)
+                );
+            } else if (sorteio == 1){
+                return new Inimigo(
+                    "Warden",
+                    40,
+                    5,
+                    new AcaoInimigo("Soco tectonico", TipoAcaoInimigo.Ataque, 14, 75, 50),
+                    new AcaoInimigo("Impacto ensurdecedor", TipoAcaoInimigo.Ataque, 18, 42, 25),
+                    new AcaoInimigo("Pele de pedra", TipoAcaoInimigo.Defesa, 3, 100, 25)
+                );
+            } else {
+                return new Inimigo(
+                    "Guardião",
+                    30,
+                    5,
+                    new AcaoInimigo("Garra aquatico", TipoAcaoInimigo.Ataque, 11, 82, 55),
+                    new AcaoInimigo("Corrente profunda", TipoAcaoInimigo.Ataque, 15, 50, 25),
+                    new AcaoInimigo("Escama ancestral", TipoAcaoInimigo.Defesa, 2, 100, 20)
+                );
             }
         }
         return null;
@@ -213,6 +298,14 @@ public class App {
 
     public static void destaque(String texto) {
         System.out.print("\u001B[33m" + texto + "\u001B[m");
+        return new Inimigo(
+            "Ender Dragon",
+            50,
+            10,
+            new AcaoInimigo("Sopro draconico", TipoAcaoInimigo.Ataque, 20, 65, 45),
+            new AcaoInimigo("Garras do vazio", TipoAcaoInimigo.Ataque, 14, 85, 35),
+            new AcaoInimigo("Escamas ancestrais", TipoAcaoInimigo.Defesa, 4, 100, 20)
+        );
     }
 
     public static void Limpa() {
