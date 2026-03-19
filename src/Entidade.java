@@ -65,26 +65,13 @@ abstract class Entidade {
         return "ESCUDO: [" + "■".repeat(escudo) + "-".repeat(escudoInicial - escudo) + "] " + escudo + "/" + escudoInicial;
     }
 
-        public int receberDano(int danoSofrido){
-        int danoReal = danoSofrido - escudo;
-        if (danoReal > 0) {
-            this.vida -= danoReal;
-            return danoReal;
-        } else {
-        int escudoAntes = escudo;
-
-        if (escudo >= danoSofrido) {
-            escudo -= danoSofrido;
-            System.out.println(nome + " bloqueou o ataque com o escudo!");
+        public int receberDano(int danoSofrido) {
+            int danoReal = danoSofrido - escudo;
+            if (danoReal > 0) {
+                this.vida -= danoReal;
+                return danoReal;
+            }
             return 0;
-        }
-
-        int danoReal = danoSofrido - escudoAntes;
-        escudo = 0;
-        this.vida -= danoReal;
-        System.out.println(nome + " recebeu " + danoReal + " de dano!" );
-        return danoReal;
-
     }
 
         public boolean estaVivo() {

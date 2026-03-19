@@ -105,7 +105,7 @@ public class App {
 
                 while (heroi.estaVivo() && inimigoEscolhido.estaVivo()) {
                     if (heroi.getExp() == heroi.getExpInicial()) {
-                        System.out.println("\u001B[36m>> " + inimigoEscolhido.anunciarProximaAcao() + "\u001B[m");
+                        System.out.println("\n\u001B[36m>> " + inimigoEscolhido.anunciarProximaAcao() + "\u001B[m");
                     }
 
                     if (heroi.getExp() > 0) {
@@ -135,16 +135,6 @@ public class App {
                                 destaque(">> " + texto);  
                             }
                              
-                        } else if (opcao == 3) {
-                            ResultadoAcaoInimigo resultadoAcao = inimigoEscolhido.executarTurno(heroi);
-                            heroi.resetarExp();
-                            heroi.resetarEscudo();
-                            Limpa();
-                            heroi.titulo();
-                            heroi.atualiza();
-                            System.out.println("\nvs\n");
-                            inimigoEscolhido.atualiza();
-                            System.out.println("\u001B[33m>> " + heroi.getNome() + " encerrou o turno! " + resultadoAcao.getMensagemCombate() + "\u001B[m");
 
                         }
                     } else {
@@ -156,12 +146,11 @@ public class App {
                         atualizaTela(heroi);
                         System.out.println("\nvs\n");
                         inimigoEscolhido.atualiza();
-                        if (danoReal > 0) {
-                            destaque(">> " + heroi.getNome() + " encerrou o turno! " + inimigoEscolhido.getNome() + " atacou e causou " + danoReal + " de dano.\n");
+                        if (resultadoAcao.getDanoAplicado() > 0) {
+                            destaque(">> " + heroi.getNome() + " encerrou o turno! " + inimigoEscolhido.getNome() + " atacou e causou " + resultadoAcao.getDanoAplicado() + " de dano.\n");
                         } else {
                             destaque(">> " + heroi.getNome() + " encerrou o turno! " + heroi.getNome() + " bloqueou o ataque com o escudo!\n");
                         }
-                        System.out.println("\u001B[33m>> " + heroi.getNome() + " encerrou o turno! " + resultadoAcao.getMensagemCombate() + "\u001B[m");
                     }
                 }
 
@@ -229,8 +218,7 @@ public class App {
                     new AcaoInimigo("Soco sombrio", TipoAcaoInimigo.Ataque, 13, 50, 30),
                     new AcaoInimigo("Desvio dimensional", TipoAcaoInimigo.Defesa, 2, 100, 20)
                 );
-            } else {
-                return new Inimigo("Esqueleto Whiter", 15, 4, 10);    
+            } else {   
                 return new Inimigo(
                     "Esqueleto Whiter",
                     15,
@@ -243,11 +231,6 @@ public class App {
         }
         if (fase == 2){
             if (sorteio ==0){
-                return new Inimigo("Whiter", 30, 4, 12);
-            } else if (sorteio == 1){
-                return new Inimigo ("Warden", 40, 3, 15);
-            } else {
-                return new Inimigo("Guaridão", 30, 4, 10);
                 return new Inimigo(
                     "Whiter",
                     30,
@@ -280,7 +263,14 @@ public class App {
     }
 
     public static Inimigo criarBossFinal(){
-        return new Inimigo("Ender Dragon", 50, 5, 20);
+        return new Inimigo(
+            "Ender Dragon",
+            50,
+            10,
+            new AcaoInimigo("Sopro draconico", TipoAcaoInimigo.Ataque, 20, 65, 45),
+            new AcaoInimigo("Garras do vazio", TipoAcaoInimigo.Ataque, 14, 85, 35),
+            new AcaoInimigo("Escamas ancestrais", TipoAcaoInimigo.Defesa, 4, 100, 20)
+        );
     }
 
 
@@ -298,14 +288,6 @@ public class App {
 
     public static void destaque(String texto) {
         System.out.print("\u001B[33m" + texto + "\u001B[m");
-        return new Inimigo(
-            "Ender Dragon",
-            50,
-            10,
-            new AcaoInimigo("Sopro draconico", TipoAcaoInimigo.Ataque, 20, 65, 45),
-            new AcaoInimigo("Garras do vazio", TipoAcaoInimigo.Ataque, 14, 85, 35),
-            new AcaoInimigo("Escamas ancestrais", TipoAcaoInimigo.Defesa, 4, 100, 20)
-        );
     }
 
     public static void Limpa() {
