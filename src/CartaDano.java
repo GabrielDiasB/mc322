@@ -13,11 +13,11 @@ public class CartaDano extends Carta {
     }
 
 
-    public String usarTexto(Heroi heroi, Inimigo inimigo, int dado) {
+    public String usarTexto(Heroi heroi, Inimigo inimigo, int dado, String nome) {
         if (dado > 0) {
-            return (heroi.getNome() + " usou a carta de dano! " + inimigo.getNome() + " levou " + dado + " de dano.\n");
+            return (heroi.getNome() + " usou " + nome + "! " + inimigo.getNome() + " levou " + dado + " de dano.");
         } else {
-            return (heroi.getNome() + " usou a carta de dano! " + inimigo.getNome() + " bloqueou o ataque com o escudo!\n");
+            return (heroi.getNome() + " usou " + nome + "! "+ inimigo.getNome() + " bloqueou o ataque com o escudo!");
         }
         
     }

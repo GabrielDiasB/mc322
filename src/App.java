@@ -98,18 +98,18 @@ public class App {
                 inimigoEscolhido.atualiza();
 
                 if (num_batalha == 3) {
-                    destaque(">> Batalha final contra " + inimigoEscolhido.getNome() + "!\n");
+                    destaque(">> Noite 4/4. Batalha final contra " + inimigoEscolhido.getNome() + "!");
                 } else {
-                    destaque(">> Preparação encerrada e a " + (num_batalha + 1) + "ª de 4 noites chegou. " + heroi.getNome() + " irá enfrentar " + inimigoEscolhido.getNome() + "!\n");
+                    destaque(">> Noite " + (num_batalha + 1) + "/4:");
                 }
 
                 while (heroi.estaVivo() && inimigoEscolhido.estaVivo()) {
                     if (heroi.getExp() == heroi.getExpInicial()) {
-                        System.out.println("\n\u001B[36m>> " + inimigoEscolhido.anunciarProximaAcao() + "\u001B[m");
+                        destaque(inimigoEscolhido.anunciarProximaAcao());
                     }
 
                     if (heroi.getExp() > 0) {
-                        System.out.println("\n=========== Escolha suas cartas ===========\n");
+                        System.out.println("\n\n=========== Escolha suas cartas ===========\n");
                         cartas.mostraAtual();
                         System.out.println("\n[ 0 ] " + "Encerrar turno\n");
                         System.out.println("===========================================\n");
@@ -123,10 +123,11 @@ public class App {
                                 atualizaTela(heroi);
                                 System.out.println("\nvs\n");
                                 inimigoEscolhido.atualiza();
-                                System.out.println("\u001B[31m>> Sem XP suficiente para essa carta!\u001B[m");   
+                                System.out.print("\u001B[31m>> Sem XP suficiente para essa carta!\u001B[m");   
                             } else {
                                 int dado = cartas.getAtual().get(opcao - 1).usar(heroi, inimigoEscolhido);
-                                String texto = cartas.getAtual().get(opcao - 1).usarTexto(heroi, inimigoEscolhido, dado);
+                                String nomeCarta = cartas.getAtual().get(opcao - 1).getNome();
+                                String texto = cartas.getAtual().get(opcao - 1).usarTexto(heroi, inimigoEscolhido, dado, nomeCarta);
                                 heroi.gastarExp(cartas.getAtual().get(opcao - 1).getCusto());
                                 cartas.usar(opcao - 1);
                                 atualizaTela(heroi);
@@ -146,11 +147,7 @@ public class App {
                         atualizaTela(heroi);
                         System.out.println("\nvs\n");
                         inimigoEscolhido.atualiza();
-                        if (resultadoAcao.getDanoAplicado() > 0) {
-                            destaque(">> " + heroi.getNome() + " encerrou o turno! " + inimigoEscolhido.getNome() + " atacou e causou " + resultadoAcao.getDanoAplicado() + " de dano.\n");
-                        } else {
-                            destaque(">> " + heroi.getNome() + " encerrou o turno! " + heroi.getNome() + " bloqueou o ataque com o escudo!\n");
-                        }
+                        destaque(">> " + heroi.getNome() + " encerrou o turno! " + resultadoAcao.getMensagemCombate());
                     }
                 }
 
@@ -175,7 +172,7 @@ public class App {
                     "Zumbi",
                     20,
                     2,
-                    new AcaoInimigo("Arranhao", TipoAcaoInimigo.Ataque, 4, 85, 55),
+                    new AcaoInimigo("Arranhão", TipoAcaoInimigo.Ataque, 4, 85, 55),
                     new AcaoInimigo("Mordida", TipoAcaoInimigo.Ataque, 7, 60, 30),
                     new AcaoInimigo("Pele endurecida", TipoAcaoInimigo.Defesa, 1, 100, 15)
                 );
@@ -184,7 +181,7 @@ public class App {
                     "Esqueleto",
                     10,
                     1,
-                    new AcaoInimigo("Flecha rapida", TipoAcaoInimigo.Ataque, 5, 90, 60),
+                    new AcaoInimigo("Flecha rápida", TipoAcaoInimigo.Ataque, 5, 90, 60),
                     new AcaoInimigo("Flecha pesada", TipoAcaoInimigo.Ataque, 8, 65, 25),
                     new AcaoInimigo("Postura defensiva", TipoAcaoInimigo.Defesa, 1, 100, 15)
                 );
@@ -195,7 +192,7 @@ public class App {
                     0,
                     new AcaoInimigo("Investida explosiva", TipoAcaoInimigo.Ataque, 9, 45, 35),
                     new AcaoInimigo("Estouro curto", TipoAcaoInimigo.Ataque, 5, 85, 50),
-                    new AcaoInimigo("Carapaca de poeira", TipoAcaoInimigo.Defesa, 1, 100, 15)
+                    new AcaoInimigo("Carapaça de poeira", TipoAcaoInimigo.Defesa, 1, 100, 15)
                 );
             }
         }
@@ -244,7 +241,7 @@ public class App {
                     "Warden",
                     40,
                     5,
-                    new AcaoInimigo("Soco tectonico", TipoAcaoInimigo.Ataque, 14, 75, 50),
+                    new AcaoInimigo("Soco tectônico", TipoAcaoInimigo.Ataque, 14, 75, 50),
                     new AcaoInimigo("Impacto ensurdecedor", TipoAcaoInimigo.Ataque, 18, 42, 25),
                     new AcaoInimigo("Pele de pedra", TipoAcaoInimigo.Defesa, 3, 100, 25)
                 );
@@ -253,7 +250,7 @@ public class App {
                     "Guardião",
                     30,
                     5,
-                    new AcaoInimigo("Garra aquatico", TipoAcaoInimigo.Ataque, 11, 82, 55),
+                    new AcaoInimigo("Garra aquática", TipoAcaoInimigo.Ataque, 11, 82, 55),
                     new AcaoInimigo("Corrente profunda", TipoAcaoInimigo.Ataque, 15, 50, 25),
                     new AcaoInimigo("Escama ancestral", TipoAcaoInimigo.Defesa, 2, 100, 20)
                 );
@@ -267,7 +264,7 @@ public class App {
             "Ender Dragon",
             50,
             10,
-            new AcaoInimigo("Sopro draconico", TipoAcaoInimigo.Ataque, 20, 65, 45),
+            new AcaoInimigo("Sopro dracônico", TipoAcaoInimigo.Ataque, 20, 65, 45),
             new AcaoInimigo("Garras do vazio", TipoAcaoInimigo.Ataque, 14, 85, 35),
             new AcaoInimigo("Escamas ancestrais", TipoAcaoInimigo.Defesa, 4, 100, 20)
         );

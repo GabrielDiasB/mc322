@@ -77,9 +77,9 @@ public class Inimigo extends Entidade {
     public String anunciarProximaAcao() {
         proximaAcao = escolherAcao();
         if (proximaAcao.getTipo() == TipoAcaoInimigo.Ataque) {
-            return getNome() + " usará " + proximaAcao.getNome() + " e causará " + proximaAcao.getValor() + " de dano.";
+            return " " + getNome() + " pretende usar " + proximaAcao.getNome() + " e causará " + proximaAcao.getValor() + " de dano.";
         }
-        return getNome() + " usará " + proximaAcao.getNome() + " e ganhará " + proximaAcao.getValor() + " de escudo.";
+        return " " + getNome() + " pretende usar " + proximaAcao.getNome() + " e ganhará " + proximaAcao.getValor() + " de escudo.";
     }
 
     public ResultadoAcaoInimigo executarTurno(Heroi heroi) {

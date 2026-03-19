@@ -23,5 +23,5 @@ abstract class Carta {
 
     public abstract int usar(Heroi heroi, Inimigo inimigo);
 
-    public abstract String usarTexto(Heroi heroi, Inimigo inimigo, int dado);
+    public abstract String usarTexto(Heroi heroi, Inimigo inimigo, int dado, String nome);
 }
