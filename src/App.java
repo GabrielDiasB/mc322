@@ -48,13 +48,7 @@ public class App {
 
             while (true) {
                 System.out.println("\n\u001B[36m[ 1 ]\u001B[m Explorar o mapa (-1XP)\n\u001B[36m[ 2 ]\u001B[m Ataques e defesas\u001B[m\n\u001B[36m[ 3 ]\u001B[m Estou pronto para a noite!\n");
-                System.out.print("Digite a opção: ");
-                int selecione = scanner.nextInt();
-                while (selecione != 1 && selecione !=2 && selecione != 3) {
-                    System.out.println("\nOpção inválida. Tente novamente...\n");
-                    System.out.print("Digite a opção: ");
-                    selecione = scanner.nextInt();
-                }
+                int selecione = leitura(1, 3);
                 if (selecione == 1) {
                     if (heroi.getExp() >= 1) {
                         heroi.gastarExp(1);
@@ -113,12 +107,14 @@ public class App {
                         cartas.mostraAtual();
                         System.out.println("\n[ 0 ] " + "Encerrar turno\n");
                         System.out.println("===========================================\n");
-                        System.out.print("Digite a opção: ");
-                        int opcao = scanner.nextInt();
-                        
+                        int opcao = leitura(0, 5);
                         if (opcao == 0) {
                             heroi.zerarExp();
                         } else {
+                            while (cartas.getAtual().get(opcao - 1) == null) {
+                                System.out.println("Você já escolheu essa carta! Tente outra opção.\n");
+                                opcao = leitura(0, 5);
+                            }
                             if (cartas.getAtual().get(opcao - 1).getCusto() > heroi.getExp()) {
                                 atualizaTela(heroi);
                                 System.out.println("\nvs\n");
@@ -283,6 +279,24 @@ public class App {
         heroi.atualiza();
     }
 
+    public static int leitura(int min, int max) {
+        while (true) {
+            System.out.print("Digite a opção: ");
+            if (scanner.hasNextInt()) {
+                int opcao = scanner.nextInt();
+                if (opcao >= min && opcao <= max) {
+                    return opcao;
+                } else {
+                    System.out.println("\u001B[31mOpção inválida. Tente novamente...\u001B[m\n");
+                }
+            } else {
+                System.out.println("\u001B[31mInteiro inválido. Tente novamente...\u001B[m\n");
+                scanner.next();
+            }
+        }
+        
+    }
+
     public static void destaque(String texto) {
         System.out.print("\u001B[33m" + texto + "\u001B[m");
     }
@@ -299,4 +313,6 @@ public class App {
         } catch (Exception e) {
         }
     }
+
+    
 }
