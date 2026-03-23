@@ -13,13 +13,8 @@ public class App {
         cartas.addCarta(new CartaDano("Chute Voadora", "+3 Dano", 1, 3));
         cartas.addCarta(new CartaDano("Golpe de Punho", "+2 Dano", 1, 2));
         cartas.addCarta(new CartaDano("Soco Mortal", "+3 Dano", 1, 3));
-        cartas.addCarta(new CartaDano("Flechada Precisa", "+7 Dano", 2, 7));
-        cartas.addCarta(new CartaDano("Espadada Aguda", "+5 Dano", 2, 5));
-        cartas.addCarta(new CartaDano("Espadada Afiada", "+6 Dano", 2, 6));
         cartas.addCarta(new CartaEscudo("Desvio Ágil", "+1 Escudo", 1, 1));
         cartas.addCarta(new CartaEscudo("Reflexo Aguçado", "+2 Escudo", 1, 2));
-        cartas.addCarta(new CartaEscudo("Defesa Armadura", "+5 Escudo", 2, 5));
-        cartas.addCarta(new CartaEscudo("Escudo Potente", "+3 Escudo", 1, 3));
         
         System.out.printf("\nSeja muito bem vindo, %s!\n", nomeHeroi);
         System.out.printf("\nEstá um lindo dia ensolarado, vamos coletar recursos antes que anoiteça e sejamos atacados.\n", nomeHeroi);
@@ -53,18 +48,52 @@ public class App {
                     if (heroi.getExp() >= 1) {
                         heroi.gastarExp(1);
                         atualizaTela(heroi);
-
                         destaque("\n\u001B[33m>> " + heroi.getNome() + " explorou e obteve " + heroi.recursos() + "\n");
                     } else {
                         atualizaTela(heroi);
                         System.out.println("\n\u001B[31m>> Você não tem experiência suficiente para ganhar mais recursos.\u001B[m");
                     }
+                    destaque(heroi.inventario());
                 
                 } else if (selecione == 2) {
                     atualizaTela(heroi);
                     System.out.println("\n=========== Cartas Desbloqueadas ===========\n");
                     cartas.mostraCartas();
+                    System.out.println("\n=========== Craftar Novas Cartas ===========\n");
+                    System.out.println("[ 1 ] " + String.format("%-17s", "Flechada Precisa") + "==> " + String.format("%-12s", "+7 Dano") + "-" + 2 + "XP");
+                    System.out.println("[ 2 ] " + String.format("%-17s", "Espadada Aguda") + "==> " + String.format("%-12s", "+5 Dano") + "-" + 2 + "XP");
+                    System.out.println("[ 3 ] " + String.format("%-17s", "Espadada Afiada") + "==> " + String.format("%-12s", "+6 Dano") + "-" + 2 + "XP");
+                    System.out.println("[ 4 ] " + String.format("%-17s", "Defesa Armadura") + "==> " + String.format("%-12s", "+5 Escudo") + "-" + 2 + "XP");
+                    System.out.println("[ 5 ] " + String.format("%-17s", "Escudo Potente") + "==> " + String.format("%-12s", "+3 Escudo") + "-" + 1 + "XP");
+                    System.out.println("\n[ 0 ] Voltar para o menu");
                     System.out.println("\n===========================================");
+                    int nova_carta = leitura(0, 5);
+                    if (nova_carta == 1) {
+                        cartas.addCarta(new CartaDano("Flechada Precisa", "+7 Dano", 2, 7));
+                        atualizaTela(heroi);
+                        destaque("\nCarta Flechada Precisa adicionada com sucesso ao seu deque de combate!\n");
+        
+                    } else if (nova_carta == 2) {
+                        cartas.addCarta(new CartaDano("Espadada Aguda", "+5 Dano", 2, 5));
+                        atualizaTela(heroi);
+                        destaque("\nCarta Espadada Aguda adicionada com sucesso ao seu deque de combate!\n");
+        
+                    } else if (nova_carta == 3) {
+                        cartas.addCarta(new CartaDano("Espadada Afiada", "+6 Dano", 2, 6));
+                        atualizaTela(heroi);
+                        destaque("\nCarta Espadada Afiada adicionada com sucesso ao seu deque de combate!\n");
+                    } else if (nova_carta == 4) {
+                        cartas.addCarta(new CartaEscudo("Defesa Armadura", "+5 Escudo", 2, 5));
+                        atualizaTela(heroi);
+                        destaque("\nCarta Defesa Armadura adicionada com sucesso ao seu deque de combate!\n");
+                    } else if (nova_carta == 5) {
+                        cartas.addCarta(new CartaEscudo("Escudo Potente", "+3 Escudo", 1, 3));
+                        atualizaTela(heroi);
+                        destaque("\nCarta Escudo Potente adicionada com sucesso ao seu deque de combate!\n");
+                    } else {
+                        atualizaTela(heroi);
+                        continue;
+                    }
                     
                 
                 } else if (selecione == 3) {
