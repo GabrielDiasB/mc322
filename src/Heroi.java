@@ -34,7 +34,7 @@ public class Heroi extends Entidade {
     }
 
     public String inventario() {
-        return "\nMadeira: " + madeira + " | Ferro: " + ferro + " | Diamante: " + diamante + " | Lã: " + la;
+        return "\nMadeira: " + madeira + " | Ferro: " + ferro + " | Diamante: " + diamante + " | Lã: " + la + "\n";
     }
 
     public String recursos() {
