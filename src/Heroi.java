@@ -81,6 +81,59 @@ public class Heroi extends Entidade {
         exp = 0;
     }
 
+    public void gastarMadeira(int custo) {
+        madeira -= custo;
+    }
+
+    public void gastarLa(int custo) {
+        la -= custo;
+    }
+
+    public void gastarFerro(int custo) {
+        ferro -= custo;
+    }
+
+    public void gastarDiamante(int custo) {
+        diamante -= custo;
+    }
+
+    public boolean temMadeira(int n) {
+        if (madeira >= n) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean temLa(int n) {
+        if (la >= n) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean temFerro(int n) {
+        if (ferro >= n) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean temDiamante(int n) {
+        if (diamante >= n) {
+            return true;
+        }
+        return false;
+    }
+
+    public void recuperar(int n) {
+        vida += n;
+        if (vida > 20) {
+            vida = 20;
+        }
+    }
+
+
+
     public void expProgresso(int dia){
         expInicial += dia;
     }

@@ -78,7 +78,7 @@ public class DequeHeroi {
             if (carta == null) {
                 System.out.println("");
             } else {
-                System.out.println("[ " + (i + 1) + " ] " + String.format("%-17s", carta.getNome()) + "==> " + String.format("%-12s",carta.getDescricao()) + "-" + carta.getCusto() + "XP");
+                System.out.println("[ " + (i + 1) + " ] " + String.format("%-23s", carta.getNome()) + "==> " + String.format("%-12s",carta.getDescricao()) + "-" + carta.getCusto() + "XP");
             }
             
         }
@@ -89,8 +89,21 @@ public class DequeHeroi {
         for (int i = 0; i < cartas.size(); i++) {
             Carta carta = cartas.get(i);
             
-            System.out.println("  - " + String.format("%-17s", carta.getNome()) + "==> " + String.format("%-12s",carta.getDescricao()) + "-" + carta.getCusto() + "XP");
+            System.out.println("  - " + String.format("%-23s", carta.getNome()) + "==> " + String.format("%-12s",carta.getDescricao()) + "-" + carta.getCusto() + "XP");
         }
+        
+    }
+
+    public void mostraItens() {
+        if (cartas.size() == 5) {
+            System.out.println("Inventário vazio, você ainda não craftou nenhum item.");
+        } else {
+            for (int i = 5; i < cartas.size(); i++) {
+                Carta carta = cartas.get(i);
+                System.out.println("    - " + String.format("%-23s", carta.getNome()) + "==> " + String.format("%-12s",carta.getDescricao()) + "-" + carta.getCusto() + "XP");
+            }
+        }
+        
         
     }
 
