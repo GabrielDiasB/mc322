@@ -8,8 +8,17 @@ public class CartaDano extends Carta {
     }
 
 
-    public int usar(Heroi heroi, Inimigo inimigo) {
-        return inimigo.receberDano(dano);
+    public int usar(Heroi heroi, Inimigo inimigo, Combate combate) {
+        int forca = 0;
+        for (Efeito e : heroi.efeitos) {
+            if (e.getNome().equals("Força")) {
+                forca = e.getAcumulos();
+            }
+        }
+
+        int danoTotal = this.dano + forca;
+        combate.notificar(EventoCombate.ATAQUE_JOGADOR);
+        return inimigo.receberDano(danoTotal);
     }
 
 
@@ -23,4 +32,3 @@ public class CartaDano extends Carta {
     }
 
 }
-

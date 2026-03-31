@@ -56,11 +56,6 @@ public class Heroi extends Entidade {
         }
     }
 
-
-    public void atualiza() {
-        System.out.println(getNome() + " " + "\u001B[32m" + atualizaVida() + "\u001B[m | " + "\u001B[34m" + atualizaEscudo() + "\u001B[m" + "\u001B[m | " + "\u001B[35m" + atualizaXp() + "\u001B[m");
-    }
-
     public void receberEscudo(int escudoRecebido){
         escudo += escudoRecebido;
     }
@@ -127,8 +122,8 @@ public class Heroi extends Entidade {
 
     public void recuperar(int n) {
         vida += n;
-        if (vida > 20) {
-            vida = 20;
+        if (vida > 100) {
+            vida = 100;
         }
     }
 
@@ -137,4 +132,17 @@ public class Heroi extends Entidade {
     public void expProgresso(int dia){
         expInicial += dia;
     }
+
+    public void atualiza() {
+        String statusEfeitos = "";
+        if (efeitos.isEmpty()) {
+            statusEfeitos += "Nenhum\u001B[m";
+        } else {
+            for (Efeito e : efeitos) {
+                statusEfeitos += e.getString() + " ";
+            }
+        }
+        System.out.println(getNome() + " " + "\u001B[32m" + atualizaVida() + "\u001B[m | " + "\u001B[34m" + atualizaEscudo() + "\u001B[m | " + "\u001B[35m" + atualizaXp() + "\u001B[m | EFEITOS: " + statusEfeitos);
+    }
+
 }

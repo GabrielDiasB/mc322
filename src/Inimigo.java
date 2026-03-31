@@ -54,8 +54,18 @@ public class Inimigo extends Entidade {
         return "ESCUDO: [" + "■".repeat(blocosCheios) + "-".repeat(10 - blocosCheios) + "] " + escudo + "/" + escudoMax;
     }
 
+
     public void atualiza() {
-        System.out.println("\u001B[31m" + getNome() + " " + atualizaVida() + "\u001B[m | " + "\u001B[31m" + atualizaEscudo() + "\u001B[m\n");
+        String statusEfeitos = "";
+        if (efeitos.isEmpty()) {
+            statusEfeitos += "Nenhum\u001B[m";
+        } else {
+            for (Efeito e : efeitos) {
+                statusEfeitos += e.getString() + " ";
+            }
+            statusEfeitos += "\u001B[m";
+        }
+        System.out.println("\u001B[31m" + getNome() + " " + atualizaVida() + "\u001B[m | " + "\u001B[31m" + atualizaEscudo() + "\u001B[m | \u001B[31mEFEITOS: " + statusEfeitos + "\u001B[m\n");
     }
 
     private boolean escudoNoLimite() {
@@ -104,56 +114,61 @@ public class Inimigo extends Entidade {
         proximaAcao = escolherAcao();
         if (proximaAcao.getTipo() == TipoAcaoInimigo.Ataque) {
             return " " + getNome() + " pretende usar " + proximaAcao.getNome() + " e causará " + proximaAcao.getValor() + " de dano.";
+        } else if (proximaAcao.getTipo() == TipoAcaoInimigo.Defesa) {
+            int ganhoPrevisto = Math.min(proximaAcao.getValor(), escudoMax - escudo);
+            if (ganhoPrevisto < 0) ganhoPrevisto = 0;
+            return " " + getNome() + " pretende usar " + proximaAcao.getNome() + " e ganhará " + ganhoPrevisto + " de escudo.";
+        } else {
+            return " " + getNome() + " pretende usar " + proximaAcao.getNome() + "!";
         }
-        int ganhoPrevisto = Math.min(proximaAcao.getValor(), escudoMax - escudo);
-        if (ganhoPrevisto < 0) {
-            ganhoPrevisto = 0;
-        }
-        return " " + getNome() + " pretende usar " + proximaAcao.getNome() + " e ganhará " + ganhoPrevisto + " de escudo.";
     }
 
-    public ResultadoAcaoInimigo executarTurno(Heroi heroi) {
+    public ResultadoAcaoInimigo executarTurno(Heroi heroi, Combate combate) {
         AcaoInimigo acao = proximaAcao;
         if (acao == null) {
             acao = escolherAcao();
         }
         proximaAcao = null;
         boolean acertou = acertouComPrecisao(acao.getPrecisao());
+        if (acertou) {
+            if (acao.getTipo() == TipoAcaoInimigo.Ataque) {
+                combate.notificar(EventoCombate.ATAQUE_INIMIGO);
+                
+                int forca = 0;
+                for (Efeito e : efeitos) {
+                    if (e.getNome().equals("Força")) {
+                        forca = e.getAcumulos();
+                    }
+                }
 
-        if (!acertou) {
-            return new ResultadoAcaoInimigo(
-                acao.getNome(),
-                false,
-                0,
-                0,
-                getNome() + " tentou " + acao.getNome() + ", mas errou!"
-            );
+                int danoReal = heroi.receberDano(acao.getValor() + forca);
+                return new ResultadoAcaoInimigo(
+                    acao.getNome(), true, danoReal, 0, getNome() + " usou " + acao.getNome() + " e causou " + danoReal + " de dano."
+                );
+                
+            } else if (acao.getTipo() == TipoAcaoInimigo.Defesa) {
+                int escudoAntes = escudo;
+                int escudoDepois = Math.min(escudoMax, escudoAntes + acao.getValor());
+                int ganhoReal = escudoDepois - escudoAntes;
+                escudo = escudoDepois;
+
+                return new ResultadoAcaoInimigo(
+                    acao.getNome(), true, 0, ganhoReal, getNome() + " usou " + acao.getNome() + " e ganhou " + ganhoReal + " de escudo."
+                );
+                
+            } else if (acao.getTipo() == TipoAcaoInimigo.Buff) {
+                this.aplicarEfeito(new EfeitoForca(this, acao.getValor()), combate);
+                return new ResultadoAcaoInimigo(
+                    acao.getNome(), true, 0, 0, getNome() + " usou " + acao.getNome() + " e ganhou Força!"
+                );
+                
+            } else if (acao.getTipo() == TipoAcaoInimigo.Debuff) {
+                heroi.aplicarEfeito(new EfeitoVeneno(heroi, acao.getValor()), combate);
+                return new ResultadoAcaoInimigo(
+                    acao.getNome(), true, 0, 0, getNome() + " usou " + acao.getNome() + " e aplicou Veneno em você!"
+                );
+            }
         }
-
-        if (acao.getTipo() == TipoAcaoInimigo.Ataque) {
-            int danoReal = heroi.receberDano(acao.getValor());
-            return new ResultadoAcaoInimigo(
-                acao.getNome(),
-                true,
-                danoReal,
-                0,
-                getNome() + " usou " + acao.getNome() + " e causou " + danoReal + " de dano."
-            );
-        }
-
-        int escudoAntes = escudo;
-        int escudoDepois = Math.min(escudoMax, escudoAntes + acao.getValor());
-        int ganhoReal = escudoDepois - escudoAntes;
-        escudo = escudoDepois;
-
-        return new ResultadoAcaoInimigo(
-            acao.getNome(),
-            true,
-            0,
-            ganhoReal,
-            getNome() + " usou " + acao.getNome() + " e ganhou " + ganhoReal + " de escudo."
-        );
+        return new ResultadoAcaoInimigo(acao.getNome(), false, 0, 0, getNome() + " usou " + acao.getNome() + " mas errou!");
     }
-
-
 }

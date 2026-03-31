@@ -21,7 +21,7 @@ abstract class Carta {
         return descricao;
     }
 
-    public abstract int usar(Heroi heroi, Inimigo inimigo);
+    public abstract int usar(Heroi heroi, Inimigo inimigo, Combate combate);
 
     public abstract String usarTexto(Heroi heroi, Inimigo inimigo, int dado, String nome);
 }

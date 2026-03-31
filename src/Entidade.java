@@ -1,9 +1,13 @@
-abstract class Entidade {
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Entidade {
     String nome;
     int vida;
     int escudo;    
     int vidaInicial;
     int escudoInicial;
+    List<Efeito> efeitos;
 
     public Entidade(String nome, int vida, int escudo, int vidaInicial, int escudoInicial) {
         this.nome = nome;
@@ -11,6 +15,7 @@ abstract class Entidade {
         this.escudo = escudo;
         this.vidaInicial = vidaInicial;
         this.escudoInicial = escudoInicial;
+        this.efeitos = new ArrayList<>();
     }
 
     public String getNome() {
@@ -65,20 +70,40 @@ abstract class Entidade {
         return "ESCUDO: [" + "■".repeat(escudo) + "-".repeat(escudoInicial - escudo) + "] " + escudo + "/" + escudoInicial;
     }
 
-        public int receberDano(int danoSofrido) {
-            int danoReal = danoSofrido - escudo;
-            if (danoReal > 0) {
-                this.vida -= danoReal;
-                return danoReal;
-            }
-            return 0;
+    public int receberDano(int danoSofrido) {
+        int danoReal = danoSofrido - escudo;
+        if (danoReal > 0) {
+            this.vida -= danoReal;
+            return danoReal;
+        }
+        return 0;
     }
 
-        public boolean estaVivo() {
+    public boolean estaVivo() {
         if (vida <= 0) {
             return false;
         } else {
             return true;
         }
+    }
+
+    public void aplicarEfeito(Efeito novoEfeito, Combate combate) {
+        for (Efeito e : efeitos) {
+            if (e.getNome().equals(novoEfeito.getNome())) {
+                e.adicionarAcumulos(novoEfeito.getAcumulos());
+                return;
+            }
+        }
+        efeitos.add(novoEfeito);
+        combate.inscrever(novoEfeito);
+    }
+
+    public void removerEfeito(Efeito efeito, Combate combate) {
+        efeitos.remove(efeito);
+        combate.desinscrever(efeito);
+    }
+
+    public void limparEfeitos() {
+        this.efeitos.clear();
     }
 }
