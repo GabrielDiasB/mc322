@@ -7,7 +7,7 @@ public class App {
         titulo();
         destaque("Digite o nome do seu personagem: ");
         String nomeHeroi = scanner.nextLine();
-        Heroi heroi = new Heroi(nomeHeroi, 20, 10, 3);
+        Heroi heroi = new Heroi(nomeHeroi, 100, 10, 3);
         heroi.resetarEscudo();
         DequeHeroi cartas = new DequeHeroi();
         cartas.addCarta(new CartaDano("Chute Feroz", "+3 Dano", 1, 3));
@@ -15,6 +15,8 @@ public class App {
         cartas.addCarta(new CartaDano("Soco Mortal", "+3 Dano", 1, 3));
         cartas.addCarta(new CartaEscudo("Reflexo Ágil", "+3 Escudo", 1, 3));
         cartas.addCarta(new CartaEscudo("Esquiva Sagaz", "+2 Escudo", 1, 2));
+        cartas.addCarta(new CartaEfeito("Poção de Força", "+2 Força", 2, 2, "Forca"));
+        cartas.addCarta(new CartaEfeito("Poção de Veneno", "3-1 Dano", 2, 3, "Veneno"));
         
         System.out.printf("\nSeja muito bem vindo(a), %s!\n", nomeHeroi);
         System.out.printf("\nEstá um lindo dia ensolarado, vamos coletar recursos antes que anoiteça e sejamos atacados.\n", nomeHeroi);
@@ -163,6 +165,8 @@ public class App {
             while (heroi.estaVivo() && !filaBatalhas.vazio()) {
                 Inimigo inimigoEscolhido = filaBatalhas.removerDoInicio();
 
+                Combate combate = new Combate(heroi, inimigoEscolhido);
+
                 heroi.resetarExp();
                 heroi.resetarEscudo();
                 atualizaTela(heroi);
@@ -199,7 +203,7 @@ public class App {
                                 inimigoEscolhido.atualiza();
                                 System.out.print("\u001B[31m>> Sem XP suficiente para essa carta!\u001B[m");   
                             } else {
-                                int dado = cartas.getAtual().get(opcao - 1).usar(heroi, inimigoEscolhido);
+                                int dado = cartas.getAtual().get(opcao - 1).usar(heroi, inimigoEscolhido, combate);
                                 String nomeCarta = cartas.getAtual().get(opcao - 1).getNome();
                                 String texto = cartas.getAtual().get(opcao - 1).usarTexto(heroi, inimigoEscolhido, dado, nomeCarta);
                                 heroi.gastarExp(cartas.getAtual().get(opcao - 1).getCusto());
@@ -213,7 +217,16 @@ public class App {
 
                         }
                     } else {
-                        ResultadoAcaoInimigo resultadoAcao = inimigoEscolhido.executarTurno(heroi);
+                        String notificacao = "";
+                        notificacao += combate.notificar(EventoCombate.FIM_TURNO_JOGADOR);
+
+                        if (!inimigoEscolhido.estaVivo()) {
+                            break;
+                        }
+
+                        ResultadoAcaoInimigo resultadoAcao = inimigoEscolhido.executarTurno(heroi, combate);
+                        notificacao += combate.notificar(EventoCombate.FIM_TURNO_INIMIGO);
+                        
                         heroi.resetarExp();
                         heroi.resetarEscudo();
                         cartas.descartarAtual();
@@ -221,9 +234,10 @@ public class App {
                         atualizaTela(heroi);
                         System.out.println("\nvs\n");
                         inimigoEscolhido.atualiza();
-                        destaque(">> " + heroi.getNome() + " encerrou o turno! " + resultadoAcao.getMensagemCombate());
+                        destaque(">> " + heroi.getNome() + " encerrou o turno! " + resultadoAcao.getMensagemCombate() + notificacao);
                     }
                 }
+                heroi.limparEfeitos();
 
             }
 
@@ -239,27 +253,28 @@ public class App {
         
 
     public static Inimigo gerarInimigoDaFase(int fase){
-        int sorteio =  (int) (Math.random() * 3);
+        int sorteio =  (int) (Math.random() * 4); 
+        
         if (fase == 0) {
             if (sorteio == 0) {
                 return new Inimigo(
                     "Zumbi",
                     20,
                     2,
-                    new AcaoInimigo("Arranhão", TipoAcaoInimigo.Ataque, 4, 85, 55),
-                    new AcaoInimigo("Mordida", TipoAcaoInimigo.Ataque, 7, 60, 30),
-                    new AcaoInimigo("Pele endurecida", TipoAcaoInimigo.Defesa, 1, 100, 15)
+                    new AcaoInimigo("Arranhão", TipoAcaoInimigo.Ataque, 4, 85, 50),
+                    new AcaoInimigo("Mordida", TipoAcaoInimigo.Ataque, 7, 60, 25),
+                    new AcaoInimigo("Carne Podre", TipoAcaoInimigo.Debuff, 2, 90, 25) 
                 );
             } else if (sorteio == 1) {
                 return new Inimigo(
                     "Esqueleto",
                     10,
                     1,
-                    new AcaoInimigo("Flecha rápida", TipoAcaoInimigo.Ataque, 5, 90, 60),
-                    new AcaoInimigo("Flecha pesada", TipoAcaoInimigo.Ataque, 8, 65, 25),
-                    new AcaoInimigo("Postura defensiva", TipoAcaoInimigo.Defesa, 1, 100, 15)
+                    new AcaoInimigo("Flecha rápida", TipoAcaoInimigo.Ataque, 5, 90, 50),
+                    new AcaoInimigo("Postura defensiva", TipoAcaoInimigo.Defesa, 1, 100, 25),
+                    new AcaoInimigo("Focar Mira", TipoAcaoInimigo.Buff, 1, 100, 25) 
                 );
-            } else {
+            } else if (sorteio == 2) {
                 return new Inimigo(
                     "Creeper",
                     20,
@@ -268,8 +283,18 @@ public class App {
                     new AcaoInimigo("Estouro curto", TipoAcaoInimigo.Ataque, 5, 85, 50),
                     new AcaoInimigo("Carapaça de poeira", TipoAcaoInimigo.Defesa, 1, 100, 15)
                 );
+            } else {
+                return new Inimigo(
+                    "Aranha das Cavernas",
+                    15,
+                    1,
+                    new AcaoInimigo("Salto", TipoAcaoInimigo.Ataque, 5, 90, 40),
+                    new AcaoInimigo("Picada Venenosa", TipoAcaoInimigo.Debuff, 3, 85, 40),
+                    new AcaoInimigo("Teia Protetora", TipoAcaoInimigo.Defesa, 2, 100, 20)
+                );
             }
         }
+        
         if (fase == 1){
             if (sorteio == 0){
                 return new Inimigo(
@@ -287,28 +312,38 @@ public class App {
                     1,
                     new AcaoInimigo("Golpe teleportado", TipoAcaoInimigo.Ataque, 10, 70, 50),
                     new AcaoInimigo("Soco sombrio", TipoAcaoInimigo.Ataque, 13, 50, 30),
-                    new AcaoInimigo("Desvio dimensional", TipoAcaoInimigo.Defesa, 2, 100, 20)
+                    new AcaoInimigo("Fúria do End", TipoAcaoInimigo.Buff, 2, 100, 20) 
                 );
-            } else {   
+            } else if (sorteio == 2) {   
                 return new Inimigo(
-                    "Esqueleto Whiter",
+                    "Esqueleto Wither",
                     15,
                     8,
-                    new AcaoInimigo("Golpe sombrio", TipoAcaoInimigo.Ataque, 10, 80, 55),
-                    new AcaoInimigo("Corte perfurante", TipoAcaoInimigo.Ataque, 14, 45, 25),
-                    new AcaoInimigo("Ossos reforcados", TipoAcaoInimigo.Defesa, 2, 100, 20)
+                    new AcaoInimigo("Golpe sombrio", TipoAcaoInimigo.Ataque, 10, 80, 50),
+                    new AcaoInimigo("Corte perfurante", TipoAcaoInimigo.Ataque, 14, 45, 20),
+                    new AcaoInimigo("Toque do Wither", TipoAcaoInimigo.Debuff, 2, 90, 30) 
+                );
+            } else {
+                return new Inimigo(
+                    "Bruxa",
+                    25,
+                    2,
+                    new AcaoInimigo("Poção de Dano", TipoAcaoInimigo.Ataque, 8, 90, 30),
+                    new AcaoInimigo("Arremessar Veneno", TipoAcaoInimigo.Debuff, 4, 85, 40),
+                    new AcaoInimigo("Poção de Força", TipoAcaoInimigo.Buff, 2, 100, 30) 
                 );
             }
         }
+        
         if (fase == 2){
-            if (sorteio ==0){
+            if (sorteio == 0){
                 return new Inimigo(
-                    "Whiter",
+                    "Wither",
                     30,
                     8,
-                    new AcaoInimigo("Cabeçada de wither", TipoAcaoInimigo.Ataque, 12, 78, 55),
+                    new AcaoInimigo("Cabeçada de wither", TipoAcaoInimigo.Ataque, 12, 78, 40),
                     new AcaoInimigo("Rajada devastadora", TipoAcaoInimigo.Ataque, 16, 48, 25),
-                    new AcaoInimigo("Armadura negra", TipoAcaoInimigo.Defesa, 2, 100, 20)
+                    new AcaoInimigo("Névoa de Decomposição", TipoAcaoInimigo.Debuff, 4, 90, 35) 
                 );
             } else if (sorteio == 1){
                 return new Inimigo(
@@ -317,9 +352,9 @@ public class App {
                     5,
                     new AcaoInimigo("Soco tectônico", TipoAcaoInimigo.Ataque, 14, 75, 50),
                     new AcaoInimigo("Impacto ensurdecedor", TipoAcaoInimigo.Ataque, 18, 42, 25),
-                    new AcaoInimigo("Pele de pedra", TipoAcaoInimigo.Defesa, 3, 100, 25)
+                    new AcaoInimigo("Fúria Cega", TipoAcaoInimigo.Buff, 3, 100, 25) 
                 );
-            } else {
+            } else if (sorteio == 2) {
                 return new Inimigo(
                     "Guardião",
                     30,
@@ -327,6 +362,15 @@ public class App {
                     new AcaoInimigo("Garra aquática", TipoAcaoInimigo.Ataque, 11, 82, 55),
                     new AcaoInimigo("Corrente profunda", TipoAcaoInimigo.Ataque, 15, 50, 25),
                     new AcaoInimigo("Escama ancestral", TipoAcaoInimigo.Defesa, 2, 100, 20)
+                );
+            } else {
+                return new Inimigo(
+                    "Evoker",
+                    25,
+                    5,
+                    new AcaoInimigo("Presas de Ferro", TipoAcaoInimigo.Ataque, 13, 85, 40),
+                    new AcaoInimigo("Totem de Poder", TipoAcaoInimigo.Buff, 2, 100, 30),
+                    new AcaoInimigo("Maldição do Illager", TipoAcaoInimigo.Debuff, 3, 90, 30)
                 );
             }
         }
@@ -338,9 +382,10 @@ public class App {
             "Ender Dragon",
             50,
             10,
-            new AcaoInimigo("Sopro dracônico", TipoAcaoInimigo.Ataque, 20, 65, 45),
-            new AcaoInimigo("Garras do vazio", TipoAcaoInimigo.Ataque, 14, 85, 35),
-            new AcaoInimigo("Escamas ancestrais", TipoAcaoInimigo.Defesa, 4, 100, 20)
+            new AcaoInimigo("Sopro dracônico", TipoAcaoInimigo.Ataque, 20, 65, 35),
+            new AcaoInimigo("Garras do vazio", TipoAcaoInimigo.Ataque, 14, 85, 25),
+            new AcaoInimigo("Rugido de Poder", TipoAcaoInimigo.Buff, 2, 100, 20),
+            new AcaoInimigo("Bafo Venenoso", TipoAcaoInimigo.Debuff, 4, 80, 20) 
         );
     }
 

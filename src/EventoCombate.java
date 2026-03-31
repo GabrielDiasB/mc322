@@ -1,0 +1,8 @@
+public enum EventoCombate {
+    FIM_TURNO_JOGADOR,
+    INICIO_TURNO_INIMIGO,
+    FIM_TURNO_INIMIGO,
+    ATAQUE_JOGADOR,
+    ATAQUE_INIMIGO,
+    RECEBER_DANO
+}

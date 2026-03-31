@@ -1,4 +1,6 @@
 public enum TipoAcaoInimigo {
     Ataque,
-    Defesa
+    Defesa,
+    Buff,
+    Debuff
 }

@@ -6,7 +6,7 @@ public class CartaEscudo extends Carta {
         this.escudo = escudo;
     }
 
-    public int usar(Heroi heroi, Inimigo inimigo) {
+    public int usar(Heroi heroi, Inimigo inimigo, Combate combate) {
         heroi.receberEscudo(escudo);
         return escudo;
     }
