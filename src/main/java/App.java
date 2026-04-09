@@ -53,9 +53,9 @@ public class App {
             heroi.resetarExp();
             atualizaTela(heroi);
             if (num_batalha > 0) {
-                destaque("\n>> Você venceu a " + num_batalha + "ª batalha e ganhou +" + num_batalha + "XP! Já amanheceu, continue progredindo!\n");
+                destaque(">> Você venceu a " + num_batalha + "ª batalha e ganhou +" + num_batalha + "XP! Já amanheceu, continue progredindo!\n");
             } else {
-                destaque("\n>> Está de dia! Aproveite para se preparar " + heroi.getNome() + "!\n");
+                destaque(">> Está de dia! Aproveite para se preparar " + heroi.getNome() + "!\n");
             }
 
             while (true) {
@@ -65,10 +65,10 @@ public class App {
                     if (heroi.getExp() >= 1) {
                         heroi.gastarExp(1);
                         atualizaTela(heroi);
-                        destaque("\n\u001B[33m>> " + heroi.getNome() + " explorou e obteve " + heroi.recursos() + "\n");
+                        destaque("\u001B[33m>> " + heroi.getNome() + " explorou e obteve " + heroi.recursos() + "\n");
                     } else {
                         atualizaTela(heroi);
-                        System.out.println("\n\u001B[31m>> Você não tem experiência suficiente para ganhar mais recursos.\u001B[m");
+                        System.out.println("\u001B[31m>> Você não tem experiência suficiente para ganhar mais recursos.\u001B[m");
                     }
                     destaque(heroi.inventario());
                 
@@ -83,11 +83,10 @@ public class App {
                     System.out.println("[ 3 ] " + String.format("%-23s", "Machado de Ferro") + "==> " + String.format("%-12s", "+15 Dano") + String.format("%-20s", "-1 Madeira -2 Ferro"));
                     System.out.println("[ 4 ] " + String.format("%-23s", "Armadura de Diamante") + "==> " + String.format("%-12s", "+9 Escudo") + String.format("%-20s", "-3 Diamante"));
                     System.out.println("[ 5 ] " + String.format("%-23s", "Escudo de Ferro") + "==> " + String.format("%-12s", "+5 Escudo") + String.format("%-20s", "-2 Madeira -1 Ferro"));
-                    System.out.println("[ 6 ] " + String.format("%-23s", "Espada de Ferro") + "==> " + String.format("%-12s", "+12 Dano") + String.format("%-20s", "-1 Madeira -2 Ferro"));
-                    System.out.println("[ 7 ] " + String.format("%-23s", "Picareta de Diamante") + "==> " + String.format("%-12s", "+20 Dano") + String.format("%-20s", "-2 Madeira -3 Diamante"));
-                    System.out.println("[ 8 ] " + String.format("%-23s", "Armadura de Ferro") + "==> " + String.format("%-12s", "+7 Escudo") + String.format("%-20s", "-4 Ferro"));
-                    System.out.println("[ 9 ] " + String.format("%-23s", "Capa de Lã") + "==> " + String.format("%-12s", "+3 Escudo") + String.format("%-20s", "-3 Lã"));
-                    System.out.println("[ 10 ] " + String.format("%-23s", "Poção de Vida") + "==> " + String.format("%-12s", "+15 Vida") + String.format("%-20s", "-1 Diamante -1 Lã"));
+                    System.out.println("[ 6 ] " + String.format("%-23s", "Picareta de Ferro") + "==> " + String.format("%-12s", "+12 Dano") + String.format("%-20s", "-1 Madeira -2 Ferro"));
+                    System.out.println("[ 7 ] " + String.format("%-23s", "Espada de Diamante") + "==> " + String.format("%-12s", "+20 Dano") + String.format("%-20s", "-1 Madeira -2 Diamante"));
+                    System.out.println("[ 8 ] " + String.format("%-23s", "Armadura de Ferro") + "==> " + String.format("%-12s", "+7 Escudo") + String.format("%-20s", "-3 Ferro"));
+                    System.out.println("[ 9 ] " + String.format("%-23s", "Poção de Vida") + "==> " + String.format("%-12s", "+15 Vida") + String.format("%-20s", "-1 Diamante -1 Lã"));
                     System.out.println("\n[ 0 ] Voltar para o menu");
                     System.out.println("\n=================================================================");
                     
@@ -98,20 +97,20 @@ public class App {
                             heroi.gastarMadeira(1);
                             cartas.addCarta(new CartaDano("Arco e Flecha", "+7 Dano", 2, 7));
                             atualizaTela(heroi);
-                            destaque("\nArco e Flecha adicionado com sucesso ao seu deque de combate!\n");
+                            destaque(">> Arco e Flecha adicionado com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
-                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                            destaque_erro(">> Recursos insuficientes para craftar, explore mais o mapa!\n");
                         }
                     } else if (nova_carta == 2) {
                         if (heroi.temMadeira(2)) {
                             heroi.gastarMadeira(2);
                             cartas.addCarta(new CartaDano("Espada de madeira", "+8 Dano", 2, 8));
                             atualizaTela(heroi);
-                            destaque("\nEspada de madeira adicionada com sucesso ao seu deque de combate!\n");
+                            destaque(">> Espada de madeira adicionada com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
-                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                            destaque_erro(">> Recursos insuficientes para craftar, explore mais o mapa!\n");
                         }
                     } else if (nova_carta == 3) {
                         if (heroi.temFerro(1) && heroi.temMadeira(1)) {
@@ -119,20 +118,20 @@ public class App {
                             heroi.gastarFerro(1);
                             cartas.addCarta(new CartaDano("Machado de Ferro", "+15 Dano", 2, 15));
                             atualizaTela(heroi);
-                            destaque("\nMachado de Ferro adicionado com sucesso ao seu deque de combate!\n");
+                            destaque(">> Machado de Ferro adicionado com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
-                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                            destaque_erro(">> Recursos insuficientes para craftar, explore mais o mapa!\n");
                         }
                     } else if (nova_carta == 4) {
                         if (heroi.temDiamante(3)) {
                             heroi.gastarDiamante(3);
                             cartas.addCarta(new CartaEscudo("Armadura de Diamante", "+9 Escudo", 2, 9));
                             atualizaTela(heroi);
-                            destaque("\nArmadura de Diamante adicionada com sucesso ao seu deque de combate!\n");
+                            destaque(">> Armadura de Diamante adicionada com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
-                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                            destaque_erro(">> Recursos insuficientes para craftar, explore mais o mapa!\n");
                         }
                     } else if (nova_carta == 5) {
                         if (heroi.temFerro(1) && heroi.temMadeira(2)) {
@@ -140,63 +139,53 @@ public class App {
                             heroi.gastarMadeira(2);
                             cartas.addCarta(new CartaEscudo("Escudo de Ferro", "+5 Escudo", 1, 5));
                             atualizaTela(heroi);
-                            destaque("\nEscudo de Ferro adicionado com sucesso ao seu deque de combate!\n");
+                            destaque(">> Escudo de Ferro adicionado com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
-                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                            destaque_erro(">> Recursos insuficientes para craftar, explore mais o mapa!\n");
                         }
                     } else if (nova_carta == 6) {
                         if (heroi.temMadeira(1) && heroi.temFerro(2)) {
                             heroi.gastarMadeira(1);
                             heroi.gastarFerro(2);
-                            cartas.addCarta(new CartaDano("Espada de Ferro", "+12 Dano", 2, 12));
+                            cartas.addCarta(new CartaDano("Picareta de Ferro", "+12 Dano", 2, 12));
                             atualizaTela(heroi);
-                            destaque("\nEspada de Ferro adicionada com sucesso ao seu deque de combate!\n");
+                            destaque(">> Picareta de Ferro adicionada com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
-                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                            destaque_erro(">> Recursos insuficientes para craftar, explore mais o mapa!\n");
                         }
                     } else if (nova_carta == 7) {
-                        if (heroi.temMadeira(2) && heroi.temDiamante(3)) {
-                            heroi.gastarMadeira(2);
-                            heroi.gastarDiamante(3);
-                            cartas.addCarta(new CartaDano("Picareta de Diamante", "+20 Dano", 3, 20));
+                        if (heroi.temMadeira(1) && heroi.temDiamante(2)) {
+                            heroi.gastarMadeira(1);
+                            heroi.gastarDiamante(2);
+                            cartas.addCarta(new CartaDano("Espada de Diamante", "+20 Dano", 3, 20));
                             atualizaTela(heroi);
-                            destaque("\nPicareta de Diamante adicionada com sucesso ao seu deque de combate!\n");
+                            destaque(">> Espada de Diamante adicionada com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
-                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                            destaque_erro(">> Recursos insuficientes para craftar, explore mais o mapa!\n");
                         }
                     } else if (nova_carta == 8) {
-                        if (heroi.temFerro(4)) {
-                            heroi.gastarFerro(4);
+                        if (heroi.temFerro(3)) {
+                            heroi.gastarFerro(3);
                             cartas.addCarta(new CartaEscudo("Armadura de Ferro", "+7 Escudo", 2, 7));
                             atualizaTela(heroi);
-                            destaque("\nArmadura de Ferro adicionada com sucesso ao seu deque de combate!\n");
+                            destaque(">> Armadura de Ferro adicionada com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
-                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                            destaque_erro(">> Recursos insuficientes para craftar, explore mais o mapa!\n");
                         }
                     } else if (nova_carta == 9) {
-                        if (heroi.temLa(3)) {
-                            heroi.gastarLa(3);
-                            cartas.addCarta(new CartaEscudo("Capa de Lã", "+3 Escudo", 1, 3));
-                            atualizaTela(heroi);
-                            destaque("\nCapa de Lã adicionada com sucesso ao seu deque de combate!\n");
-                        } else {
-                            atualizaTela(heroi);
-                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
-                        }
-                    } else if (nova_carta == 10) {
                         if (heroi.temDiamante(1) && heroi.temLa(1)) {
                             heroi.gastarDiamante(1);
                             heroi.gastarLa(1);
                             cartas.addCarta(new CartaEfeito("Poção de Vida", "+15 Vida", 2, 15, "Cura"));
                             atualizaTela(heroi);
-                            destaque("\nPoção de Vida adicionada com sucesso ao seu deque de combate!\n");
+                            destaque(">> Poção de Vida adicionada com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
-                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                            destaque_erro(">> Recursos insuficientes para craftar, explore mais o mapa!\n");
                         }
                     } else {
                         atualizaTela(heroi);
@@ -208,10 +197,10 @@ public class App {
                         heroi.gastarExp(1);
                         heroi.recuperar(5);
                         atualizaTela(heroi);
-                        destaque("\n\u001B[33m>> " + heroi.getNome() + " descansou e recuperou +5 vida!\n");
+                        destaque(">> " + heroi.getNome() + " descansou e recuperou +5 vida!\n");
                     } else {
                         atualizaTela(heroi);
-                        System.out.println("\n\u001B[31m>> Você não tem experiência suficiente para ganhar mais recursos.\u001B[m");
+                        destaque_erro(">> Você não tem experiência suficiente para recuperar mais vida..\n");
                     }
                     
                 } else if (selecione == 4) {
@@ -237,13 +226,8 @@ public class App {
                 heroi.resetarExp();
                 heroi.resetarEscudo();
                 atualizaTela(heroi);
-                
-                // Exibindo os desenhos ASCII aqui!
-                System.out.println();
-                System.out.println(desenhoHeroi());
                 System.out.println("   \u001B[31mVS\u001B[m\n");
                 System.out.println(obterArteInimigo(inimigoEscolhido.getNome()));
-                
                 inimigoEscolhido.atualiza();
 
                 if (num_batalha == 3) {
@@ -272,9 +256,6 @@ public class App {
                             }
                             if (cartas.getAtual().get(opcao - 1).getCusto() > heroi.getExp()) {
                                 atualizaTela(heroi);
-                                
-                                System.out.println();
-                                System.out.println(desenhoHeroi());
                                 System.out.println("   \u001B[31mVS\u001B[m\n");
                                 System.out.println(obterArteInimigo(inimigoEscolhido.getNome()));
                                 
@@ -287,9 +268,6 @@ public class App {
                                 heroi.gastarExp(cartas.getAtual().get(opcao - 1).getCusto());
                                 cartas.usar(opcao - 1);
                                 atualizaTela(heroi);
-                                
-                                System.out.println();
-                                System.out.println(desenhoHeroi());
                                 System.out.println("   \u001B[31mVS\u001B[m\n");
                                 System.out.println(obterArteInimigo(inimigoEscolhido.getNome()));
                                 
@@ -313,9 +291,6 @@ public class App {
                         cartas.descartarAtual();
                         cartas.comprarAtual();
                         atualizaTela(heroi);
-                        
-                        System.out.println();
-                        System.out.println(desenhoHeroi());
                         System.out.println("   \u001B[31mVS\u001B[m\n");
                         System.out.println(obterArteInimigo(inimigoEscolhido.getNome()));
                         
@@ -573,6 +548,8 @@ public class App {
         Limpa();
         titulo();
         heroi.atualiza();
+        System.out.println();
+        System.out.println(desenhoHeroi());
     }
 
     /**
