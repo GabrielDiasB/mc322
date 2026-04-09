@@ -13,15 +13,6 @@ public abstract class Entidade {
     /** Lista de efeitos contínuos atualmente ativos nesta entidade. */
     List<Efeito> efeitos;
 
-    /**
-     * Cria uma entidade com valores iniciais de vida e escudo.
-     *
-     * @param nome nome da entidade
-     * @param vida vida atual
-     * @param escudo escudo atual
-     * @param vidaInicial referência máxima usada para exibição da barra de vida
-     * @param escudoInicial referência máxima usada para exibição da barra de escudo
-     */
     public Entidade(String nome, int vida, int escudo, int vidaInicial, int escudoInicial) {
         this.nome = nome;
         this.vida = vida;
@@ -31,58 +22,55 @@ public abstract class Entidade {
         this.efeitos = new ArrayList<>();
     }
 
-    /**
-     * Retorna o nome da entidade.
-     *
-     * @return nome da entidade
-     */
     public String getNome() {
         return nome;
     }
 
-    /**
-     * Retorna a vida atual, normalizada para não ficar negativa.
-     *
-     * @return vida atual
-     */
     public int getVida() {
         if (vida < 0) {
             vida = 0;
         }
         return vida;
     }
-    /**
-     * Retorna o escudo atual.
-     *
-     * @return escudo atual
-     */
+
     public int getEscudo() {
         return escudo;
     }
 
-    /**
-     * Retorna o valor de referência usado na barra de vida.
-     *
-     * @return vida inicial
-     */
     public int getVidaInicial() {
         return vidaInicial;
     }
 
-    /**
-     * Retorna o valor de referência usado na barra de escudo.
-     *
-     * @return escudo inicial
-     */
     public int getEscudoInicial() {
         return escudoInicial;
     }
 
     /**
-     * Formata a barra de vida exibida no terminal.
-     *
-     * @return barra textual com a vida atual e a vida inicial
+     * Recupera pontos de vida da entidade sem ultrapassar a vida inicial.
+     * * @param cura quantidade de vida recuperada
      */
+    public void recuperar(int cura) {
+        this.vida += cura;
+        if (this.vida > this.vidaInicial) {
+            this.vida = this.vidaInicial;
+        }
+    }
+
+    /**
+     * Varre a lista de efeitos ativos em busca do efeito "Força" ou "Forca"
+     * e retorna a quantidade de acúmulos para somar no dano.
+     * * @return dano extra baseado nos acúmulos de força
+     */
+    public int getBonusDano() {
+        int bonus = 0;
+        for (Efeito e : efeitos) {
+            if (e.getNome().equals("Força") || e.getNome().equals("Forca")) {
+                bonus += e.getAcumulos();
+            }
+        }
+        return bonus;
+    }
+
     public String atualizaVida() {
         if (vida < 0) {
             vida = 0;
@@ -100,14 +88,8 @@ public abstract class Entidade {
         }
 
         return "VIDA: [" + "■".repeat(quadrados) + "-".repeat(10 - quadrados) + "] " + vida + "/" + vidaInicial;
-        
     }
 
-    /**
-     * Formata a barra de escudo exibida no terminal.
-     *
-     * @return barra textual com o escudo atual e a referência inicial
-     */
     public String atualizaEscudo() {
         if (escudo < 0) {
             escudo = 0;
@@ -118,12 +100,6 @@ public abstract class Entidade {
         return "ESCUDO: [" + "■".repeat(escudo) + "-".repeat(escudoInicial - escudo) + "] " + escudo + "/" + escudoInicial;
     }
 
-    /**
-     * Aplica dano considerando o escudo atual como mitigação.
-     *
-     * @param danoSofrido dano bruto recebido
-     * @return dano efetivamente aplicado à vida
-     */
     public int receberDano(int danoSofrido) {
         int danoReal = danoSofrido - escudo;
         if (danoReal > 0) {
@@ -133,25 +109,10 @@ public abstract class Entidade {
         return 0;
     }
 
-    /**
-     * Retorna {@code true} se a entidade ainda possui vida positiva.
-     *
-     * @return {@code true} quando a vida é maior que zero
-     */
     public boolean estaVivo() {
-        if (vida <= 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return vida > 0;
     }
 
-    /**
-     * Adiciona um efeito novo ou acumula um efeito já existente com o mesmo nome.
-     *
-     * @param novoEfeito efeito a ser aplicado
-     * @param combate combate atual, usado para inscrição no sistema de eventos
-     */
     public void aplicarEfeito(Efeito novoEfeito, Combate combate) {
         for (Efeito e : efeitos) {
             if (e.getNome().equals(novoEfeito.getNome())) {
@@ -163,18 +124,11 @@ public abstract class Entidade {
         combate.inscrever(novoEfeito);
     }
 
-    /**
-     * Remove um efeito da entidade e o desinscreve do combate.
-     *
-     * @param efeito efeito a ser removido
-     * @param combate combate atual, usado para remover a inscrição do efeito
-     */
     public void removerEfeito(Efeito efeito, Combate combate) {
         efeitos.remove(efeito);
         combate.desinscrever(efeito);
     }
 
-    /** Limpa todos os efeitos ativos da entidade. */
     public void limparEfeitos() {
         this.efeitos.clear();
     }

@@ -34,7 +34,7 @@ public class App {
         cartas.addCarta(new CartaEfeito("Poção de Veneno", "3-1 Dano", 2, 3, "Veneno"));
         
         System.out.printf("\nSeja muito bem vindo(a), %s!\n", nomeHeroi);
-        System.out.printf("\nEstá um lindo dia ensolarado, vamos coletar recursos antes que anoiteça e sejamos atacados.\n", nomeHeroi);
+        System.out.printf("\nEstá um lindo dia ensolarado, vamos coletar recursos antes que anoiteça e sejamos atacados.\n");
         System.out.println("\nUse o seu XP para explorar o mundo e obter matérias-primas.\n");
         char res = 'n';
         while (res != 's') {
@@ -83,9 +83,15 @@ public class App {
                     System.out.println("[ 3 ] " + String.format("%-23s", "Machado de Ferro") + "==> " + String.format("%-12s", "+15 Dano") + String.format("%-20s", "-1 Madeira -2 Ferro"));
                     System.out.println("[ 4 ] " + String.format("%-23s", "Armadura de Diamante") + "==> " + String.format("%-12s", "+9 Escudo") + String.format("%-20s", "-3 Diamante"));
                     System.out.println("[ 5 ] " + String.format("%-23s", "Escudo de Ferro") + "==> " + String.format("%-12s", "+5 Escudo") + String.format("%-20s", "-2 Madeira -1 Ferro"));
+                    System.out.println("[ 6 ] " + String.format("%-23s", "Espada de Ferro") + "==> " + String.format("%-12s", "+12 Dano") + String.format("%-20s", "-1 Madeira -2 Ferro"));
+                    System.out.println("[ 7 ] " + String.format("%-23s", "Picareta de Diamante") + "==> " + String.format("%-12s", "+20 Dano") + String.format("%-20s", "-2 Madeira -3 Diamante"));
+                    System.out.println("[ 8 ] " + String.format("%-23s", "Armadura de Ferro") + "==> " + String.format("%-12s", "+7 Escudo") + String.format("%-20s", "-4 Ferro"));
+                    System.out.println("[ 9 ] " + String.format("%-23s", "Capa de Lã") + "==> " + String.format("%-12s", "+3 Escudo") + String.format("%-20s", "-3 Lã"));
+                    System.out.println("[ 10 ] " + String.format("%-23s", "Poção de Vida") + "==> " + String.format("%-12s", "+15 Vida") + String.format("%-20s", "-1 Diamante -1 Lã"));
                     System.out.println("\n[ 0 ] Voltar para o menu");
                     System.out.println("\n=================================================================");
-                    int nova_carta = leitura(0, 5);
+                    
+                    int nova_carta = leitura(0, 10);
                     if (nova_carta == 1) {
                         if (heroi.temLa(1) && heroi.temMadeira(1)) {
                             heroi.gastarLa(1);
@@ -97,8 +103,6 @@ public class App {
                             atualizaTela(heroi);
                             destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
                         }
-                        
-        
                     } else if (nova_carta == 2) {
                         if (heroi.temMadeira(2)) {
                             heroi.gastarMadeira(2);
@@ -109,19 +113,17 @@ public class App {
                             atualizaTela(heroi);
                             destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
                         }
-
                     } else if (nova_carta == 3) {
                         if (heroi.temFerro(1) && heroi.temMadeira(1)) {
                             heroi.gastarMadeira(1);
                             heroi.gastarFerro(1);
                             cartas.addCarta(new CartaDano("Machado de Ferro", "+15 Dano", 2, 15));
                             atualizaTela(heroi);
-                            destaque("\nMachado de Ferro adicionada com sucesso ao seu deque de combate!\n");
+                            destaque("\nMachado de Ferro adicionado com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
                             destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
                         }
-
                     } else if (nova_carta == 4) {
                         if (heroi.temDiamante(3)) {
                             heroi.gastarDiamante(3);
@@ -132,25 +134,75 @@ public class App {
                             atualizaTela(heroi);
                             destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
                         }
-
                     } else if (nova_carta == 5) {
                         if (heroi.temFerro(1) && heroi.temMadeira(2)) {
                             heroi.gastarFerro(1);
                             heroi.gastarMadeira(2);
                             cartas.addCarta(new CartaEscudo("Escudo de Ferro", "+5 Escudo", 1, 5));
                             atualizaTela(heroi);
-                            destaque("\nEscudo de Ferro adicionada com sucesso ao seu deque de combate!\n");
+                            destaque("\nEscudo de Ferro adicionado com sucesso ao seu deque de combate!\n");
                         } else {
                             atualizaTela(heroi);
                             destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
                         }
-
+                    } else if (nova_carta == 6) {
+                        if (heroi.temMadeira(1) && heroi.temFerro(2)) {
+                            heroi.gastarMadeira(1);
+                            heroi.gastarFerro(2);
+                            cartas.addCarta(new CartaDano("Espada de Ferro", "+12 Dano", 2, 12));
+                            atualizaTela(heroi);
+                            destaque("\nEspada de Ferro adicionada com sucesso ao seu deque de combate!\n");
+                        } else {
+                            atualizaTela(heroi);
+                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                        }
+                    } else if (nova_carta == 7) {
+                        if (heroi.temMadeira(2) && heroi.temDiamante(3)) {
+                            heroi.gastarMadeira(2);
+                            heroi.gastarDiamante(3);
+                            cartas.addCarta(new CartaDano("Picareta de Diamante", "+20 Dano", 3, 20));
+                            atualizaTela(heroi);
+                            destaque("\nPicareta de Diamante adicionada com sucesso ao seu deque de combate!\n");
+                        } else {
+                            atualizaTela(heroi);
+                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                        }
+                    } else if (nova_carta == 8) {
+                        if (heroi.temFerro(4)) {
+                            heroi.gastarFerro(4);
+                            cartas.addCarta(new CartaEscudo("Armadura de Ferro", "+7 Escudo", 2, 7));
+                            atualizaTela(heroi);
+                            destaque("\nArmadura de Ferro adicionada com sucesso ao seu deque de combate!\n");
+                        } else {
+                            atualizaTela(heroi);
+                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                        }
+                    } else if (nova_carta == 9) {
+                        if (heroi.temLa(3)) {
+                            heroi.gastarLa(3);
+                            cartas.addCarta(new CartaEscudo("Capa de Lã", "+3 Escudo", 1, 3));
+                            atualizaTela(heroi);
+                            destaque("\nCapa de Lã adicionada com sucesso ao seu deque de combate!\n");
+                        } else {
+                            atualizaTela(heroi);
+                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                        }
+                    } else if (nova_carta == 10) {
+                        if (heroi.temDiamante(1) && heroi.temLa(1)) {
+                            heroi.gastarDiamante(1);
+                            heroi.gastarLa(1);
+                            cartas.addCarta(new CartaEfeito("Poção de Vida", "+15 Vida", 2, 15, "Cura"));
+                            atualizaTela(heroi);
+                            destaque("\nPoção de Vida adicionada com sucesso ao seu deque de combate!\n");
+                        } else {
+                            atualizaTela(heroi);
+                            destaque_erro("\nRecursos insuficientes para craftar, explore mais o mapa!\n");
+                        }
                     } else {
                         atualizaTela(heroi);
                         continue;
                     }
                     
-                
                 } else if (selecione == 3) {
                     if (heroi.getExp() >= 1) {
                         heroi.gastarExp(1);
@@ -185,7 +237,13 @@ public class App {
                 heroi.resetarExp();
                 heroi.resetarEscudo();
                 atualizaTela(heroi);
-                System.out.println("\nvs\n");
+                
+                // Exibindo os desenhos ASCII aqui!
+                System.out.println();
+                System.out.println(desenhoHeroi());
+                System.out.println("   \u001B[31mVS\u001B[m\n");
+                System.out.println(obterArteInimigo(inimigoEscolhido.getNome()));
+                
                 inimigoEscolhido.atualiza();
 
                 if (num_batalha == 3) {
@@ -214,7 +272,12 @@ public class App {
                             }
                             if (cartas.getAtual().get(opcao - 1).getCusto() > heroi.getExp()) {
                                 atualizaTela(heroi);
-                                System.out.println("\nvs\n");
+                                
+                                System.out.println();
+                                System.out.println(desenhoHeroi());
+                                System.out.println("   \u001B[31mVS\u001B[m\n");
+                                System.out.println(obterArteInimigo(inimigoEscolhido.getNome()));
+                                
                                 inimigoEscolhido.atualiza();
                                 System.out.print("\u001B[31m>> Sem XP suficiente para essa carta!\u001B[m");   
                             } else {
@@ -224,12 +287,15 @@ public class App {
                                 heroi.gastarExp(cartas.getAtual().get(opcao - 1).getCusto());
                                 cartas.usar(opcao - 1);
                                 atualizaTela(heroi);
-                                System.out.println("\nvs\n");
+                                
+                                System.out.println();
+                                System.out.println(desenhoHeroi());
+                                System.out.println("   \u001B[31mVS\u001B[m\n");
+                                System.out.println(obterArteInimigo(inimigoEscolhido.getNome()));
+                                
                                 inimigoEscolhido.atualiza();
                                 destaque(">> " + texto);  
                             }
-                             
-
                         }
                     } else {
                         String notificacao = "";
@@ -247,13 +313,17 @@ public class App {
                         cartas.descartarAtual();
                         cartas.comprarAtual();
                         atualizaTela(heroi);
-                        System.out.println("\nvs\n");
+                        
+                        System.out.println();
+                        System.out.println(desenhoHeroi());
+                        System.out.println("   \u001B[31mVS\u001B[m\n");
+                        System.out.println(obterArteInimigo(inimigoEscolhido.getNome()));
+                        
                         inimigoEscolhido.atualiza();
                         destaque(">> " + heroi.getNome() + " encerrou o turno! " + resultadoAcao.getMensagemCombate() + notificacao);
                     }
                 }
                 heroi.limparEfeitos();
-
             }
 
             if (heroi.estaVivo()) {
@@ -262,10 +332,82 @@ public class App {
                 System.out.println("\n\u001B[1;31mQUE PENA, você foi derrotado!\u001B[m");
                 System.out.println("\u001B[1;31mNão foi dessa vez... Tente novamente!\u001B[m\n");
             }
-
         }
     }
         
+    /**
+     * Retorna a representação em ASCII do Herói.
+     */
+    public static String desenhoHeroi() {
+        return  "   O  \n" +
+                "  /|\\ \n" +
+                "  / \\ \n";
+    }
+
+    /**
+     * Retorna a arte em ASCII baseada no nome do inimigo.
+     *
+     * @param nomeInimigo nome exato do inimigo instanciado
+     * @return String contendo a arte ASCII
+     */
+    public static String obterArteInimigo(String nomeInimigo) {
+        switch (nomeInimigo) {
+            case "Zumbi":
+                return  "  [o] \n" +
+                        "  /|] \n" +
+                        "  / \\ \n";
+            case "Esqueleto":
+                return  "   ☠  \n" +
+                        "  /|# \n" +
+                        "  / \\ \n";
+            case "Creeper":
+                return  "  [ ] \n" +
+                        "  / \\ \n";
+            case "Aranha das Cavernas":
+                return  " /\\( )/\\ \n" +
+                        "   ^ ^   \n";
+            case "Blaze":
+                return  " \\ | / \n" +
+                        " - o - \n" +
+                        " / | \\ \n";
+            case "Enderman":
+                return  "   O  \n" +
+                        "  /|\\ \n" +
+                        "   |  \n" +
+                        "  / \\ \n";
+            case "Esqueleto Wither":
+                return  "   ☠  \n" +
+                        "  [|] \n" +
+                        "  / \\ \n";
+            case "Bruxa":
+                return  "   ^  \n" +
+                        "  / \\ \n" +
+                        "  /|\\ \n";
+            case "Wither":
+                return  " ☠ ☠ ☠ \n" +
+                        "  \\|/  \n" +
+                        "   |   \n";
+            case "Warden":
+                return  " {o.o} \n" +
+                        " /[_]\\ \n" +
+                        "  / \\  \n";
+            case "Guardião":
+                return  " <[O]> \n" +
+                        "  \\|/  \n";
+            case "Evoker":
+                return  "   ~   \n" +
+                        "  (o)  \n" +
+                        "  /|\\  \n";
+            case "Ender Dragon":
+                return  "  /|\\   /|\\  \n" +
+                        " < O >=< O > \n" +
+                        "  \\|/   \\|/  \n";
+            default:
+                return  "  (?) \n" +
+                        "  /|\\ \n" +
+                        "  / \\ \n";
+        }
+    }
 
     /**
      * Cria o inimigo de uma fase específica com base em um sorteio aleatório.
@@ -415,11 +557,10 @@ public class App {
         );
     }
 
-
     /** Exibe o título do jogo no terminal. */
     public static void titulo() {
         System.out.println("\u001B[1;36m╔══════════════════════════════════╗\u001B[m");
-        System.out.println("\u001B[1;36m║         CRAFT & COMBATE          ║\u001B[m");
+        System.out.println("\u001B[1;36m║        CRAFT & COMBATE           ║\u001B[m");
         System.out.println("\u001B[1;36m╚══════════════════════════════════╝\u001B[m\n");
     }
 
@@ -456,7 +597,6 @@ public class App {
                 scanner.next();
             }
         }
-        
     }
 
     /**
@@ -490,6 +630,4 @@ public class App {
         } catch (Exception e) {
         }
     }
-
-    
 }
