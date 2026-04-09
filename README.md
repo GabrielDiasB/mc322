@@ -35,17 +35,17 @@ Onde:
 No diretório raiz do projeto, execute:
 
 ```bash
-javac -d bin $(find src -name "*.java")
+./gradlew build
 ```
 
-Esse comando compila todos os arquivos `.java` dentro da pasta `src` e coloca os arquivos compilados (`.class`) na pasta `bin`.
+Esse comando compila todos os arquivos.
 
 # Como Executar o Projeto
 
 Após compilar, execute:
 
 ```bash
-java -cp bin App
+./gradlew run
 ```
 
 Isso iniciará o programa e o combate será executado no terminal.
