@@ -1,6 +1,6 @@
 /**
  * Carta que aplica um efeito contínuo no herói ou no inimigo.
- * No jogo atual, essa carta representa Força ou Veneno.
+ * No jogo atual, essa carta representa Força, Veneno ou Cura.
  */
 public class CartaEfeito extends Carta {
     /** Tipo textual do efeito que será aplicado. */
@@ -36,6 +36,9 @@ public class CartaEfeito extends Carta {
             inimigo.aplicarEfeito(new EfeitoVeneno(inimigo, quantidadeEfeito), combate);
         } else if (tipoEfeito.equals("Forca")) {
             heroi.aplicarEfeito(new EfeitoForca(heroi, quantidadeEfeito), combate);
+        } else if (tipoEfeito.equals("Cura")) {
+            // Aqui a mágica acontece: quando for cura, aplica o EfeitoCura no herói!
+            heroi.aplicarEfeito(new EfeitoCura(heroi, quantidadeEfeito), combate);
         }
         return quantidadeEfeito;
     }
