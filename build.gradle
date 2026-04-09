@@ -12,7 +12,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'App'
+    mainClass = 'jogo.app.App'
 }
 
 tasks.named('run') {

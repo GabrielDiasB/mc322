@@ -8,17 +8,45 @@ O projeto foi desenvolvido em **Java** e executado via terminal.
 
 # Estrutura do Projeto
 
-O projeto segue a estrutura padrão criada pelo VS Code para projetos Java:
+O projeto está organizado por pacotes em `src/main/java/jogo`:
 
 ```text
 .
 ├─ src/
-│  ├─ App.java
-│  ├─ Heroi.java
-│  ├─ Inimigo.java
-│  ├─ CartaDano.java
-│  ├─ CartaEscudo.java
-│  └─ ...
+│  └─ main/
+│     └─ java/
+│        └─ jogo/
+│           ├─ app/
+│           │  └─ App.java
+│           ├─ interfacejogo/
+│           │  └─ Interface.java
+│           ├─ servicos/
+│           │  ├─ Craft.java
+│           │  ├─ CriaInimigos.java
+│           │  └─ Fluxocombate.java
+│           ├─ entidades/
+│           │  ├─ Entidade.java
+│           │  ├─ Heroi.java
+│           │  └─ Inimigo.java
+│           ├─ cartas/
+│           │  ├─ Carta.java
+│           │  ├─ CartaDano.java
+│           │  ├─ CartaEscudo.java
+│           │  ├─ CartaEfeito.java
+│           │  └─ DequeHeroi.java
+│           ├─ efeitos/
+│           │  ├─ Efeito.java
+│           │  ├─ EfeitoForca.java
+│           │  ├─ EfeitoVeneno.java
+│           │  └─ EfeitoCura.java
+│           └─ batalha/
+│              ├─ AcaoInimigo.java
+│              ├─ Combate.java
+│              ├─ DequeInimigo.java
+│              ├─ EventoCombate.java
+│              ├─ ResultadoAcaoInimigo.java
+│              ├─ Subscriber.java
+│              └─ TipoAcaoInimigo.java
 ├─ lib/
 ├─ bin/
 └─ README.md
@@ -26,7 +54,7 @@ O projeto segue a estrutura padrão criada pelo VS Code para projetos Java:
 
 Onde:
 
-- **src** — contém todos os arquivos `.java` do projeto
+- **src/main/java/jogo** — contém todos os arquivos `.java` organizados por domínio
 - **lib** — pasta reservada para dependências externas (não utilizada neste projeto)
 - **bin** — arquivos `.class` gerados após a compilação
 
@@ -69,14 +97,14 @@ O objetivo é vencer as 4 batalhas. Se a vida do herói chegar a 0, a partida te
 
 # Criação de Novos Inimigos
 
-- A criação dos inimigos foi centralizada em `gerarInimigoDaFase`, no arquivo `App`, permitindo variar os adversários por fase.
+- A criação dos inimigos foi centralizada em `gerarInimigoDaFase`, na classe `CriaInimigos`, permitindo variar os adversários por fase.
 - Cada inimigo é instanciado com nome, vida, escudo e um conjunto de ações de combate.
 - A luta final foi separada em `criarBossFinal()`, com configuração própria para o boss `Ender Dragon`.
 - A classe `Inimigo` recebe as ações via parâmetro (`AcaoInimigo...`).
 
 # Jornada de Batalhas
 
-- A jornada foi modelada em um loop principal de 4 etapas (dias/noites), controlado por `num_batalha`.
+- A jornada foi modelada em um loop principal de 4 etapas (dias/noites), controlado em `Fluxocombate`.
 - A cada etapa, o herói se prepara durante o dia (exploração, gerenciamento de XP e crafting) e enfrenta inimigos durante a noite.
 - A sequência de confrontos usa a estrutura `DequeInimigo`, com inserção no fim e remoção no início, seguindo a lógica de fila.
 - O progresso da campanha inclui escalonamento de dificuldade e encerramento com batalha final no quarto ciclo.
@@ -92,7 +120,7 @@ O objetivo é vencer as 4 batalhas. Se a vida do herói chegar a 0, a partida te
 
 # Sistema de Preparação Diurna (Exploração, Descanso e Craft)
 
-- O ciclo de dia foi implementado com um menu de ações que consomem XP e impactam diretamente o combate da noite.
+- O ciclo de dia foi implementado com um menu de ações na classe `Craft`, que consomem XP e impactam diretamente o combate da noite.
 - Na opção de exploração, o herói gasta 1 XP para coletar recursos aleatórios (`madeira`, `ferro`, `diamante` e `lã`).
 - O inventário permite visualizar recursos e cartas craftadas, além de fabricar novos equipamentos para o baralho.
 - O crafting adiciona cartas novas ao `DequeHeroi`, com receitas específicas (por exemplo, armas de dano e itens defensivos).
@@ -111,6 +139,7 @@ O objetivo é vencer as 4 batalhas. Se a vida do herói chegar a 0, a partida te
 - Além de cartas de dano e escudo, o baralho inicial passa a incluir cartas de efeito com a classe `CartaEfeito`.
 - A carta `Poção de Força` aplica `Força` ao herói, aumentando o dano fixo em ataques subsequentes.
 - A carta `Poção de Veneno` aplica `Veneno` ao inimigo, causando dano ao fim do turno e reduzindo gradualmente os acúmulos.
+- A carta `Poção de Vida` aplica `Cura` ao herói por meio de `EfeitoCura`.
 - Inimigos também podem usar ações de `Buff` (ganho de força) e `Debuff` (aplicação de veneno no herói), ampliando a profundidade tática do combate.
 
 # Sistema de Baralho do Herói (Compra, Descarte e Uso)
