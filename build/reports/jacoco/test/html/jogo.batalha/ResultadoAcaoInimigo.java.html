@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResultadoAcaoInimigo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.batalha</a> &gt; <span class="el_source">ResultadoAcaoInimigo.java</span></div><h1>ResultadoAcaoInimigo.java</h1><pre class="source lang-java linenums">package jogo.batalha;
+
+
+/**
+ * Resultado resumido da ação executada por um inimigo no turno.
+ */
+public class ResultadoAcaoInimigo {
+    /** Nome da ação executada. */
+    private String nomeAcao;
+    /** Indica se a ação acertou o alvo. */
+    private boolean acertou;
+    /** Dano real aplicado pela ação. */
+    private int danoAplicado;
+    /** Escudo ganho com a ação, quando aplicável. */
+    private int escudoGanho;
+    /** Mensagem pronta para exibição na interface. */
+    private String mensagemCombate;
+
+    /**
+     * Cria um resultado consolidado para uma ação do inimigo.
+     *
+     * @param nomeAcao nome da ação executada
+     * @param acertou {@code true} se a ação atingiu o alvo
+     * @param danoAplicado dano efetivamente causado
+     * @param escudoGanho escudo obtido pela ação
+     * @param mensagemCombate mensagem pronta para exibição
+     */
+<span class="fc" id="L28">    public ResultadoAcaoInimigo(String nomeAcao, boolean acertou, int danoAplicado, int escudoGanho, String mensagemCombate) {</span>
+<span class="fc" id="L29">        this.nomeAcao = nomeAcao;</span>
+<span class="fc" id="L30">        this.acertou = acertou;</span>
+<span class="fc" id="L31">        this.danoAplicado = danoAplicado;</span>
+<span class="fc" id="L32">        this.escudoGanho = escudoGanho;</span>
+<span class="fc" id="L33">        this.mensagemCombate = mensagemCombate;</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * Retorna o nome da ação executada.
+     *
+     * @return nome da ação
+     */
+    public String getNomeAcao() {
+<span class="fc" id="L42">        return nomeAcao;</span>
+    }
+
+    /**
+     * Retorna {@code true} se a ação acertou.
+     *
+     * @return resultado do acerto
+     */
+    public boolean isAcertou() {
+<span class="nc" id="L51">        return acertou;</span>
+    }
+
+    /**
+     * Retorna o dano aplicado pela ação.
+     *
+     * @return dano aplicado
+     */
+    public int getDanoAplicado() {
+<span class="nc" id="L60">        return danoAplicado;</span>
+    }
+
+    /**
+     * Retorna o escudo ganho pela ação.
+     *
+     * @return escudo ganho
+     */
+    public int getEscudoGanho() {
+<span class="nc" id="L69">        return escudoGanho;</span>
+    }
+
+    /**
+     * Retorna a mensagem textual da ação.
+     *
+     * @return mensagem de combate
+     */
+    public String getMensagemCombate() {
+<span class="nc" id="L78">        return mensagemCombate;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

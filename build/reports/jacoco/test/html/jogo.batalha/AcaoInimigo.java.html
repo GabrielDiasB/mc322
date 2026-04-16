@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AcaoInimigo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.batalha</a> &gt; <span class="el_source">AcaoInimigo.java</span></div><h1>AcaoInimigo.java</h1><pre class="source lang-java linenums">package jogo.batalha;
+
+
+/**
+ * Representa uma ação possível de um inimigo durante o combate.
+ * Cada ação define o nome, o tipo, o valor aplicado, a precisão e o peso na escolha.
+ */
+public class AcaoInimigo {
+    private String nome;
+    private TipoAcaoInimigo tipo;
+    private int valor;
+    private int precisao;
+    /** Peso relativo usado quando o inimigo sorteia a próxima ação. */
+    private int chanceEscolha;
+
+    /**
+     * Cria uma ação com seus parâmetros de combate.
+     *
+     * @param nome nome exibido da ação
+     * @param tipo tipo da ação, como ataque, defesa, buff ou debuff
+     * @param valor intensidade do efeito causado pela ação
+     * @param precisao chance de a ação acertar, em porcentagem
+     * @param chanceEscolha peso relativo da ação na seleção aleatória
+     */
+<span class="fc" id="L25">    public AcaoInimigo(String nome, TipoAcaoInimigo tipo, int valor, int precisao, int chanceEscolha) {</span>
+<span class="fc" id="L26">        this.nome = nome;</span>
+<span class="fc" id="L27">        this.tipo = tipo;</span>
+<span class="fc" id="L28">        this.valor = valor;</span>
+<span class="fc" id="L29">        this.precisao = precisao;</span>
+<span class="fc" id="L30">        this.chanceEscolha = chanceEscolha;</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Retorna o nome exibido da ação.
+     *
+     * @return nome exibido da ação
+     */
+    public String getNome() {
+<span class="fc" id="L39">        return nome;</span>
+    }
+
+    /**
+     * Retorna o tipo lógico da ação.
+     *
+     * @return tipo da ação
+     */
+    public TipoAcaoInimigo getTipo() {
+<span class="fc" id="L48">        return tipo;</span>
+    }
+
+    /**
+     * Retorna o valor numérico aplicado pela ação.
+     *
+     * @return valor aplicado
+     */
+    public int getValor() {
+<span class="fc" id="L57">        return valor;</span>
+    }
+
+    /**
+     * Retorna a precisão da ação em porcentagem.
+     *
+     * @return precisão em porcentagem
+     */
+    public int getPrecisao() {
+<span class="fc" id="L66">        return precisao;</span>
+    }
+
+    /**
+     * Retorna o peso relativo usado na seleção da próxima ação.
+     *
+     * @return peso da ação na seleção aleatória
+     */
+    public int getChanceEscolha() {
+<span class="fc" id="L75">        return chanceEscolha;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

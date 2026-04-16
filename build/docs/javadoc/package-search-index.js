@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"jogo.app"},{"l":"jogo.batalha"},{"l":"jogo.cartas"},{"l":"jogo.efeitos"},{"l":"jogo.entidades"},{"l":"jogo.interfacejogo"},{"l":"jogo.servicos"}];updateSearchResults();

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Inimigo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.entidades</a> &gt; <span class="el_source">Inimigo.java</span></div><h1>Inimigo.java</h1><pre class="source lang-java linenums">package jogo.entidades;
+import jogo.batalha.*;
+import jogo.efeitos.*;
+
+
+import java.util.Random;
+
+/**
+ * Representa um inimigo da jornada com um conjunto de ações e comportamento próprio de turno.
+ */
+public class Inimigo extends Entidade {
+    /** Número de ações distintas disponíveis para cada inimigo. */
+<span class="fc" id="L13">    private static int qtdAcoes = 3;</span>
+    /** Limite máximo de escudo exibido e aplicado pelo inimigo. */
+<span class="fc" id="L15">    private static int escudoMax = 30;</span>
+    /** Gerador aleatório usado para escolha de ação e acerto. */
+<span class="fc" id="L17">    private static Random RANDOM = new Random();</span>
+    /** Lista fixa de ações disponíveis para o inimigo atual. */
+    private AcaoInimigo[] acoes;
+    /** Ação sorteada para o próximo turno. */
+    private AcaoInimigo proximaAcao;
+
+    /**
+     * Cria um inimigo com suas ações configuradas.
+     *
+     * @param nome nome do inimigo
+     * @param vida vida inicial
+     * @param escudo escudo inicial
+     * @param acoesDisponiveis conjunto de ações que o inimigo pode executar
+     */
+    public Inimigo(String nome, int vida, int escudo, AcaoInimigo... acoesDisponiveis){
+<span class="fc" id="L32">        super(nome, vida, escudo, vida, escudo);</span>
+<span class="fc" id="L33">        this.acoes = new AcaoInimigo[qtdAcoes];</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        for (int i = 0; i &lt; qtdAcoes; i++) {</span>
+<span class="fc" id="L36">            this.acoes[i] = acoesDisponiveis[i];</span>
+        }
+<span class="fc" id="L38">    }</span>
+
+    /** @return vida atual do inimigo, normalizada para não ficar negativa. */
+    public int getVida() {
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if (vida &lt; 0) {</span>
+<span class="nc" id="L43">            vida = 0;</span>
+        }
+<span class="fc" id="L45">        return vida;</span>
+    }
+
+    /** @return vida de referência usada na barra exibida. */
+    public int getVidaInicial() {
+<span class="fc" id="L50">        return vidaInicial;</span>
+    }
+
+    /**
+     * Aplica dano respeitando primeiro o escudo do inimigo.
+     *
+     * @param danoSofrido dano bruto recebido
+     * @return dano efetivamente aplicado à vida
+     */
+    public int receberDano(int danoSofrido){
+<span class="fc" id="L60">        int escudoAntes = escudo;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (escudo &gt;= danoSofrido) {</span>
+<span class="fc" id="L62">            escudo -= danoSofrido;</span>
+<span class="fc" id="L63">            return 0;</span>
+        }
+
+<span class="fc" id="L66">        int danoReal = danoSofrido - escudoAntes;</span>
+<span class="fc" id="L67">        escudo = 0;</span>
+<span class="fc" id="L68">        this.vida -= danoReal;</span>
+<span class="fc" id="L69">        return danoReal;</span>
+    }
+
+    /** @return barra textual de vida do inimigo. */
+    public String atualizaVida() {
+<span class="fc" id="L74">        return super.atualizaVida();</span>
+    }
+
+    /**
+     * Formata o escudo do inimigo usando o limite máximo definido para a interface.
+     *
+     * @return barra textual de escudo
+     */
+    public String atualizaEscudo() {
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        if (escudo &lt; 0) {</span>
+<span class="nc" id="L84">            escudo = 0;</span>
+        }
+
+<span class="fc" id="L87">        int escudoExibicao = Math.min(escudo, escudoMax);</span>
+<span class="fc" id="L88">        int blocosCheios = (escudoExibicao * 10) / escudoMax;</span>
+<span class="fc" id="L89">        return &quot;ESCUDO: [&quot; + &quot;■&quot;.repeat(blocosCheios) + &quot;-&quot;.repeat(10 - blocosCheios) + &quot;] &quot; + escudo + &quot;/&quot; + escudoMax;</span>
+    }
+
+
+    /** Exibe o estado atual do inimigo no terminal. */
+    public void atualiza() {
+<span class="fc" id="L95">        String statusEfeitos = &quot;&quot;;</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (efeitos.isEmpty()) {</span>
+<span class="fc" id="L97">            statusEfeitos += &quot;Nenhum\u001B[m&quot;;</span>
+        } else {
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            for (Efeito e : efeitos) {</span>
+<span class="nc" id="L100">                statusEfeitos += e.getString() + &quot; &quot;;</span>
+<span class="nc" id="L101">            }</span>
+<span class="nc" id="L102">            statusEfeitos += &quot;\u001B[m&quot;;</span>
+        }
+<span class="fc" id="L104">        System.out.println(&quot;\u001B[31m&quot; + getNome() + &quot; &quot; + atualizaVida() + &quot;\u001B[m | &quot; + &quot;\u001B[31m&quot; + atualizaEscudo() + &quot;\u001B[m | \u001B[31mEFEITOS: &quot; + statusEfeitos + &quot;\u001B[m\n&quot;);</span>
+<span class="fc" id="L105">    }</span>
+
+    /** @return {@code true} se o escudo já atingiu o limite máximo. */
+    private boolean escudoNoLimite() {
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        return escudo &gt;= escudoMax;</span>
+    }
+
+
+    /**
+     * Escolhe a próxima ação com base no peso de cada habilidade disponível.
+     *
+     * @return ação sorteada para o turno seguinte
+     */
+    private AcaoInimigo escolherAcao() {
+<span class="fc" id="L119">        AcaoInimigo[] acoesElegiveis = new AcaoInimigo[qtdAcoes];</span>
+<span class="fc" id="L120">        int qtdElegiveis = 0;</span>
+<span class="fc" id="L121">        int somaChances = 0;</span>
+
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        for (AcaoInimigo acao : acoes) {</span>
+<span class="pc bpc" id="L124" title="3 of 4 branches missed.">            if (escudoNoLimite() &amp;&amp; acao.getTipo() == TipoAcaoInimigo.Defesa) {</span>
+<span class="nc" id="L125">                continue;</span>
+            }
+<span class="fc" id="L127">            acoesElegiveis[qtdElegiveis++] = acao;</span>
+<span class="fc" id="L128">            somaChances += acao.getChanceEscolha();</span>
+        }
+
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">        if (qtdElegiveis == 0) {</span>
+<span class="nc" id="L132">            return acoes[0];</span>
+        }
+
+<span class="fc" id="L135">        int sorteio = RANDOM.nextInt(somaChances) + 1;</span>
+<span class="fc" id="L136">        int acumulado = 0;</span>
+
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        for (int i = 0; i &lt; qtdElegiveis; i++) {</span>
+<span class="fc" id="L139">            AcaoInimigo acao = acoesElegiveis[i];</span>
+
+<span class="fc" id="L141">            acumulado += acao.getChanceEscolha();</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">            if (sorteio &lt;= acumulado) {</span>
+<span class="fc" id="L143">                return acao;</span>
+            }
+        }
+
+<span class="nc" id="L147">        return acoesElegiveis[qtdElegiveis - 1];</span>
+    }
+
+    /**
+     * Verifica se a ação acertou de acordo com sua precisão.
+     *
+     * @param precisao precisão da ação em porcentagem
+     * @return {@code true} quando o teste de precisão passa
+     */
+    private boolean acertouComPrecisao(int precisao) {
+<span class="fc" id="L157">        int sorteio = RANDOM.nextInt(100) + 1;</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">        return sorteio &lt;= precisao;</span>
+    }
+
+    /**
+     * Informa ao jogador qual será a próxima ação do inimigo.
+     *
+     * @return texto descritivo da ação sorteada
+     */
+    public String anunciarProximaAcao() {
+<span class="fc" id="L167">        proximaAcao = escolherAcao();</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">        if (proximaAcao.getTipo() == TipoAcaoInimigo.Ataque) {</span>
+<span class="fc" id="L169">            return &quot; &quot; + getNome() + &quot; pretende usar &quot; + proximaAcao.getNome() + &quot; e causará &quot; + proximaAcao.getValor() + &quot; de dano.&quot;;</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        } else if (proximaAcao.getTipo() == TipoAcaoInimigo.Defesa) {</span>
+<span class="nc" id="L171">            int ganhoPrevisto = Math.min(proximaAcao.getValor(), escudoMax - escudo);</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">            if (ganhoPrevisto &lt; 0) ganhoPrevisto = 0;</span>
+<span class="nc" id="L173">            return &quot; &quot; + getNome() + &quot; pretende usar &quot; + proximaAcao.getNome() + &quot; e ganhará &quot; + ganhoPrevisto + &quot; de escudo.&quot;;</span>
+        } else {
+<span class="nc" id="L175">            return &quot; &quot; + getNome() + &quot; pretende usar &quot; + proximaAcao.getNome() + &quot;!&quot;;</span>
+        }
+    }
+
+    /**
+     * Executa a ação previamente anunciada pelo inimigo.
+     *
+     * @param heroi alvo da ação do inimigo
+     * @param combate contexto do combate para eventos e efeitos
+     * @return resultado consolidado da ação executada
+     */
+    public ResultadoAcaoInimigo executarTurno(Heroi heroi, Combate combate) {
+<span class="fc" id="L187">        AcaoInimigo acao = proximaAcao;</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">        if (acao == null) {</span>
+<span class="fc" id="L189">            acao = escolherAcao();</span>
+        }
+<span class="fc" id="L191">        proximaAcao = null;</span>
+<span class="fc" id="L192">        boolean acertou = acertouComPrecisao(acao.getPrecisao());</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">        if (acertou) {</span>
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">            if (acao.getTipo() == TipoAcaoInimigo.Ataque) {</span>
+<span class="fc" id="L195">                combate.notificar(EventoCombate.ATAQUE_INIMIGO);</span>
+                
+<span class="fc" id="L197">                int forca = 0;</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">                for (Efeito e : efeitos) {</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">                    if (e.getNome().equals(&quot;Força&quot;)) {</span>
+<span class="nc" id="L200">                        forca = e.getAcumulos();</span>
+                    }
+<span class="nc" id="L202">                }</span>
+
+<span class="fc" id="L204">                int danoReal = heroi.receberDano(acao.getValor() + forca);</span>
+<span class="fc" id="L205">                return new ResultadoAcaoInimigo(</span>
+<span class="fc" id="L206">                    acao.getNome(), true, danoReal, 0, getNome() + &quot; usou &quot; + acao.getNome() + &quot; e causou &quot; + danoReal + &quot; de dano.&quot;</span>
+                );
+                
+<span class="nc bnc" id="L209" title="All 2 branches missed.">            } else if (acao.getTipo() == TipoAcaoInimigo.Defesa) {</span>
+<span class="nc" id="L210">                int escudoAntes = escudo;</span>
+<span class="nc" id="L211">                int escudoDepois = Math.min(escudoMax, escudoAntes + acao.getValor());</span>
+<span class="nc" id="L212">                int ganhoReal = escudoDepois - escudoAntes;</span>
+<span class="nc" id="L213">                escudo = escudoDepois;</span>
+
+<span class="nc" id="L215">                return new ResultadoAcaoInimigo(</span>
+<span class="nc" id="L216">                    acao.getNome(), true, 0, ganhoReal, getNome() + &quot; usou &quot; + acao.getNome() + &quot; e ganhou &quot; + ganhoReal + &quot; de escudo.&quot;</span>
+                );
+                
+<span class="nc bnc" id="L219" title="All 2 branches missed.">            } else if (acao.getTipo() == TipoAcaoInimigo.Buff) {</span>
+<span class="nc" id="L220">                this.aplicarEfeito(new EfeitoForca(this, acao.getValor()), combate);</span>
+<span class="nc" id="L221">                return new ResultadoAcaoInimigo(</span>
+<span class="nc" id="L222">                    acao.getNome(), true, 0, 0, getNome() + &quot; usou &quot; + acao.getNome() + &quot; e ganhou Força!&quot;</span>
+                );
+                
+<span class="nc bnc" id="L225" title="All 2 branches missed.">            } else if (acao.getTipo() == TipoAcaoInimigo.Debuff) {</span>
+<span class="nc" id="L226">                heroi.aplicarEfeito(new EfeitoVeneno(heroi, acao.getValor()), combate);</span>
+<span class="nc" id="L227">                return new ResultadoAcaoInimigo(</span>
+<span class="nc" id="L228">                    acao.getNome(), true, 0, 0, getNome() + &quot; usou &quot; + acao.getNome() + &quot; e aplicou Veneno em você!&quot;</span>
+                );
+            }
+        }
+<span class="nc" id="L232">        return new ResultadoAcaoInimigo(acao.getNome(), false, 0, 0, getNome() + &quot; usou &quot; + acao.getNome() + &quot; mas errou!&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

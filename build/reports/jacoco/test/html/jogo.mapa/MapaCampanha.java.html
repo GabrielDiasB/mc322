@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MapaCampanha.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.mapa</a> &gt; <span class="el_source">MapaCampanha.java</span></div><h1>MapaCampanha.java</h1><pre class="source lang-java linenums">package jogo.mapa;
+
+import jogo.servicos.CriaInimigos;
+
+
+/**
+ * Define o mapa da campanha como uma árvore de nós de batalha.
+ */
+public class MapaCampanha {
+    private final NoMapa raiz;
+
+    /**
+     * Cria um mapa com um nó raiz.
+     *
+     * @param raiz nó inicial da campanha
+     */
+<span class="fc" id="L17">    public MapaCampanha(NoMapa raiz) {</span>
+<span class="fc" id="L18">        this.raiz = raiz;</span>
+<span class="fc" id="L19">    }</span>
+
+    /**
+     * Monta um mapa padrão com bifurcações e convergência até o chefe final.
+     *
+     * @return mapa pronto para navegação
+     */
+    public static MapaCampanha criarPadrao() {
+<span class="fc" id="L27">        NoMapa inicio = new NoMapa(&quot;Acampamento Inicial&quot;, 0, false, null);</span>
+
+<span class="pc" id="L29">        NoMapa trilhaDaFloresta = new NoMapa(&quot;Trilha da Floresta&quot;, 1, false, () -&gt; CriaInimigos.gerarInimigoDaFase(0));</span>
+<span class="pc" id="L30">        NoMapa entradaDaCaverna = new NoMapa(&quot;Entrada da Caverna&quot;, 1, false, () -&gt; CriaInimigos.gerarInimigoDaFase(0));</span>
+
+<span class="pc" id="L32">        NoMapa piramideDoDeserto = new NoMapa(&quot;Piramide do Deserto&quot;, 2, false, () -&gt; CriaInimigos.gerarInimigoDaFase(1));</span>
+<span class="pc" id="L33">        NoMapa temploDaSelva = new NoMapa(&quot;Templo da selva&quot;, 2, false, () -&gt; CriaInimigos.gerarInimigoDaFase(1));</span>
+
+<span class="pc" id="L35">        NoMapa fortalezaDoNether = new NoMapa(&quot;Fortaleza do Nether&quot;, 3, false, () -&gt; CriaInimigos.gerarInimigoDaFase(2));</span>
+<span class="pc" id="L36">        NoMapa monumentoOceanico = new NoMapa(&quot;Monumento Oceanico&quot;, 3, false, () -&gt; CriaInimigos.gerarInimigoDaFase(2));</span>
+
+<span class="fc" id="L38">        NoMapa theEnd = new NoMapa(&quot;The End&quot;, 4, true, CriaInimigos::criarBossFinal);</span>
+
+<span class="fc" id="L40">        inicio.conectar(trilhaDaFloresta);</span>
+<span class="fc" id="L41">        inicio.conectar(entradaDaCaverna);</span>
+
+<span class="fc" id="L43">        trilhaDaFloresta.conectar(piramideDoDeserto);</span>
+<span class="fc" id="L44">        trilhaDaFloresta.conectar(temploDaSelva);</span>
+<span class="fc" id="L45">        entradaDaCaverna.conectar(piramideDoDeserto);</span>
+<span class="fc" id="L46">        entradaDaCaverna.conectar(temploDaSelva);</span>
+
+<span class="fc" id="L48">        piramideDoDeserto.conectar(fortalezaDoNether);</span>
+<span class="fc" id="L49">        piramideDoDeserto.conectar(monumentoOceanico);</span>
+<span class="fc" id="L50">        temploDaSelva.conectar(fortalezaDoNether);</span>
+<span class="fc" id="L51">        temploDaSelva.conectar(monumentoOceanico);</span>
+
+<span class="fc" id="L53">        fortalezaDoNether.conectar(theEnd);</span>
+<span class="fc" id="L54">        monumentoOceanico.conectar(theEnd);</span>
+
+<span class="fc" id="L56">        return new MapaCampanha(inicio);</span>
+    }
+
+    /**
+     * @return nó inicial da campanha
+     */
+    public NoMapa getRaiz() {
+<span class="fc" id="L63">        return raiz;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

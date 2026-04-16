@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Entidade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.entidades</a> &gt; <span class="el_source">Entidade.java</span></div><h1>Entidade.java</h1><pre class="source lang-java linenums">package jogo.entidades;
+import jogo.batalha.*;
+import jogo.efeitos.*;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Base compartilhada entre herói e inimigo para vida, escudo e efeitos ativos.
+ */
+public abstract class Entidade {
+    String nome;
+    int vida;
+    int escudo;    
+    int vidaInicial;
+    int escudoInicial;
+    /** Lista de efeitos contínuos atualmente ativos nesta entidade. */
+    List&lt;Efeito&gt; efeitos;
+
+    /**
+     * Cria uma entidade com estado inicial de vida e escudo.
+     *
+     * @param nome nome da entidade
+     * @param vida vida atual da entidade
+     * @param escudo escudo atual da entidade
+     * @param vidaInicial valor base de vida máxima
+     * @param escudoInicial valor base de escudo máximo
+     */
+<span class="fc" id="L30">    public Entidade(String nome, int vida, int escudo, int vidaInicial, int escudoInicial) {</span>
+<span class="fc" id="L31">        this.nome = nome;</span>
+<span class="fc" id="L32">        this.vida = vida;</span>
+<span class="fc" id="L33">        this.escudo = escudo;</span>
+<span class="fc" id="L34">        this.vidaInicial = vidaInicial;</span>
+<span class="fc" id="L35">        this.escudoInicial = escudoInicial;</span>
+<span class="fc" id="L36">        this.efeitos = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L37">    }</span>
+
+    /**
+     * Retorna o nome da entidade.
+     *
+     * @return nome da entidade
+     */
+    public String getNome() {
+<span class="fc" id="L45">        return nome;</span>
+    }
+
+    /**
+     * Retorna a vida atual da entidade, limitada ao mínimo de zero.
+     *
+     * @return vida atual
+     */
+    public int getVida() {
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if (vida &lt; 0) {</span>
+<span class="nc" id="L55">            vida = 0;</span>
+        }
+<span class="fc" id="L57">        return vida;</span>
+    }
+
+    /**
+     * Retorna o escudo atual da entidade.
+     *
+     * @return escudo atual
+     */
+    public int getEscudo() {
+<span class="fc" id="L66">        return escudo;</span>
+    }
+
+    /**
+     * Retorna a vida inicial configurada para a entidade.
+     *
+     * @return vida inicial
+     */
+    public int getVidaInicial() {
+<span class="fc" id="L75">        return vidaInicial;</span>
+    }
+
+    /**
+     * Retorna o escudo inicial configurado para a entidade.
+     *
+     * @return escudo inicial
+     */
+    public int getEscudoInicial() {
+<span class="fc" id="L84">        return escudoInicial;</span>
+    }
+
+    /**
+     * Retorna a lista de efeitos ativos da entidade.
+     *
+     * @return efeitos atualmente ativos
+     */
+    public List&lt;Efeito&gt; getEfeitos() {
+<span class="fc" id="L93">        return efeitos;</span>
+    }
+
+    /**
+     * Recupera pontos de vida da entidade sem ultrapassar a vida inicial.
+     *
+     * @param cura quantidade de vida recuperada
+     */
+    public void recuperar(int cura) {
+<span class="nc" id="L102">        this.vida += cura;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (this.vida &gt; this.vidaInicial) {</span>
+<span class="nc" id="L104">            this.vida = this.vidaInicial;</span>
+        }
+<span class="nc" id="L106">    }</span>
+
+    /**
+     * Varre a lista de efeitos ativos em busca do efeito &quot;Força&quot; ou &quot;Forca&quot;
+     * e retorna a quantidade de acúmulos para somar no dano.
+     *
+     * @return dano extra baseado nos acúmulos de força
+     */
+    public int getBonusDano() {
+<span class="fc" id="L115">        int bonus = 0;</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        for (Efeito e : efeitos) {</span>
+<span class="nc bnc" id="L117" title="All 4 branches missed.">            if (e.getNome().equals(&quot;Força&quot;) || e.getNome().equals(&quot;Forca&quot;)) {</span>
+<span class="nc" id="L118">                bonus += e.getAcumulos();</span>
+            }
+<span class="nc" id="L120">        }</span>
+<span class="fc" id="L121">        return bonus;</span>
+    }
+
+    /**
+     * Gera a barra textual de vida no formato de interface.
+     *
+     * @return string com barra e valores de vida
+     */
+    public String atualizaVida() {
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">        if (vida &lt; 0) {</span>
+<span class="nc" id="L131">            vida = 0;</span>
+        }
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if (vidaInicial &lt;= 0) {</span>
+<span class="nc" id="L134">            return &quot;VIDA: [----------] &quot; + vida + &quot;/&quot; + vidaInicial;</span>
+        }
+
+<span class="fc" id="L137">        int quadrados = (vida * 10) / vidaInicial;</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if (quadrados &lt; 0) {</span>
+<span class="nc" id="L139">            quadrados = 0;</span>
+        }
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        if (quadrados &gt; 10) {</span>
+<span class="nc" id="L142">            quadrados = 10;</span>
+        }
+
+<span class="fc" id="L145">        return &quot;VIDA: [&quot; + &quot;■&quot;.repeat(quadrados) + &quot;-&quot;.repeat(10 - quadrados) + &quot;] &quot; + vida + &quot;/&quot; + vidaInicial;</span>
+    }
+
+    /**
+     * Gera a barra textual de escudo no formato de interface.
+     *
+     * @return string com barra e valores de escudo
+     */
+    public String atualizaEscudo() {
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        if (escudo &lt; 0) {</span>
+<span class="nc" id="L155">            escudo = 0;</span>
+        }
+<span class="pc bpc" id="L157" title="2 of 4 branches missed.">        if (escudoInicial &lt;= 0 || escudo &gt; escudoInicial) {</span>
+<span class="nc" id="L158">            return &quot;ESCUDO: [&quot; + &quot;■&quot;.repeat(escudo) + &quot;] &quot; + escudo;</span>
+        }
+<span class="fc" id="L160">        return &quot;ESCUDO: [&quot; + &quot;■&quot;.repeat(escudo) + &quot;-&quot;.repeat(escudoInicial - escudo) + &quot;] &quot; + escudo + &quot;/&quot; + escudoInicial;</span>
+    }
+
+    /**
+     * Aplica dano recebido, consumindo primeiro o valor de escudo.
+     *
+     * @param danoSofrido valor bruto de dano recebido
+     * @return dano efetivo causado na vida
+     */
+    public int receberDano(int danoSofrido) {
+<span class="fc" id="L170">        int danoReal = danoSofrido - escudo;</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (danoReal &gt; 0) {</span>
+<span class="nc" id="L172">            this.vida -= danoReal;</span>
+<span class="nc" id="L173">            this.escudo = 0;</span>
+<span class="nc" id="L174">            return danoReal;</span>
+        } else {
+<span class="fc" id="L176">            this.escudo -= danoSofrido;</span>
+<span class="fc" id="L177">            return 0;</span>
+        }
+    }
+
+    /**
+     * Indica se a entidade ainda possui vida positiva.
+     *
+     * @return true se a entidade está viva
+     */
+    public boolean estaVivo() {
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">        return vida &gt; 0;</span>
+    }
+
+    /**
+     * Adiciona ou acumula um efeito contínuo na entidade.
+     *
+     * @param novoEfeito efeito a ser aplicado
+     * @param combate contexto de combate para inscrição do efeito
+     */
+    public void aplicarEfeito(Efeito novoEfeito, Combate combate) {
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        for (Efeito e : efeitos) {</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">            if (e.getNome().equals(novoEfeito.getNome())) {</span>
+<span class="nc" id="L199">                e.adicionarAcumulos(novoEfeito.getAcumulos());</span>
+<span class="nc" id="L200">                return;</span>
+            }
+<span class="nc" id="L202">        }</span>
+<span class="nc" id="L203">        efeitos.add(novoEfeito);</span>
+<span class="nc" id="L204">        combate.inscrever(novoEfeito);</span>
+<span class="nc" id="L205">    }</span>
+
+    /**
+     * Remove um efeito contínuo da entidade e do combate.
+     *
+     * @param efeito efeito a ser removido
+     * @param combate contexto de combate para desinscrição
+     */
+    public void removerEfeito(Efeito efeito, Combate combate) {
+<span class="nc" id="L214">        efeitos.remove(efeito);</span>
+<span class="nc" id="L215">        combate.desinscrever(efeito);</span>
+<span class="nc" id="L216">    }</span>
+
+    /**
+     * Limpa todos os efeitos ativos da entidade.
+     */
+    public void limparEfeitos() {
+<span class="nc" id="L222">        this.efeitos.clear();</span>
+<span class="nc" id="L223">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -170,9 +170,12 @@ public abstract class Entidade {
         int danoReal = danoSofrido - escudo;
         if (danoReal > 0) {
             this.vida -= danoReal;
+            this.escudo = 0;
             return danoReal;
+        } else {
+            this.escudo -= danoSofrido;
+            return 0;
         }
-        return 0;
     }
 
     /**

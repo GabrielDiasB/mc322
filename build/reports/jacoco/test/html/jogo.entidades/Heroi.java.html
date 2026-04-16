@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Heroi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.entidades</a> &gt; <span class="el_source">Heroi.java</span></div><h1>Heroi.java</h1><pre class="source lang-java linenums">package jogo.entidades;
+import jogo.batalha.*;
+import jogo.efeitos.*;
+
+
+import java.util.Random;
+
+/**
+ * Representa o jogador e concentra XP, inventário de recursos e ações de preparação.
+ */
+public class Heroi extends Entidade {
+    /** XP atual disponível para explorar, descansar e usar cartas. */
+    private int exp;
+    /** XP máximo exibido na barra; cresce conforme a campanha avança. */
+    private int expInicial;
+    /** Quantidade de madeira coletada para crafting. */
+    private int madeira;
+    /** Quantidade de ferro coletada para crafting. */
+    private int ferro;
+    /** Quantidade de diamante coletada para crafting. */
+    private int diamante;
+    /** Quantidade de lã coletada para crafting. */
+    private int la;
+
+    /**
+     * Cria o herói com seus valores iniciais.
+     *
+     * @param nome nome do personagem do jogador
+     * @param vida vida inicial
+     * @param escudo escudo inicial
+     * @param exp XP inicial
+     */
+    public Heroi(String nome, int vida, int escudo, int exp){
+<span class="fc" id="L34">        super(nome, vida, escudo, vida, escudo);</span>
+<span class="fc" id="L35">        this.exp = exp;</span>
+<span class="fc" id="L36">        this.expInicial = exp;</span>
+<span class="fc" id="L37">        this.madeira = 0;</span>
+<span class="fc" id="L38">        this.ferro = 0;</span>
+<span class="fc" id="L39">        this.diamante = 0;</span>
+<span class="fc" id="L40">        this.la = 0;</span>
+<span class="fc" id="L41">    }</span>
+
+    /**
+     * Retorna o XP atual do herói.
+     *
+     * @return XP atual
+     */
+    public int getExp() {
+<span class="fc" id="L49">        return exp;</span>
+    }
+
+    /**
+     * Retorna o XP máximo usado na barra de progresso.
+     *
+     * @return XP máximo exibido
+     */
+    public int getExpInicial() {
+<span class="fc" id="L58">        return expInicial;</span>
+    }
+
+    /**
+     * Formata a barra de XP exibida na interface.
+     *
+     * @return barra textual de XP
+     */
+    public String atualizaXp() {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (exp &lt; 0) {</span>
+<span class="nc" id="L68">            exp = 0;</span>
+        }
+<span class="nc" id="L70">        return &quot;XP: [&quot; + &quot;■&quot;.repeat(exp) + &quot;-&quot;.repeat(expInicial - exp) + &quot;] &quot;+ exp + &quot;/&quot; + expInicial;</span>
+    }
+
+    /**
+     * Retorna o inventário textual com os recursos coletados.
+     *
+     * @return inventário formatado
+     */
+    public String inventario() {
+<span class="nc" id="L79">        return &quot;\nMadeira: &quot; + madeira + &quot; | Ferro: &quot; + ferro + &quot; | Diamante: &quot; + diamante + &quot; | Lã: &quot; + la + &quot;\n&quot;;</span>
+    }
+
+    /**
+     * Coleta um recurso aleatório para o inventário.
+     *
+     * @return texto com o recurso obtido na exploração
+     */
+    public String recursos() {
+<span class="nc" id="L88">        Random rand = new Random();</span>
+<span class="nc" id="L89">        int num = rand.nextInt(10);</span>
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (num &lt; 5) {</span>
+<span class="nc" id="L92">            madeira++;</span>
+<span class="nc" id="L93">            return &quot;1 madeira&quot;;</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        } else if (num &lt; 7) {</span>
+<span class="nc" id="L95">            ferro++;</span>
+<span class="nc" id="L96">            return &quot;1 ferro&quot;;</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        } else if (num &lt; 9) {</span>
+<span class="nc" id="L98">            la++;</span>
+<span class="nc" id="L99">            return &quot;1 lã&quot;;</span>
+        } else {
+<span class="nc" id="L101">            diamante++;</span>
+<span class="nc" id="L102">            return &quot;1 diamante&quot;;</span>
+        }
+    }
+
+    /**
+     * Aumenta o escudo do herói.
+     *
+     * @param escudoRecebido quantidade de escudo a ser adicionada
+     */
+    public void receberEscudo(int escudoRecebido){
+<span class="nc" id="L112">        escudo += escudoRecebido;</span>
+<span class="nc" id="L113">    }</span>
+
+    /**
+     * Reduz o XP atual do herói.
+     *
+     * @param custo quantidade de XP a remover
+     */
+    public void gastarExp(int custo) {
+<span class="nc" id="L121">        exp -= custo;</span>
+<span class="nc" id="L122">    }</span>
+
+    /** Restaura o XP ao valor máximo atual. */
+    public void resetarExp() {
+<span class="nc" id="L126">        exp = expInicial;</span>
+<span class="nc" id="L127">    }</span>
+
+    /** Zera o escudo do herói no início de certos estados do jogo. */
+    public void resetarEscudo() {
+<span class="nc" id="L131">        escudo = 0;</span>
+<span class="nc" id="L132">    }</span>
+
+    /** Define o XP como zero para encerrar o turno. */
+    public void zerarExp() {
+<span class="nc" id="L136">        exp = 0;</span>
+<span class="nc" id="L137">    }</span>
+
+    /**
+     * Consome madeira do inventário.
+     *
+     * @param custo quantidade a subtrair
+     */
+    public void gastarMadeira(int custo) {
+<span class="nc" id="L145">        madeira -= custo;</span>
+<span class="nc" id="L146">    }</span>
+
+    /**
+     * Consome lã do inventário.
+     *
+     * @param custo quantidade a subtrair
+     */
+    public void gastarLa(int custo) {
+<span class="nc" id="L154">        la -= custo;</span>
+<span class="nc" id="L155">    }</span>
+
+    /**
+     * Consome ferro do inventário.
+     *
+     * @param custo quantidade a subtrair
+     */
+    public void gastarFerro(int custo) {
+<span class="nc" id="L163">        ferro -= custo;</span>
+<span class="nc" id="L164">    }</span>
+
+    /**
+     * Consome diamantes do inventário.
+     *
+     * @param custo quantidade a subtrair
+     */
+    public void gastarDiamante(int custo) {
+<span class="nc" id="L172">        diamante -= custo;</span>
+<span class="nc" id="L173">    }</span>
+
+    /**
+     * Verifica se existe madeira suficiente para crafting.
+     *
+     * @param n quantidade necessária
+     * @return {@code true} quando há madeira suficiente
+     */
+    public boolean temMadeira(int n) {
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        if (madeira &gt;= n) {</span>
+<span class="nc" id="L183">            return true;</span>
+        }
+<span class="fc" id="L185">        return false;</span>
+    }
+
+    /**
+     * Verifica se existe lã suficiente para crafting.
+     *
+     * @param n quantidade necessária
+     * @return {@code true} quando há lã suficiente
+     */
+    public boolean temLa(int n) {
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">        if (la &gt;= n) {</span>
+<span class="nc" id="L196">            return true;</span>
+        }
+<span class="fc" id="L198">        return false;</span>
+    }
+
+    /**
+     * Verifica se existe ferro suficiente para crafting.
+     *
+     * @param n quantidade necessária
+     * @return {@code true} quando há ferro suficiente
+     */
+    public boolean temFerro(int n) {
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">        if (ferro &gt;= n) {</span>
+<span class="nc" id="L209">            return true;</span>
+        }
+<span class="fc" id="L211">        return false;</span>
+    }
+
+    /**
+     * Verifica se existe diamante suficiente para crafting.
+     *
+     * @param n quantidade necessária
+     * @return {@code true} quando há diamante suficiente
+     */
+    public boolean temDiamante(int n) {
+<span class="pc bpc" id="L221" title="1 of 2 branches missed.">        if (diamante &gt;= n) {</span>
+<span class="nc" id="L222">            return true;</span>
+        }
+<span class="fc" id="L224">        return false;</span>
+    }
+
+    /**
+     * Recupera vida do herói até o teto de 100 pontos.
+     *
+     * @param n quantidade de vida a recuperar
+     */
+    public void recuperar(int n) {
+<span class="fc" id="L233">        vida += n;</span>
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">        if (vida &gt; 100) {</span>
+<span class="fc" id="L235">            vida = 100;</span>
+        }
+<span class="fc" id="L237">    }</span>
+
+
+
+    /**
+     * Aumenta o XP máximo conforme a campanha avança de fase.
+     *
+     * @param dia índice da batalha atual, usado como incremento gradual
+     */
+    public void expProgresso(int dia){
+<span class="nc" id="L247">        expInicial += dia;</span>
+<span class="nc" id="L248">    }</span>
+
+    /** Exibe o estado atual do herói no terminal. */
+    public void atualiza() {
+<span class="nc" id="L252">        String statusEfeitos = &quot;&quot;;</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">        if (efeitos.isEmpty()) {</span>
+<span class="nc" id="L254">            statusEfeitos += &quot;Nenhum\u001B[m&quot;;</span>
+        } else {
+<span class="nc bnc" id="L256" title="All 2 branches missed.">            for (Efeito e : efeitos) {</span>
+<span class="nc" id="L257">                statusEfeitos += e.getString() + &quot; &quot;;</span>
+<span class="nc" id="L258">            }</span>
+        }
+<span class="nc" id="L260">        System.out.println(getNome() + &quot; &quot; + &quot;\u001B[32m&quot; + atualizaVida() + &quot;\u001B[m | &quot; + &quot;\u001B[34m&quot; + atualizaEscudo() + &quot;\u001B[m | &quot; + &quot;\u001B[35m&quot; + atualizaXp() + &quot;\u001B[m | EFEITOS: &quot; + statusEfeitos);</span>
+<span class="nc" id="L261">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

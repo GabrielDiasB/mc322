@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Batalha.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.batalha</a> &gt; <span class="el_source">Batalha.java</span></div><h1>Batalha.java</h1><pre class="source lang-java linenums">package jogo.batalha;
+
+import jogo.cartas.Carta;
+import jogo.cartas.DequeHeroi;
+import jogo.entidades.Heroi;
+import jogo.entidades.Inimigo;
+import jogo.interfacejogo.Interface;
+
+
+/**
+ * Encapsula um combate individual entre herói e um único inimigo.
+ */
+public class Batalha {
+    private Heroi heroi;
+    private Inimigo inimigo;
+    private DequeHeroi cartas;
+    private Interface interfaceJogo;
+
+    /**
+     * Cria uma batalha.
+     *
+     * @param heroi herói do jogador
+     * @param inimigo inimigo da batalha
+     * @param cartas baralho do herói
+     * @param interfaceJogo interface textual do jogo
+     */
+<span class="nc" id="L27">    public Batalha(Heroi heroi, Inimigo inimigo, DequeHeroi cartas, Interface interfaceJogo) {</span>
+<span class="nc" id="L28">        this.heroi = heroi;</span>
+<span class="nc" id="L29">        this.inimigo = inimigo;</span>
+<span class="nc" id="L30">        this.cartas = cartas;</span>
+<span class="nc" id="L31">        this.interfaceJogo = interfaceJogo;</span>
+<span class="nc" id="L32">    }</span>
+
+    /**
+     * Executa o combate até vitória do herói ou derrota.
+     *
+     * @return true quando o herói vence a batalha
+     */
+    public boolean executar() {
+<span class="nc" id="L40">        Combate combate = new Combate(heroi, inimigo);</span>
+<span class="nc" id="L41">        cartas.inicializacao();</span>
+<span class="nc" id="L42">        cartas.comprarAtual();</span>
+
+<span class="nc" id="L44">        heroi.resetarExp();</span>
+<span class="nc" id="L45">        heroi.resetarEscudo();</span>
+<span class="nc" id="L46">        interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc" id="L47">        mostrarPainelVs();</span>
+
+<span class="nc bnc" id="L49" title="All 4 branches missed.">        while (heroi.estaVivo() &amp;&amp; inimigo.estaVivo()) {</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (heroi.getExp() == heroi.getExpInicial()) {</span>
+<span class="nc" id="L51">                interfaceJogo.destaque(inimigo.anunciarProximaAcao());</span>
+            }
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (heroi.getExp() &gt; 0) {</span>
+<span class="nc" id="L55">                executarTurnoJogador(combate);</span>
+            } else {
+<span class="nc" id="L57">                executarTurnoInimigo(combate);</span>
+            }
+        }
+
+<span class="nc bnc" id="L61" title="All 4 branches missed.">        return heroi.estaVivo() &amp;&amp; !inimigo.estaVivo();</span>
+    }
+
+    private void executarTurnoJogador(Combate combate) {
+<span class="nc" id="L65">        System.out.println(&quot;\n\n=========== Escolha suas cartas ===========\n&quot;);</span>
+<span class="nc" id="L66">        cartas.mostraAtual();</span>
+<span class="nc" id="L67">        System.out.println(&quot;\n[ 0 ] Encerrar turno\n&quot;);</span>
+<span class="nc" id="L68">        System.out.println(&quot;===========================================\n&quot;);</span>
+
+<span class="nc" id="L70">        int opcao = interfaceJogo.leitura(0, 5);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (opcao == 0) {</span>
+<span class="nc" id="L72">            heroi.zerarExp();</span>
+<span class="nc" id="L73">            return;</span>
+        }
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        while (cartas.getAtual().get(opcao - 1) == null) {</span>
+<span class="nc" id="L77">            System.out.println(&quot;Você já escolheu essa carta! Tente outra opção.\n&quot;);</span>
+<span class="nc" id="L78">            opcao = interfaceJogo.leitura(0, 5);</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            if (opcao == 0) {</span>
+<span class="nc" id="L80">                heroi.zerarExp();</span>
+<span class="nc" id="L81">                return;</span>
+            }
+        }
+
+<span class="nc" id="L85">        Carta carta = cartas.getAtual().get(opcao - 1);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (carta.getCusto() &gt; heroi.getExp()) {</span>
+<span class="nc" id="L87">            interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc" id="L88">            mostrarPainelVs();</span>
+<span class="nc" id="L89">            System.out.print(&quot;\u001B[31m&gt;&gt; Sem XP suficiente para essa carta!\u001B[m&quot;);</span>
+<span class="nc" id="L90">            return;</span>
+        }
+
+<span class="nc" id="L93">        int dado = carta.usar(heroi, inimigo, combate);</span>
+<span class="nc" id="L94">        String texto = carta.usarTexto(heroi, inimigo, dado, carta.getNome());</span>
+<span class="nc" id="L95">        heroi.gastarExp(carta.getCusto());</span>
+<span class="nc" id="L96">        cartas.usar(opcao - 1);</span>
+
+<span class="nc" id="L98">        interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc" id="L99">        mostrarPainelVs();</span>
+<span class="nc" id="L100">        interfaceJogo.destaque(&quot;&gt;&gt; &quot; + texto);</span>
+<span class="nc" id="L101">    }</span>
+
+    private void executarTurnoInimigo(Combate combate) {
+<span class="nc" id="L104">        String notificacao = &quot;&quot;;</span>
+<span class="nc" id="L105">        notificacao += combate.notificar(EventoCombate.FIM_TURNO_JOGADOR);</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (!inimigo.estaVivo()) {</span>
+<span class="nc" id="L108">            return;</span>
+        }
+
+<span class="nc" id="L111">        ResultadoAcaoInimigo resultadoAcao = inimigo.executarTurno(heroi, combate);</span>
+<span class="nc" id="L112">        notificacao += combate.notificar(EventoCombate.FIM_TURNO_INIMIGO);</span>
+
+<span class="nc" id="L114">        heroi.resetarExp();</span>
+<span class="nc" id="L115">        heroi.resetarEscudo();</span>
+<span class="nc" id="L116">        cartas.descartarAtual();</span>
+<span class="nc" id="L117">        cartas.comprarAtual();</span>
+
+<span class="nc" id="L119">        interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc" id="L120">        mostrarPainelVs();</span>
+<span class="nc" id="L121">        interfaceJogo.destaque(&quot;&gt;&gt; &quot; + heroi.getNome() + &quot; encerrou o turno! &quot; + resultadoAcao.getMensagemCombate() + notificacao);</span>
+<span class="nc" id="L122">    }</span>
+
+    private void mostrarPainelVs() {
+<span class="nc" id="L125">        System.out.println(&quot;   \u001B[31mVS\u001B[m\n&quot;);</span>
+<span class="nc" id="L126">        System.out.println(interfaceJogo.obterArteInimigo(inimigo.getNome()));</span>
+<span class="nc" id="L127">        inimigo.atualiza();</span>
+<span class="nc" id="L128">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

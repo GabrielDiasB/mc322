@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Interface.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.interfacejogo</a> &gt; <span class="el_source">Interface.java</span></div><h1>Interface.java</h1><pre class="source lang-java linenums">package jogo.interfacejogo;
+import jogo.entidades.Heroi;
+
+
+import java.util.Scanner;
+
+/**
+ * Camada de interface textual do jogo (terminal), centralizando entrada e saida.
+ */
+public class Interface {
+    private final Scanner leitor;
+
+    /**
+     * Cria a interface com um scanner compartilhado.
+     *
+     * @param leitor scanner usado para ler entradas do jogador
+     */
+<span class="nc" id="L18">    public Interface(Scanner leitor) {</span>
+<span class="nc" id="L19">        this.leitor = leitor;</span>
+<span class="nc" id="L20">    }</span>
+
+    /**
+     * Limpa a tela e exibe o estado atual do heroi.
+     *
+     * @param heroi heroi exibido na interface
+     */
+    public void atualizaTela(Heroi heroi) {
+<span class="nc" id="L28">        limpar();</span>
+<span class="nc" id="L29">        titulo();</span>
+<span class="nc" id="L30">        heroi.atualiza();</span>
+<span class="nc" id="L31">        System.out.println();</span>
+<span class="nc" id="L32">        System.out.println(desenhoHeroi());</span>
+<span class="nc" id="L33">    }</span>
+
+    /** Exibe o titulo principal do jogo. */
+    public void titulo() {
+<span class="nc" id="L37">        System.out.println(&quot;\u001B[1;36m╔══════════════════════════════════╗\u001B[m&quot;);</span>
+<span class="nc" id="L38">        System.out.println(&quot;\u001B[1;36m║        CRAFT &amp; COMBATE           ║\u001B[m&quot;);</span>
+<span class="nc" id="L39">        System.out.println(&quot;\u001B[1;36m╚══════════════════════════════════╝\u001B[m\n&quot;);</span>
+<span class="nc" id="L40">    }</span>
+
+    /**
+     * Destaca uma mensagem informativa em amarelo.
+     *
+     * @param texto mensagem a ser exibida
+     */
+    public void destaque(String texto) {
+<span class="nc" id="L48">        System.out.print(&quot;\u001B[33m&quot; + texto + &quot;\u001B[m&quot;);</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * Destaca uma mensagem de erro em vermelho.
+     *
+     * @param texto mensagem a ser exibida
+     */
+    public void destaqueErro(String texto) {
+<span class="nc" id="L57">        System.out.print(&quot;\u001B[31m&quot; + texto + &quot;\u001B[m&quot;);</span>
+<span class="nc" id="L58">    }</span>
+
+    /** Limpa o terminal usando a estrategia adequada para o sistema operacional. */
+    public void limpar() {
+        try {
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (System.getProperty(&quot;os.name&quot;).contains(&quot;Windows&quot;)) {</span>
+<span class="nc" id="L64">                new ProcessBuilder(&quot;cmd&quot;, &quot;/c&quot;, &quot;cls&quot;).inheritIO().start().waitFor();</span>
+            } else {
+<span class="nc" id="L66">                System.out.print(&quot;\033[H\033[2J&quot;);</span>
+<span class="nc" id="L67">                System.out.flush();</span>
+            }
+<span class="nc" id="L69">        } catch (Exception e) {</span>
+            // Evita interromper o jogo caso a limpeza falhe.
+<span class="nc" id="L71">        }</span>
+<span class="nc" id="L72">    }</span>
+
+    /**
+     * Le uma opcao inteira dentro de um intervalo valido.
+     *
+     * @param min menor valor permitido
+     * @param max maior valor permitido
+     * @return opcao lida
+     */
+    public int leitura(int min, int max) {
+        while (true) {
+<span class="nc" id="L83">            System.out.print(&quot;Digite a opcao: &quot;);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            if (leitor.hasNextInt()) {</span>
+<span class="nc" id="L85">                int opcao = leitor.nextInt();</span>
+<span class="nc bnc" id="L86" title="All 4 branches missed.">                if (opcao &gt;= min &amp;&amp; opcao &lt;= max) {</span>
+<span class="nc" id="L87">                    return opcao;</span>
+                }
+<span class="nc" id="L89">                System.out.println(&quot;\u001B[31mOpcao invalida. Tente novamente...\u001B[m\n&quot;);</span>
+<span class="nc" id="L90">            } else {</span>
+<span class="nc" id="L91">                System.out.println(&quot;\u001B[31mInteiro invalido. Tente novamente...\u001B[m\n&quot;);</span>
+<span class="nc" id="L92">                leitor.next();</span>
+            }
+        }
+    }
+
+    /**
+     * Le uma linha apos exibir um prompt.
+     *
+     * @param mensagem texto exibido antes da leitura
+     * @return linha informada pelo jogador
+     */
+    public String lerLinha(String mensagem) {
+<span class="nc" id="L104">        System.out.print(mensagem);</span>
+<span class="nc" id="L105">        return leitor.nextLine();</span>
+    }
+
+    /**
+     * Le um caractere simples para confirmacoes.
+     *
+     * @param mensagem texto exibido antes da leitura
+     * @return primeiro caractere digitado (minusculo)
+     */
+    public char lerConfirmacao(String mensagem) {
+<span class="nc" id="L115">        System.out.print(mensagem);</span>
+<span class="nc" id="L116">        return Character.toLowerCase(leitor.next().charAt(0));</span>
+    }
+
+    /**
+     * Aguarda o jogador pressionar Enter para continuar.
+     *
+     * @param mensagem texto exibido antes da espera
+     */
+    public void aguardarEnter(String mensagem) {
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (leitor.hasNextLine()) {</span>
+<span class="nc" id="L126">            leitor.nextLine();</span>
+        }
+<span class="nc" id="L128">        System.out.print(mensagem);</span>
+<span class="nc" id="L129">        leitor.nextLine();</span>
+<span class="nc" id="L130">    }</span>
+
+    /**
+     * Retorna a representacao ASCII do heroi.
+     *
+     * @return arte ASCII do heroi
+     */
+    public String desenhoHeroi() {
+<span class="nc" id="L138">        return  &quot;   O  \n&quot; +</span>
+                &quot;  /|\\ \n&quot; +
+                &quot;  / \\ \n&quot;;
+    }
+
+    /**
+     * Retorna a arte ASCII de um inimigo pelo nome.
+     *
+     * @param nomeInimigo nome do inimigo
+     * @return arte ASCII correspondente
+     */
+    public String obterArteInimigo(String nomeInimigo) {
+<span class="nc bnc" id="L150" title="All 14 branches missed.">        switch (nomeInimigo) {</span>
+            case &quot;Zumbi&quot;:
+<span class="nc" id="L152">                return  &quot;  [o] \n&quot; +</span>
+                        &quot;  /|] \n&quot; +
+                        &quot;  / \\ \n&quot;;
+            case &quot;Esqueleto&quot;:
+<span class="nc" id="L156">                return  &quot;   ☠  \n&quot; +</span>
+                        &quot;  /|# \n&quot; +
+                        &quot;  / \\ \n&quot;;
+            case &quot;Creeper&quot;:
+<span class="nc" id="L160">                return  &quot;  [ ] \n&quot; +</span>
+                        &quot;  / \\ \n&quot;;
+            case &quot;Aranha das Cavernas&quot;:
+<span class="nc" id="L163">                return  &quot; /\\( )/\\ \n&quot; +</span>
+                        &quot;   ^ ^   \n&quot;;
+            case &quot;Blaze&quot;:
+<span class="nc" id="L166">                return  &quot; \\ | / \n&quot; +</span>
+                        &quot; - o - \n&quot; +
+                        &quot; / | \\ \n&quot;;
+            case &quot;Enderman&quot;:
+<span class="nc" id="L170">                return  &quot;   O  \n&quot; +</span>
+                        &quot;  /|\\ \n&quot; +
+                        &quot;   |  \n&quot; +
+                        &quot;  / \\ \n&quot;;
+            case &quot;Esqueleto Wither&quot;:
+<span class="nc" id="L175">                return  &quot;   ☠  \n&quot; +</span>
+                        &quot;  [|] \n&quot; +
+                        &quot;  / \\ \n&quot;;
+            case &quot;Bruxa&quot;:
+<span class="nc" id="L179">                return  &quot;   ^  \n&quot; +</span>
+                        &quot;  / \\ \n&quot; +
+                        &quot;  /|\\ \n&quot;;
+            case &quot;Wither&quot;:
+<span class="nc" id="L183">                return  &quot; ☠ ☠ ☠ \n&quot; +</span>
+                        &quot;  \\|/  \n&quot; +
+                        &quot;   |   \n&quot;;
+            case &quot;Warden&quot;:
+<span class="nc" id="L187">                return  &quot; {o.o} \n&quot; +</span>
+                        &quot; /[_]\\ \n&quot; +
+                        &quot;  / \\  \n&quot;;
+            case &quot;Guardião&quot;:
+<span class="nc" id="L191">                return  &quot; &lt;[O]&gt; \n&quot; +</span>
+                        &quot;  \\|/  \n&quot;;
+            case &quot;Evoker&quot;:
+<span class="nc" id="L194">                return  &quot;   ~   \n&quot; +</span>
+                        &quot;  (o)  \n&quot; +
+                        &quot;  /|\\  \n&quot;;
+            case &quot;Ender Dragon&quot;:
+<span class="nc" id="L198">                return  &quot;  /|\\   /|\\  \n&quot; +</span>
+                        &quot; &lt; O &gt;=&lt; O &gt; \n&quot; +
+                        &quot;  \\|/   \\|/  \n&quot;;
+            default:
+<span class="nc" id="L202">                return  &quot;  (?) \n&quot; +</span>
+                        &quot;  /|\\ \n&quot; +
+                        &quot;  / \\ \n&quot;;
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

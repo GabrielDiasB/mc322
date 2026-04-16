@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EfeitoVeneno.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.efeitos</a> &gt; <span class="el_source">EfeitoVeneno.java</span></div><h1>EfeitoVeneno.java</h1><pre class="source lang-java linenums">package jogo.efeitos;
+import jogo.batalha.*;
+import jogo.entidades.*;
+
+
+/**
+ * Efeito contínuo que causa dano no fim do turno e vai se esgotando com o tempo.
+ */
+public class EfeitoVeneno extends Efeito {
+    /**
+     * Cria um efeito de Veneno com a quantidade de acúmulos indicada.
+     *
+     * @param dono entidade envenenada
+     * @param acumulos quantidade inicial de veneno
+     */
+    public EfeitoVeneno(Entidade dono, int acumulos) {
+<span class="nc" id="L17">        super(&quot;Veneno&quot;, dono, acumulos);</span>
+<span class="nc" id="L18">    }</span>
+
+    /**
+     * Aplica o dano por veneno no fim do turno apropriado.
+     *
+     * @param evento evento de combate recebido
+     * @param combate combate corrente
+     * @return mensagem de dano ou string vazia quando o evento não se aplica
+     */
+    @Override
+    public String serNotificado(EventoCombate evento, Combate combate) {
+<span class="nc bnc" id="L29" title="All 8 branches missed.">        if ((evento == EventoCombate.FIM_TURNO_JOGADOR &amp;&amp; dono instanceof Heroi) ||</span>
+            (evento == EventoCombate.FIM_TURNO_INIMIGO &amp;&amp; dono instanceof Inimigo)) {
+<span class="nc" id="L31">            dono.receberDano(acumulos);</span>
+<span class="nc" id="L32">            reduzirAcumulos(1, combate);</span>
+<span class="nc" id="L33">            return (&quot; &quot; + dono.getNome() + &quot; sofre &quot; + (acumulos + 1) + &quot; de dano por Veneno!&quot;);</span>
+        }
+<span class="nc" id="L35">        return &quot;&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
