@@ -117,6 +117,19 @@ public class Interface {
     }
 
     /**
+     * Aguarda o jogador pressionar Enter para continuar.
+     *
+     * @param mensagem texto exibido antes da espera
+     */
+    public void aguardarEnter(String mensagem) {
+        if (leitor.hasNextLine()) {
+            leitor.nextLine();
+        }
+        System.out.print(mensagem);
+        leitor.nextLine();
+    }
+
+    /**
      * Retorna a representacao ASCII do heroi.
      *
      * @return arte ASCII do heroi
