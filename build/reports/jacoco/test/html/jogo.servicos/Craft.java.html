@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Craft.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.servicos</a> &gt; <span class="el_source">Craft.java</span></div><h1>Craft.java</h1><pre class="source lang-java linenums">package jogo.servicos;
+import jogo.cartas.*;
+import jogo.entidades.*;
+import jogo.interfacejogo.Interface;
+
+
+/**
+ * Fluxo de preparacao diurna: exploracao, descanso e crafting.
+ */
+public class Craft {
+    private final Interface interfaceJogo;
+
+    /**
+     * Cria o servico de crafting vinculado a interface do jogo.
+     *
+     * @param interfaceJogo interface textual do jogo
+     */
+<span class="nc" id="L18">    public Craft(Interface interfaceJogo) {</span>
+<span class="nc" id="L19">        this.interfaceJogo = interfaceJogo;</span>
+<span class="nc" id="L20">    }</span>
+
+    /**
+     * Adiciona o baralho base inicial do heroi.
+     *
+     * @param cartas deque do heroi
+     */
+    public void inicializarBaralhoBase(DequeHeroi cartas) {
+<span class="nc" id="L28">        cartas.addCarta(new CartaDano(&quot;Chute Feroz&quot;, &quot;+3 Dano&quot;, 1, 3));</span>
+<span class="nc" id="L29">        cartas.addCarta(new CartaDano(&quot;Batida Rápida&quot;, &quot;+2 Dano&quot;, 1, 2));</span>
+<span class="nc" id="L30">        cartas.addCarta(new CartaDano(&quot;Soco Mortal&quot;, &quot;+3 Dano&quot;, 1, 3));</span>
+<span class="nc" id="L31">        cartas.addCarta(new CartaEscudo(&quot;Reflexo Ágil&quot;, &quot;+3 Escudo&quot;, 1, 3));</span>
+<span class="nc" id="L32">        cartas.addCarta(new CartaEscudo(&quot;Esquiva Sagaz&quot;, &quot;+2 Escudo&quot;, 1, 2));</span>
+<span class="nc" id="L33">        cartas.addCarta(new CartaEfeito(&quot;Poção de Força&quot;, &quot;+2 Força&quot;, 2, 2, &quot;Forca&quot;));</span>
+<span class="nc" id="L34">        cartas.addCarta(new CartaEfeito(&quot;Poção de Veneno&quot;, &quot;3-1 Dano&quot;, 2, 3, &quot;Veneno&quot;));</span>
+<span class="nc" id="L35">    }</span>
+
+    /**
+     * Executa o menu de preparacao ate o jogador iniciar a noite.
+     *
+     * @param heroi heroi atual
+     * @param cartas baralho e itens de combate do heroi
+     */
+    public void executarPreparacao(Heroi heroi, DequeHeroi cartas) {
+        while (true) {
+<span class="nc" id="L45">            System.out.println(</span>
+                &quot;\n\u001B[36m[ 1 ]\u001B[m Explorar o mapa (-1XP ==&gt; +1 Recurso)\n&quot; +
+                &quot;\u001B[36m[ 2 ]\u001B[m Inventário e Crafts\u001B[m\n&quot; +
+                &quot;\u001B[36m[ 3 ]\u001B[m Descansar no acampamento (-1XP ==&gt; +5 vida)\n&quot; +
+                &quot;\u001B[36m[ 4 ]\u001B[m Estou pronto para a noite!\n&quot;
+            );
+
+<span class="nc" id="L52">            int selecione = interfaceJogo.leitura(1, 4);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (selecione == 1) {</span>
+<span class="nc" id="L54">                explorar(heroi);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            } else if (selecione == 2) {</span>
+<span class="nc" id="L56">                abrirInventarioECrafting(heroi, cartas);</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">            } else if (selecione == 3) {</span>
+<span class="nc" id="L58">                descansar(heroi);</span>
+            } else {
+<span class="nc" id="L60">                return;</span>
+            }
+<span class="nc" id="L62">        }</span>
+    }
+
+    private void explorar(Heroi heroi) {
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (heroi.getExp() &gt;= 1) {</span>
+<span class="nc" id="L67">            heroi.gastarExp(1);</span>
+<span class="nc" id="L68">            interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc" id="L69">            interfaceJogo.destaque(&quot;\u001B[33m&gt;&gt; &quot; + heroi.getNome() + &quot; explorou e obteve &quot; + heroi.recursos() + &quot;\n&quot;);</span>
+        } else {
+<span class="nc" id="L71">            interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc" id="L72">            System.out.println(&quot;\u001B[31m&gt;&gt; Você não tem experiência suficiente para ganhar mais recursos.\u001B[m&quot;);</span>
+        }
+<span class="nc" id="L74">        interfaceJogo.destaque(heroi.inventario());</span>
+<span class="nc" id="L75">    }</span>
+
+    private void descansar(Heroi heroi) {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (heroi.getExp() &gt;= 1) {</span>
+<span class="nc" id="L79">            heroi.gastarExp(1);</span>
+<span class="nc" id="L80">            heroi.recuperar(5);</span>
+<span class="nc" id="L81">            interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc" id="L82">            interfaceJogo.destaque(&quot;&gt;&gt; &quot; + heroi.getNome() + &quot; descansou e recuperou +5 vida!\n&quot;);</span>
+        } else {
+<span class="nc" id="L84">            interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc" id="L85">            interfaceJogo.destaqueErro(&quot;&gt;&gt; Você não tem experiência suficiente para recuperar mais vida..\n&quot;);</span>
+        }
+<span class="nc" id="L87">    }</span>
+
+    private void abrirInventarioECrafting(Heroi heroi, DequeHeroi cartas) {
+<span class="nc" id="L90">        interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc" id="L91">        interfaceJogo.destaque(heroi.inventario());</span>
+<span class="nc" id="L92">        System.out.println(&quot;\n========================== Inventário ==========================\n&quot;);</span>
+<span class="nc" id="L93">        cartas.mostraItens();</span>
+<span class="nc" id="L94">        System.out.println(&quot;\n====================== Craftar Novos Itens ======================\n&quot;);</span>
+
+<span class="nc" id="L96">        System.out.println(&quot;[ 1 ] &quot; + String.format(&quot;%-23s&quot;, &quot;Arco e Flecha&quot;) + &quot;==&gt; &quot; + String.format(&quot;%-12s&quot;, &quot;+7 Dano&quot;) + String.format(&quot;%-20s&quot;, &quot;-1 Madeira -1 Lã&quot;));</span>
+<span class="nc" id="L97">        System.out.println(&quot;[ 2 ] &quot; + String.format(&quot;%-23s&quot;, &quot;Espada de madeira&quot;) + &quot;==&gt; &quot; + String.format(&quot;%-12s&quot;, &quot;+8 Dano&quot;) + String.format(&quot;%-20s&quot;, &quot;-2 Madeira&quot;));</span>
+<span class="nc" id="L98">        System.out.println(&quot;[ 3 ] &quot; + String.format(&quot;%-23s&quot;, &quot;Machado de Ferro&quot;) + &quot;==&gt; &quot; + String.format(&quot;%-12s&quot;, &quot;+15 Dano&quot;) + String.format(&quot;%-20s&quot;, &quot;-1 Madeira -2 Ferro&quot;));</span>
+<span class="nc" id="L99">        System.out.println(&quot;[ 4 ] &quot; + String.format(&quot;%-23s&quot;, &quot;Armadura de Diamante&quot;) + &quot;==&gt; &quot; + String.format(&quot;%-12s&quot;, &quot;+9 Escudo&quot;) + String.format(&quot;%-20s&quot;, &quot;-3 Diamante&quot;));</span>
+<span class="nc" id="L100">        System.out.println(&quot;[ 5 ] &quot; + String.format(&quot;%-23s&quot;, &quot;Escudo de Ferro&quot;) + &quot;==&gt; &quot; + String.format(&quot;%-12s&quot;, &quot;+5 Escudo&quot;) + String.format(&quot;%-20s&quot;, &quot;-2 Madeira -1 Ferro&quot;));</span>
+<span class="nc" id="L101">        System.out.println(&quot;[ 6 ] &quot; + String.format(&quot;%-23s&quot;, &quot;Picareta de Ferro&quot;) + &quot;==&gt; &quot; + String.format(&quot;%-12s&quot;, &quot;+12 Dano&quot;) + String.format(&quot;%-20s&quot;, &quot;-1 Madeira -2 Ferro&quot;));</span>
+<span class="nc" id="L102">        System.out.println(&quot;[ 7 ] &quot; + String.format(&quot;%-23s&quot;, &quot;Espada de Diamante&quot;) + &quot;==&gt; &quot; + String.format(&quot;%-12s&quot;, &quot;+20 Dano&quot;) + String.format(&quot;%-20s&quot;, &quot;-1 Madeira -2 Diamante&quot;));</span>
+<span class="nc" id="L103">        System.out.println(&quot;[ 8 ] &quot; + String.format(&quot;%-23s&quot;, &quot;Armadura de Ferro&quot;) + &quot;==&gt; &quot; + String.format(&quot;%-12s&quot;, &quot;+7 Escudo&quot;) + String.format(&quot;%-20s&quot;, &quot;-3 Ferro&quot;));</span>
+<span class="nc" id="L104">        System.out.println(&quot;[ 9 ] &quot; + String.format(&quot;%-23s&quot;, &quot;Poção de Vida&quot;) + &quot;==&gt; &quot; + String.format(&quot;%-12s&quot;, &quot;+15 Vida&quot;) + String.format(&quot;%-20s&quot;, &quot;-1 Diamante -1 Lã&quot;));</span>
+<span class="nc" id="L105">        System.out.println(&quot;\n[ 0 ] Voltar para o menu&quot;);</span>
+<span class="nc" id="L106">        System.out.println(&quot;\n=================================================================&quot;);</span>
+
+<span class="nc" id="L108">        int opcao = interfaceJogo.leitura(0, 10);</span>
+<span class="nc" id="L109">        processarCraft(opcao, heroi, cartas);</span>
+<span class="nc" id="L110">    }</span>
+
+    private void processarCraft(int opcao, Heroi heroi, DequeHeroi cartas) {
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (opcao == 0) {</span>
+<span class="nc" id="L114">            interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc" id="L115">            return;</span>
+        }
+
+<span class="nc" id="L118">        boolean sucesso = false;</span>
+<span class="nc" id="L119">        String item = &quot;&quot;;</span>
+
+<span class="nc bnc" id="L121" title="All 6 branches missed.">        if (opcao == 1 &amp;&amp; heroi.temLa(1) &amp;&amp; heroi.temMadeira(1)) {</span>
+<span class="nc" id="L122">            heroi.gastarLa(1);</span>
+<span class="nc" id="L123">            heroi.gastarMadeira(1);</span>
+<span class="nc" id="L124">            cartas.addCarta(new CartaDano(&quot;Arco e Flecha&quot;, &quot;+7 Dano&quot;, 2, 7));</span>
+<span class="nc" id="L125">            item = &quot;Arco e Flecha&quot;;</span>
+<span class="nc" id="L126">            sucesso = true;</span>
+<span class="nc bnc" id="L127" title="All 4 branches missed.">        } else if (opcao == 2 &amp;&amp; heroi.temMadeira(2)) {</span>
+<span class="nc" id="L128">            heroi.gastarMadeira(2);</span>
+<span class="nc" id="L129">            cartas.addCarta(new CartaDano(&quot;Espada de madeira&quot;, &quot;+8 Dano&quot;, 2, 8));</span>
+<span class="nc" id="L130">            item = &quot;Espada de madeira&quot;;</span>
+<span class="nc" id="L131">            sucesso = true;</span>
+<span class="nc bnc" id="L132" title="All 6 branches missed.">        } else if (opcao == 3 &amp;&amp; heroi.temFerro(1) &amp;&amp; heroi.temMadeira(1)) {</span>
+<span class="nc" id="L133">            heroi.gastarMadeira(1);</span>
+<span class="nc" id="L134">            heroi.gastarFerro(1);</span>
+<span class="nc" id="L135">            cartas.addCarta(new CartaDano(&quot;Machado de Ferro&quot;, &quot;+15 Dano&quot;, 2, 15));</span>
+<span class="nc" id="L136">            item = &quot;Machado de Ferro&quot;;</span>
+<span class="nc" id="L137">            sucesso = true;</span>
+<span class="nc bnc" id="L138" title="All 4 branches missed.">        } else if (opcao == 4 &amp;&amp; heroi.temDiamante(3)) {</span>
+<span class="nc" id="L139">            heroi.gastarDiamante(3);</span>
+<span class="nc" id="L140">            cartas.addCarta(new CartaEscudo(&quot;Armadura de Diamante&quot;, &quot;+9 Escudo&quot;, 2, 9));</span>
+<span class="nc" id="L141">            item = &quot;Armadura de Diamante&quot;;</span>
+<span class="nc" id="L142">            sucesso = true;</span>
+<span class="nc bnc" id="L143" title="All 6 branches missed.">        } else if (opcao == 5 &amp;&amp; heroi.temFerro(1) &amp;&amp; heroi.temMadeira(2)) {</span>
+<span class="nc" id="L144">            heroi.gastarFerro(1);</span>
+<span class="nc" id="L145">            heroi.gastarMadeira(2);</span>
+<span class="nc" id="L146">            cartas.addCarta(new CartaEscudo(&quot;Escudo de Ferro&quot;, &quot;+5 Escudo&quot;, 1, 5));</span>
+<span class="nc" id="L147">            item = &quot;Escudo de Ferro&quot;;</span>
+<span class="nc" id="L148">            sucesso = true;</span>
+<span class="nc bnc" id="L149" title="All 6 branches missed.">        } else if (opcao == 6 &amp;&amp; heroi.temMadeira(1) &amp;&amp; heroi.temFerro(2)) {</span>
+<span class="nc" id="L150">            heroi.gastarMadeira(1);</span>
+<span class="nc" id="L151">            heroi.gastarFerro(2);</span>
+<span class="nc" id="L152">            cartas.addCarta(new CartaDano(&quot;Picareta de Ferro&quot;, &quot;+12 Dano&quot;, 2, 12));</span>
+<span class="nc" id="L153">            item = &quot;Picareta de Ferro&quot;;</span>
+<span class="nc" id="L154">            sucesso = true;</span>
+<span class="nc bnc" id="L155" title="All 6 branches missed.">        } else if (opcao == 7 &amp;&amp; heroi.temMadeira(1) &amp;&amp; heroi.temDiamante(2)) {</span>
+<span class="nc" id="L156">            heroi.gastarMadeira(1);</span>
+<span class="nc" id="L157">            heroi.gastarDiamante(2);</span>
+<span class="nc" id="L158">            cartas.addCarta(new CartaDano(&quot;Espada de Diamante&quot;, &quot;+20 Dano&quot;, 3, 20));</span>
+<span class="nc" id="L159">            item = &quot;Espada de Diamante&quot;;</span>
+<span class="nc" id="L160">            sucesso = true;</span>
+<span class="nc bnc" id="L161" title="All 4 branches missed.">        } else if (opcao == 8 &amp;&amp; heroi.temFerro(3)) {</span>
+<span class="nc" id="L162">            heroi.gastarFerro(3);</span>
+<span class="nc" id="L163">            cartas.addCarta(new CartaEscudo(&quot;Armadura de Ferro&quot;, &quot;+7 Escudo&quot;, 2, 7));</span>
+<span class="nc" id="L164">            item = &quot;Armadura de Ferro&quot;;</span>
+<span class="nc" id="L165">            sucesso = true;</span>
+<span class="nc bnc" id="L166" title="All 6 branches missed.">        } else if (opcao == 9 &amp;&amp; heroi.temDiamante(1) &amp;&amp; heroi.temLa(1)) {</span>
+<span class="nc" id="L167">            heroi.gastarDiamante(1);</span>
+<span class="nc" id="L168">            heroi.gastarLa(1);</span>
+<span class="nc" id="L169">            cartas.addCarta(new CartaEfeito(&quot;Poção de Vida&quot;, &quot;+15 Vida&quot;, 2, 15, &quot;Cura&quot;));</span>
+<span class="nc" id="L170">            item = &quot;Poção de Vida&quot;;</span>
+<span class="nc" id="L171">            sucesso = true;</span>
+        }
+
+<span class="nc" id="L174">        interfaceJogo.atualizaTela(heroi);</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        if (sucesso) {</span>
+<span class="nc" id="L176">            interfaceJogo.destaque(&quot;&gt;&gt; &quot; + item + &quot; adicionado com sucesso ao seu deque de combate!\n&quot;);</span>
+        } else {
+<span class="nc" id="L178">            interfaceJogo.destaqueErro(&quot;&gt;&gt; Recursos insuficientes para craftar, explore mais o mapa!\n&quot;);</span>
+        }
+<span class="nc" id="L180">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

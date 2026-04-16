@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Efeito.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.efeitos</a> &gt; <span class="el_source">Efeito.java</span></div><h1>Efeito.java</h1><pre class="source lang-java linenums">package jogo.efeitos;
+import jogo.batalha.*;
+import jogo.entidades.*;
+
+
+/**
+ * Base para efeitos contínuos aplicados em entidades.
+ * Implementa o contrato de notificação do sistema de combate.
+ */
+public abstract class Efeito implements Subscriber {
+    /** Nome público do efeito, usado para identificar empilhamento. */
+    String nome;
+    /** Entidade que possui o efeito. */
+    Entidade dono;
+    /** Quantidade atual de acúmulos restantes. */
+    int acumulos;
+
+    /**
+     * Cria um efeito com um dono e um número inicial de acúmulos.
+     *
+     * @param nome nome do efeito
+     * @param dono entidade que recebe o efeito
+     * @param acumulos quantidade inicial de acúmulos
+     */
+<span class="nc" id="L25">    public Efeito(String nome, Entidade dono, int acumulos) {</span>
+<span class="nc" id="L26">        this.nome = nome;</span>
+<span class="nc" id="L27">        this.dono = dono;</span>
+<span class="nc" id="L28">        this.acumulos = acumulos;</span>
+<span class="nc" id="L29">    }</span>
+
+    /**
+     * Retorna o nome do efeito.
+     *
+     * @return nome do efeito
+     */
+    public String getNome() {
+<span class="nc" id="L37">        return nome;</span>
+    }
+
+    /**
+     * Retorna os acúmulos atualmente ativos.
+     *
+     * @return quantidade atual de acúmulos
+     */
+    public int getAcumulos() {
+<span class="nc" id="L46">        return acumulos;</span>
+    }
+
+    /**
+     * Soma novos acúmulos ao efeito atual.
+     *
+     * @param qtd quantidade adicional a ser acumulada
+     */
+    public void adicionarAcumulos(int qtd) {
+<span class="nc" id="L55">        this.acumulos += qtd;</span>
+<span class="nc" id="L56">    }</span>
+
+    /**
+     * Reduz os acúmulos e remove o efeito quando ele se esgota.
+     *
+     * @param qtd quantidade a remover dos acúmulos
+     * @param combate combate atual, usado para desinscrever o efeito
+     */
+    public void reduzirAcumulos(int qtd, Combate combate) {
+<span class="nc" id="L65">        this.acumulos -= qtd;</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (this.acumulos &lt;= 0) {</span>
+<span class="nc" id="L67">            dono.removerEfeito(this, combate);</span>
+        }
+<span class="nc" id="L69">    }</span>
+
+    /**
+     * Retorna a representação textual do efeito para exibição na interface.
+     *
+     * @return texto formatado do efeito
+     */
+    public String getString() {
+<span class="nc" id="L77">        return nome + &quot;(+&quot; + acumulos + &quot;)&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

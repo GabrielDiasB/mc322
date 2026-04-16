@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="jogo.mapa.NoMapaTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-16T04:48:17.099Z" hostname="Gabriel-Laptop" time="0.01">
+<testsuite name="jogo.mapa.NoMapaTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-16T17:42:10.405Z" hostname="doug.lab.ic.unicamp.br" time="0.001">
   <properties/>
-  <testcase name="deveListarApenasNosNaoVisitados()" classname="jogo.mapa.NoMapaTest" time="0.001"/>
-  <testcase name="deveMarcarNoComoVisitado()" classname="jogo.mapa.NoMapaTest" time="0.007"/>
+  <testcase name="deveListarApenasNosNaoVisitados()" classname="jogo.mapa.NoMapaTest" time="0.0"/>
+  <testcase name="deveMarcarNoComoVisitado()" classname="jogo.mapa.NoMapaTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

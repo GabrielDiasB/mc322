@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Carta.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.cartas</a> &gt; <span class="el_source">Carta.java</span></div><h1>Carta.java</h1><pre class="source lang-java linenums">package jogo.cartas;
+import jogo.batalha.*;
+import jogo.entidades.*;
+import jogo.efeitos.*;
+
+
+/**
+ * Base abstrata de todas as cartas do jogo.
+ * Cada carta possui custo, nome e descrição, além de uma forma própria de uso.
+ */
+public abstract class Carta {
+    private String nome;
+    private String descricao;
+    private int custo;
+
+    /**
+     * Cria uma carta com as informações exibidas na interface.
+     *
+     * @param nome nome da carta
+     * @param descricao descrição curta do efeito da carta
+     * @param custo custo em XP para usá-la
+     */
+<span class="nc" id="L23">    public Carta(String nome, String descricao, int custo) {</span>
+<span class="nc" id="L24">        this.nome = nome;</span>
+<span class="nc" id="L25">        this.descricao = descricao;</span>
+<span class="nc" id="L26">        this.custo = custo;</span>
+<span class="nc" id="L27">    }</span>
+
+    /**
+     * Retorna o nome da carta.
+     *
+     * @return nome da carta
+     */
+    public String getNome() {
+<span class="nc" id="L35">        return nome;</span>
+    }
+
+    /**
+     * Retorna o custo em XP da carta.
+     *
+     * @return custo em XP
+     */
+    public int getCusto() {
+<span class="nc" id="L44">        return custo;</span>
+    }
+
+    /**
+     * Retorna a descrição resumida do efeito da carta.
+     *
+     * @return descrição da carta
+     */
+    public String getDescricao() {
+<span class="nc" id="L53">        return descricao;</span>
+    }
+
+    /**
+     * Aplica o efeito da carta no combate.
+     *
+     * @param heroi herói que está usando a carta
+     * @param inimigo inimigo alvo da carta, quando aplicável
+     * @param combate contexto atual do combate para eventos e efeitos
+     * @return valor numérico associado ao efeito, usado para montar a mensagem de uso
+     */
+    public abstract int usar(Heroi heroi, Inimigo inimigo, Combate combate);
+
+    /**
+     * Monta a mensagem textual exibida após o uso da carta.
+     *
+     * @param heroi herói que usou a carta
+     * @param inimigo inimigo afetado pela carta
+     * @param dado valor retornado por {@link #usar(Heroi, Inimigo, Combate)}
+     * @param nome nome da carta usada
+     * @return texto descritivo da ação realizada
+     */
+    public abstract String usarTexto(Heroi heroi, Inimigo inimigo, int dado, String nome);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

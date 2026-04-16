@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Fluxocombate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.servicos</a> &gt; <span class="el_source">Fluxocombate.java</span></div><h1>Fluxocombate.java</h1><pre class="source lang-java linenums">package jogo.servicos;
+import jogo.batalha.*;
+import jogo.cartas.DequeHeroi;
+import jogo.entidades.Heroi;
+import jogo.entidades.Inimigo;
+import jogo.interfacejogo.Interface;
+import jogo.mapa.MapaCampanha;
+import jogo.mapa.NoMapa;
+
+
+import java.util.List;
+
+
+/**
+ * Orquestra o fluxo principal da campanha e dos combates noturnos.
+ */
+public class Fluxocombate {
+    private final Interface interfaceJogo;
+    private final Craft servicoCraft;
+
+    /**
+     * Cria o servico principal de batalha.
+     *
+     * @param interfaceJogo interface textual do jogo
+     * @param servicoCraft fluxo de preparacao e crafting
+     */
+<span class="nc" id="L27">    public Fluxocombate(Interface interfaceJogo, Craft servicoCraft) {</span>
+<span class="nc" id="L28">        this.interfaceJogo = interfaceJogo;</span>
+<span class="nc" id="L29">        this.servicoCraft = servicoCraft;</span>
+<span class="nc" id="L30">    }</span>
+
+    /**
+     * Executa a campanha completa usando um mapa de progressão.
+     *
+     * @param heroi heroi do jogador
+     * @param cartas baralho do heroi
+     */
+    public void executarCampanha(Heroi heroi, DequeHeroi cartas) {
+<span class="nc" id="L39">        MapaCampanha mapa = MapaCampanha.criarPadrao();</span>
+<span class="nc" id="L40">        NoMapa posicaoAtual = mapa.getRaiz();</span>
+<span class="nc" id="L41">        posicaoAtual.marcarVisitado();</span>
+<span class="nc" id="L42">        int batalhasVencidas = 0;</span>
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        while (heroi.estaVivo()) {</span>
+<span class="nc" id="L45">            List&lt;NoMapa&gt; opcoes = posicaoAtual.getProximosNaoVisitados();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">            if (opcoes.isEmpty()) {</span>
+<span class="nc" id="L47">                break;</span>
+            }
+
+<span class="nc" id="L50">            NoMapa destino = escolherProximoNo(posicaoAtual, opcoes);</span>
+<span class="nc" id="L51">            destino.marcarVisitado();</span>
+<span class="nc" id="L52">            posicaoAtual = destino;</span>
+
+<span class="nc" id="L54">            iniciarDia(batalhasVencidas, heroi, posicaoAtual);</span>
+<span class="nc" id="L55">            servicoCraft.executarPreparacao(heroi, cartas);</span>
+
+<span class="nc" id="L57">            Inimigo inimigo = posicaoAtual.criarInimigo();</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            if (inimigo == null) {</span>
+<span class="nc" id="L59">                continue;</span>
+            }
+
+<span class="nc" id="L62">            Batalha batalha = new Batalha(heroi, inimigo, cartas, interfaceJogo);</span>
+<span class="nc" id="L63">            boolean venceu = batalha.executar();</span>
+<span class="nc" id="L64">            heroi.limparEfeitos();</span>
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            if (!venceu) {</span>
+<span class="nc" id="L67">                break;</span>
+            }
+
+<span class="nc" id="L70">                interfaceJogo.destaque(&quot;\n&gt;&gt; Você venceu o inimigo! O caminho adiante está livre.\n&quot;);</span>
+<span class="nc" id="L71">                interfaceJogo.aguardarEnter(&quot;&gt;&gt; Pressione Enter para avançar pela trilha... &quot;);</span>
+<span class="nc" id="L72">            batalhasVencidas++;</span>
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">            if (posicaoAtual.ehFinal()) {</span>
+<span class="nc" id="L75">                break;</span>
+            }
+<span class="nc" id="L77">        }</span>
+
+<span class="nc bnc" id="L79" title="All 4 branches missed.">        if (heroi.estaVivo() &amp;&amp; posicaoAtual.ehFinal()) {</span>
+<span class="nc" id="L80">            System.out.println(&quot;\n\u001B[1;32mPARABÉNS!!! Você alcançou o destino final e derrotou o boss!\u001B[m\n&quot;);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        } else if (heroi.estaVivo()) {</span>
+<span class="nc" id="L82">            System.out.println(&quot;\n\u001B[1;33mCampanha encerrada: não há mais caminhos disponíveis no mapa.\u001B[m\n&quot;);</span>
+        } else {
+<span class="nc" id="L84">            System.out.println(&quot;\n\u001B[1;31mQUE PENA, você foi derrotado!\u001B[m&quot;);</span>
+<span class="nc" id="L85">            System.out.println(&quot;\u001B[1;31mNão foi dessa vez... Tente novamente!\u001B[m\n&quot;);</span>
+        }
+<span class="nc" id="L87">    }</span>
+
+    private void iniciarDia(int batalhasVencidas, Heroi heroi, NoMapa destino) {
+<span class="nc" id="L90">        heroi.expProgresso(batalhasVencidas);</span>
+<span class="nc" id="L91">        heroi.resetarExp();</span>
+<span class="nc" id="L92">        interfaceJogo.atualizaTela(heroi);</span>
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (batalhasVencidas &gt; 0) {</span>
+<span class="nc" id="L95">            interfaceJogo.destaque(&quot;&gt;&gt; Você venceu &quot; + batalhasVencidas + &quot; batalha(s). Já amanheceu, continue progredindo!\n&quot;);</span>
+        } else {
+<span class="nc" id="L97">            interfaceJogo.destaque(&quot;&gt;&gt; Está de dia! Aproveite para se preparar &quot; + heroi.getNome() + &quot;!\n&quot;);</span>
+        }
+<span class="nc" id="L99">        interfaceJogo.destaque(&quot;&gt;&gt; Próximo destino: &quot; + destino.getNome() + &quot; (profundidade &quot; + destino.getProfundidade() + &quot;)\n&quot;);</span>
+<span class="nc" id="L100">    }</span>
+
+    private NoMapa escolherProximoNo(NoMapa atual, List&lt;NoMapa&gt; opcoes) {
+<span class="nc" id="L103">        interfaceJogo.limpar();</span>
+<span class="nc" id="L104">        interfaceJogo.titulo();</span>
+<span class="nc" id="L105">        System.out.println(&quot;\u001B[36m========== MAPA DA CAMPANHA ==========\u001B[m&quot;);</span>
+<span class="nc" id="L106">        System.out.println(&quot;Posição atual: &quot; + atual.getNome());</span>
+<span class="nc" id="L107">        System.out.println(&quot;Escolha o próximo caminho:\n&quot;);</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        for (int i = 0; i &lt; opcoes.size(); i++) {</span>
+<span class="nc" id="L110">            NoMapa no = opcoes.get(i);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            String sufixoFinal = no.ehFinal() ? &quot; [DESTINO FINAL]&quot; : &quot;&quot;;</span>
+<span class="nc" id="L112">            System.out.println(&quot;[ &quot; + (i + 1) + &quot; ] &quot; + no.getNome() + &quot; (profundidade &quot; + no.getProfundidade() + &quot;)&quot; + sufixoFinal);</span>
+        }
+<span class="nc" id="L114">        System.out.println(&quot;\n======================================&quot;);</span>
+
+<span class="nc" id="L116">        int escolha = interfaceJogo.leitura(1, opcoes.size());</span>
+<span class="nc" id="L117">        return opcoes.get(escolha - 1);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

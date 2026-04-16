@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.app</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package jogo.app;
+import jogo.cartas.DequeHeroi;
+import jogo.entidades.Heroi;
+import jogo.interfacejogo.Interface;
+import jogo.servicos.Craft;
+import jogo.servicos.Fluxocombate;
+
+
+import java.util.Scanner; 
+
+/**
+ * Ponto de entrada da aplicação e orquestrador do loop principal do jogo.
+ */
+public class App {
+    /** Scanner compartilhado para ler toda a entrada do usuário durante o jogo. */
+<span class="nc" id="L16">    private static final Scanner leitorEntrada = new Scanner(System.in);</span>
+
+    /** Classe utilitária sem instância. */
+    private App() {
+    }
+
+    /**
+     * Inicia a jornada, controla a preparação do herói e executa as batalhas.
+     *
+     * @param args argumentos da linha de comando, não utilizados
+     * @throws Exception propagado quando ocorre falha inesperada na execução do jogo
+     */
+    public static void main(String[] args) throws Exception {
+<span class="nc" id="L29">        Interface interfaceJogo = new Interface(leitorEntrada);</span>
+<span class="nc" id="L30">        Craft servicoCraft = new Craft(interfaceJogo);</span>
+<span class="nc" id="L31">        Fluxocombate fluxoCombate = new Fluxocombate(interfaceJogo, servicoCraft);</span>
+
+<span class="nc" id="L33">        interfaceJogo.limpar();</span>
+<span class="nc" id="L34">        interfaceJogo.titulo();</span>
+<span class="nc" id="L35">        interfaceJogo.destaque(&quot;Digite o nome do seu personagem: &quot;);</span>
+<span class="nc" id="L36">        String nomeHeroi = leitorEntrada.nextLine();</span>
+
+<span class="nc" id="L38">        Heroi heroi = new Heroi(nomeHeroi, 100, 10, 3);</span>
+<span class="nc" id="L39">        heroi.resetarEscudo();</span>
+
+<span class="nc" id="L41">        DequeHeroi cartas = new DequeHeroi();</span>
+<span class="nc" id="L42">        servicoCraft.inicializarBaralhoBase(cartas);</span>
+        
+<span class="nc" id="L44">        System.out.printf(&quot;\nSeja muito bem vindo(a), %s!\n&quot;, nomeHeroi);</span>
+<span class="nc" id="L45">        System.out.printf(&quot;\nEstá um lindo dia ensolarado, vamos coletar recursos antes que anoiteça e sejamos atacados.\n&quot;);</span>
+<span class="nc" id="L46">        System.out.println(&quot;\nUse o seu XP para explorar o mundo e obter matérias-primas.\n&quot;);</span>
+
+<span class="nc" id="L48">        char res = 'n';</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        while (res != 's') {</span>
+<span class="nc" id="L50">            res = interfaceJogo.lerConfirmacao(&quot;\u001B[33mVamos começar nossa aventura? [s/n] \u001B[m&quot;);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (res == 'n') {</span>
+<span class="nc" id="L52">                System.out.println(&quot;\nQue pena... Quando estiver pronto só falar.\n&quot;);</span>
+            }
+        }
+
+<span class="nc" id="L56">        fluxoCombate.executarCampanha(heroi, cartas);</span>
+<span class="nc" id="L57">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
