@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Heroi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.entidades</a> &gt; <span class="el_source">Heroi.java</span></div><h1>Heroi.java</h1><pre class="source lang-java linenums">package jogo.entidades;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Heroi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.entidades</a> &gt; <span class="el_source">Heroi.java</span></div><h1>Heroi.java</h1><pre class="source lang-java linenums">package jogo.entidades;
 import jogo.batalha.*;
 import jogo.efeitos.*;
 
@@ -64,10 +64,10 @@ public class Heroi extends Entidade {
      * @return barra textual de XP
      */
     public String atualizaXp() {
-<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (exp &lt; 0) {</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        if (exp &lt; 0) {</span>
 <span class="nc" id="L68">            exp = 0;</span>
         }
-<span class="nc" id="L70">        return &quot;XP: [&quot; + &quot;■&quot;.repeat(exp) + &quot;-&quot;.repeat(expInicial - exp) + &quot;] &quot;+ exp + &quot;/&quot; + expInicial;</span>
+<span class="fc" id="L70">        return &quot;XP: [&quot; + &quot;■&quot;.repeat(exp) + &quot;-&quot;.repeat(expInicial - exp) + &quot;] &quot;+ exp + &quot;/&quot; + expInicial;</span>
     }
 
     /**
@@ -231,7 +231,7 @@ public class Heroi extends Entidade {
      */
     public void recuperar(int n) {
 <span class="fc" id="L233">        vida += n;</span>
-<span class="pc bpc" id="L234" title="1 of 2 branches missed.">        if (vida &gt; 100) {</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">        if (vida &gt; 100) {</span>
 <span class="fc" id="L235">            vida = 100;</span>
         }
 <span class="fc" id="L237">    }</span>
@@ -249,16 +249,16 @@ public class Heroi extends Entidade {
 
     /** Exibe o estado atual do herói no terminal. */
     public void atualiza() {
-<span class="nc" id="L252">        String statusEfeitos = &quot;&quot;;</span>
-<span class="nc bnc" id="L253" title="All 2 branches missed.">        if (efeitos.isEmpty()) {</span>
-<span class="nc" id="L254">            statusEfeitos += &quot;Nenhum\u001B[m&quot;;</span>
+<span class="fc" id="L252">        String statusEfeitos = &quot;&quot;;</span>
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">        if (efeitos.isEmpty()) {</span>
+<span class="fc" id="L254">            statusEfeitos += &quot;Nenhum\u001B[m&quot;;</span>
         } else {
 <span class="nc bnc" id="L256" title="All 2 branches missed.">            for (Efeito e : efeitos) {</span>
 <span class="nc" id="L257">                statusEfeitos += e.getString() + &quot; &quot;;</span>
 <span class="nc" id="L258">            }</span>
         }
-<span class="nc" id="L260">        System.out.println(getNome() + &quot; &quot; + &quot;\u001B[32m&quot; + atualizaVida() + &quot;\u001B[m | &quot; + &quot;\u001B[34m&quot; + atualizaEscudo() + &quot;\u001B[m | &quot; + &quot;\u001B[35m&quot; + atualizaXp() + &quot;\u001B[m | EFEITOS: &quot; + statusEfeitos);</span>
-<span class="nc" id="L261">    }</span>
+<span class="fc" id="L260">        System.out.println(getNome() + &quot; &quot; + &quot;\u001B[32m&quot; + atualizaVida() + &quot;\u001B[m | &quot; + &quot;\u001B[34m&quot; + atualizaEscudo() + &quot;\u001B[m | &quot; + &quot;\u001B[35m&quot; + atualizaXp() + &quot;\u001B[m | EFEITOS: &quot; + statusEfeitos);</span>
+<span class="fc" id="L261">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

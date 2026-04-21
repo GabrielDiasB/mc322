@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="jogo.entidades.InimigoTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-04-16T17:42:10.389Z" hostname="doug.lab.ic.unicamp.br" time="0.012">
+<testsuite name="jogo.entidades.InimigoTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-04-21T16:16:46.456Z" hostname="Gabriel-Laptop" time="0.025">
   <properties/>
-  <testcase name="testAnunciarProximaAcao()" classname="jogo.entidades.InimigoTest" time="0.004"/>
+  <testcase name="testAnunciarProximaAcao()" classname="jogo.entidades.InimigoTest" time="0.005"/>
   <testcase name="testReceberDano()" classname="jogo.entidades.InimigoTest" time="0.001"/>
-  <testcase name="testAtualizaVida()" classname="jogo.entidades.InimigoTest" time="0.0"/>
+  <testcase name="testAtualizaVida()" classname="jogo.entidades.InimigoTest" time="0.001"/>
   <testcase name="testGetVida()" classname="jogo.entidades.InimigoTest" time="0.0"/>
   <testcase name="testExecutarTurno()" classname="jogo.entidades.InimigoTest" time="0.001"/>
   <testcase name="testAtualizaEscudo()" classname="jogo.entidades.InimigoTest" time="0.001"/>
-  <testcase name="testAtualiza()" classname="jogo.entidades.InimigoTest" time="0.002"/>
+  <testcase name="testAtualiza()" classname="jogo.entidades.InimigoTest" time="0.01"/>
   <testcase name="testConstructor()" classname="jogo.entidades.InimigoTest" time="0.0"/>
   <system-out><![CDATA[?[31mGoblin VIDA: [■■■■■■■■■■] 50/50?[m | ?[31mESCUDO: [■■■■■■----] 20/30?[m | ?[31mEFEITOS: Nenhum?[m?[m
 

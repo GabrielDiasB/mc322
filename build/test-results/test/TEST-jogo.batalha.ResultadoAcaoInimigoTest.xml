@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="jogo.batalha.ResultadoAcaoInimigoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-04-21T16:16:46.386Z" hostname="Gabriel-Laptop" time="0.003">
+  <properties/>
+  <testcase name="deveRetornarCamposConfiguradosNoConstrutor()" classname="jogo.batalha.ResultadoAcaoInimigoTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
