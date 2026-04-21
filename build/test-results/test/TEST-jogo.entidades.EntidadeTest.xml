@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="jogo.entidades.EntidadeTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-04-16T17:42:10.350Z" hostname="doug.lab.ic.unicamp.br" time="0.034">
+<testsuite name="jogo.entidades.EntidadeTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-04-21T16:16:46.412Z" hostname="Gabriel-Laptop" time="0.031">
   <properties/>
-  <testcase name="testGetVidaInicial()" classname="jogo.entidades.EntidadeTest" time="0.012"/>
-  <testcase name="testGetBonusDano()" classname="jogo.entidades.EntidadeTest" time="0.0"/>
-  <testcase name="testGetEfeitos()" classname="jogo.entidades.EntidadeTest" time="0.0"/>
-  <testcase name="testEstaVivo()" classname="jogo.entidades.EntidadeTest" time="0.0"/>
+  <testcase name="testGetVidaInicial()" classname="jogo.entidades.EntidadeTest" time="0.002"/>
+  <testcase name="testGetBonusDano()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
+  <testcase name="testGetEfeitos()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
+  <testcase name="testEstaVivo()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
   <testcase name="testReceberDano()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
-  <testcase name="testAtualizaVida()" classname="jogo.entidades.EntidadeTest" time="0.002"/>
-  <testcase name="testGetNome()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
-  <testcase name="testGetVida()" classname="jogo.entidades.EntidadeTest" time="0.0"/>
+  <testcase name="testAtualizaVida()" classname="jogo.entidades.EntidadeTest" time="0.008"/>
+  <testcase name="testGetNome()" classname="jogo.entidades.EntidadeTest" time="0.0"/>
+  <testcase name="testGetVida()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
   <testcase name="testGetEscudoInicial()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
-  <testcase name="testAtualizaEscudo()" classname="jogo.entidades.EntidadeTest" time="0.0"/>
-  <testcase name="testGetEscudo()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
-  <testcase name="testRecuperar()" classname="jogo.entidades.EntidadeTest" time="0.0"/>
+  <testcase name="testAtualizaEscudo()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
+  <testcase name="testGetEscudo()" classname="jogo.entidades.EntidadeTest" time="0.0"/>
+  <testcase name="testRecuperar()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
   <testcase name="testConstructor()" classname="jogo.entidades.EntidadeTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

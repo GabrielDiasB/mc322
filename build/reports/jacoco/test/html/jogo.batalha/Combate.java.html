@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Combate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.batalha</a> &gt; <span class="el_source">Combate.java</span></div><h1>Combate.java</h1><pre class="source lang-java linenums">package jogo.batalha;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Combate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.batalha</a> &gt; <span class="el_source">Combate.java</span></div><h1>Combate.java</h1><pre class="source lang-java linenums">package jogo.batalha;
 import jogo.entidades.*;
 
 
@@ -31,10 +31,10 @@ public class Combate {
      * @param s observador que será notificado
      */
     public void inscrever(Subscriber s) {
-<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (!subscribers.contains(s)) {</span>
-<span class="nc" id="L35">            subscribers.add(s);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (!subscribers.contains(s)) {</span>
+<span class="fc" id="L35">            subscribers.add(s);</span>
         }
-<span class="nc" id="L37">    }</span>
+<span class="fc" id="L37">    }</span>
 
     /**
      * Remove um observador da lista de notificações.
@@ -42,8 +42,8 @@ public class Combate {
      * @param s observador a ser removido
      */
     public void desinscrever(Subscriber s) {
-<span class="nc" id="L45">        subscribers.remove(s);</span>
-<span class="nc" id="L46">    }</span>
+<span class="fc" id="L45">        subscribers.remove(s);</span>
+<span class="fc" id="L46">    }</span>
 
     /**
      * Notifica todos os observadores sobre um evento do combate.
@@ -54,9 +54,9 @@ public class Combate {
     public String notificar(EventoCombate evento) {
 <span class="fc" id="L55">        String notificacao = &quot;&quot;;</span>
 <span class="fc" id="L56">        List&lt;Subscriber&gt; copia = new ArrayList&lt;&gt;(subscribers);</span>
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        for (Subscriber s : copia) {</span>
-<span class="nc" id="L58">            notificacao += s.serNotificado(evento, this);</span>
-<span class="nc" id="L59">        }</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        for (Subscriber s : copia) {</span>
+<span class="fc" id="L58">            notificacao += s.serNotificado(evento, this);</span>
+<span class="fc" id="L59">        }</span>
 <span class="fc" id="L60">        return notificacao;</span>
     }
     

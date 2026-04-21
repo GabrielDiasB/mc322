@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Entidade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.entidades</a> &gt; <span class="el_source">Entidade.java</span></div><h1>Entidade.java</h1><pre class="source lang-java linenums">package jogo.entidades;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Entidade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mc322</a> &gt; <a href="index.source.html" class="el_package">jogo.entidades</a> &gt; <span class="el_source">Entidade.java</span></div><h1>Entidade.java</h1><pre class="source lang-java linenums">package jogo.entidades;
 import jogo.batalha.*;
 import jogo.efeitos.*;
 
@@ -168,10 +168,10 @@ public abstract class Entidade {
      */
     public int receberDano(int danoSofrido) {
 <span class="fc" id="L170">        int danoReal = danoSofrido - escudo;</span>
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (danoReal &gt; 0) {</span>
-<span class="nc" id="L172">            this.vida -= danoReal;</span>
-<span class="nc" id="L173">            this.escudo = 0;</span>
-<span class="nc" id="L174">            return danoReal;</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">        if (danoReal &gt; 0) {</span>
+<span class="fc" id="L172">            this.vida -= danoReal;</span>
+<span class="fc" id="L173">            this.escudo = 0;</span>
+<span class="fc" id="L174">            return danoReal;</span>
         } else {
 <span class="fc" id="L176">            this.escudo -= danoSofrido;</span>
 <span class="fc" id="L177">            return 0;</span>
@@ -194,15 +194,15 @@ public abstract class Entidade {
      * @param combate contexto de combate para inscrição do efeito
      */
     public void aplicarEfeito(Efeito novoEfeito, Combate combate) {
-<span class="nc bnc" id="L197" title="All 2 branches missed.">        for (Efeito e : efeitos) {</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        for (Efeito e : efeitos) {</span>
 <span class="nc bnc" id="L198" title="All 2 branches missed.">            if (e.getNome().equals(novoEfeito.getNome())) {</span>
 <span class="nc" id="L199">                e.adicionarAcumulos(novoEfeito.getAcumulos());</span>
 <span class="nc" id="L200">                return;</span>
             }
 <span class="nc" id="L202">        }</span>
-<span class="nc" id="L203">        efeitos.add(novoEfeito);</span>
-<span class="nc" id="L204">        combate.inscrever(novoEfeito);</span>
-<span class="nc" id="L205">    }</span>
+<span class="fc" id="L203">        efeitos.add(novoEfeito);</span>
+<span class="fc" id="L204">        combate.inscrever(novoEfeito);</span>
+<span class="fc" id="L205">    }</span>
 
     /**
      * Remove um efeito contínuo da entidade e do combate.
@@ -211,9 +211,9 @@ public abstract class Entidade {
      * @param combate contexto de combate para desinscrição
      */
     public void removerEfeito(Efeito efeito, Combate combate) {
-<span class="nc" id="L214">        efeitos.remove(efeito);</span>
-<span class="nc" id="L215">        combate.desinscrever(efeito);</span>
-<span class="nc" id="L216">    }</span>
+<span class="fc" id="L214">        efeitos.remove(efeito);</span>
+<span class="fc" id="L215">        combate.desinscrever(efeito);</span>
+<span class="fc" id="L216">    }</span>
 
     /**
      * Limpa todos os efeitos ativos da entidade.
