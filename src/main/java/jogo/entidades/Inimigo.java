@@ -101,7 +101,7 @@ public class Inimigo extends Entidade {
             }
             statusEfeitos += "\u001B[m";
         }
-        System.out.println("\u001B[31m" + getNome() + " " + atualizaVida() + "\u001B[m | " + "\u001B[31m" + atualizaEscudo() + "\u001B[m | \u001B[31mEFEITOS: " + statusEfeitos + "\u001B[m\n");
+        System.out.println("\u001B[31m" + getNome() + " " + atualizaVida() + "\u001B[m | " + "\u001B[31m" + atualizaEscudo() + "\u001B[m | \u001B[31mEFEITOS: " + statusEfeitos + "\u001B[m");
     }
 
     /** @return {@code true} se o escudo já atingiu o limite máximo. */

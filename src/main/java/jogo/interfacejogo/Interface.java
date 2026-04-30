@@ -80,7 +80,7 @@ public class Interface {
      */
     public int leitura(int min, int max) {
         while (true) {
-            System.out.print("Digite a opcao: ");
+            System.out.print("\u001B[33mDigite a opção: \u001B[m");
             if (leitor.hasNextInt()) {
                 int opcao = leitor.nextInt();
                 if (opcao >= min && opcao <= max) {

@@ -1,119 +1,81 @@
 package jogo.servicos;
-import jogo.batalha.*;
+
 import jogo.cartas.DequeHeroi;
 import jogo.entidades.Heroi;
-import jogo.entidades.Inimigo;
+import jogo.eventos.Acampamento;
+import jogo.eventos.Evento;
 import jogo.interfacejogo.Interface;
 import jogo.mapa.MapaCampanha;
 import jogo.mapa.NoMapa;
-
-
 import java.util.List;
 
-
-/**
- * Orquestra o fluxo principal da campanha e dos combates noturnos.
- */
 public class Fluxocombate {
     private final Interface interfaceJogo;
     private final Craft servicoCraft;
 
-    /**
-     * Cria o servico principal de batalha.
-     *
-     * @param interfaceJogo interface textual do jogo
-     * @param servicoCraft fluxo de preparacao e crafting
-     */
     public Fluxocombate(Interface interfaceJogo, Craft servicoCraft) {
         this.interfaceJogo = interfaceJogo;
         this.servicoCraft = servicoCraft;
     }
 
-    /**
-     * Executa a campanha completa usando um mapa de progressão.
-     *
-     * @param heroi heroi do jogador
-     * @param cartas baralho do heroi
-     */
     public void executarCampanha(Heroi heroi, DequeHeroi cartas) {
-        MapaCampanha mapa = MapaCampanha.criarPadrao();
+        MapaCampanha mapa = MapaCampanha.criarPadrao(servicoCraft);
         NoMapa posicaoAtual = mapa.getRaiz();
         posicaoAtual.marcarVisitado();
-        int batalhasVencidas = 0;
+        int eventosConcluidos = 0;
+        Evento acampamentoInicial = new Acampamento(servicoCraft);
+        acampamentoInicial.iniciar(heroi, cartas, interfaceJogo);
 
         while (heroi.estaVivo()) {
             List<NoMapa> opcoes = posicaoAtual.getProximosNaoVisitados();
-            if (opcoes.isEmpty()) {
-                break;
-            }
+            if (opcoes.isEmpty()) break;
 
             NoMapa destino = escolherProximoNo(posicaoAtual, opcoes);
             destino.marcarVisitado();
             posicaoAtual = destino;
 
-            iniciarDia(batalhasVencidas, heroi, posicaoAtual);
-            servicoCraft.executarPreparacao(heroi, cartas);
+            heroi.expProgresso(eventosConcluidos / 2);
+            heroi.resetarExp();
 
-            Inimigo inimigo = posicaoAtual.criarInimigo();
-            if (inimigo == null) {
-                continue;
+            Evento evento = posicaoAtual.criarEvento();
+            if (evento != null) {
+                boolean sobreviveu = evento.iniciar(heroi, cartas, interfaceJogo);
+                if (!sobreviveu) break;
             }
 
-            Batalha batalha = new Batalha(heroi, inimigo, cartas, interfaceJogo);
-            boolean venceu = batalha.executar();
-            heroi.limparEfeitos();
-
-            if (!venceu) {
-                break;
-            }
-
-                interfaceJogo.destaque("\n>> Você venceu o inimigo! O caminho adiante está livre.\n");
-                interfaceJogo.aguardarEnter(">> Pressione Enter para avançar pela trilha... ");
-            batalhasVencidas++;
-
-            if (posicaoAtual.ehFinal()) {
-                break;
-            }
+            eventosConcluidos++;
+            if (posicaoAtual.ehFinal()) break;
         }
-
-        if (heroi.estaVivo() && posicaoAtual.ehFinal()) {
-            System.out.println("\n\u001B[1;32mPARABÉNS!!! Você alcançou o destino final e derrotou o boss!\u001B[m\n");
-        } else if (heroi.estaVivo()) {
-            System.out.println("\n\u001B[1;33mCampanha encerrada: não há mais caminhos disponíveis no mapa.\u001B[m\n");
-        } else {
-            System.out.println("\n\u001B[1;31mQUE PENA, você foi derrotado!\u001B[m");
-            System.out.println("\u001B[1;31mNão foi dessa vez... Tente novamente!\u001B[m\n");
-        }
-    }
-
-    private void iniciarDia(int batalhasVencidas, Heroi heroi, NoMapa destino) {
-        heroi.expProgresso(batalhasVencidas);
-        heroi.resetarExp();
-        interfaceJogo.atualizaTela(heroi);
-
-        if (batalhasVencidas > 0) {
-            interfaceJogo.destaque(">> Você venceu " + batalhasVencidas + " batalha(s). Já amanheceu, continue progredindo!\n");
-        } else {
-            interfaceJogo.destaque(">> Está de dia! Aproveite para se preparar " + heroi.getNome() + "!\n");
-        }
-        interfaceJogo.destaque(">> Próximo destino: " + destino.getNome() + " (profundidade " + destino.getProfundidade() + ")\n");
+        exibirFinal(heroi, posicaoAtual);
     }
 
     private NoMapa escolherProximoNo(NoMapa atual, List<NoMapa> opcoes) {
         interfaceJogo.limpar();
-        interfaceJogo.titulo();
-        System.out.println("\u001B[36m========== MAPA DA CAMPANHA ==========\u001B[m");
-        System.out.println("Posição atual: " + atual.getNome());
-        System.out.println("Escolha o próximo caminho:\n");
+        System.out.println("\u001B[36m============================================================");
+        System.out.println("|                     MAPA DA JORNADA                      |");
+        System.out.println("============================================================\u001B[m");
+        
+        System.out.println("\u001B[33m>> Localização Atual:\u001B[m " + atual.getNome());
+        System.out.println("\n\u001B[33m>> Escolha o próximo destino:\u001B[m");
 
         for (int i = 0; i < opcoes.size(); i++) {
             NoMapa no = opcoes.get(i);
-            String sufixoFinal = no.ehFinal() ? " [DESTINO FINAL]" : "";
-            System.out.println("[ " + (i + 1) + " ] " + no.getNome() + " (profundidade " + no.getProfundidade() + ")" + sufixoFinal);
+            String label = no.ehFinal() ? " \u001B[31m[BOSS FINAL]\u001B[m" : "";
+            System.out.println("[ " + (i + 1) + " ] " + no.getNome() + label);
         }
-        System.out.println("\n======================================");
-
-        int escolha = interfaceJogo.leitura(1, opcoes.size());
+        
+        System.out.println(); // Pula uma linha
+        int escolha = interfaceJogo.leitura(1, opcoes.size()); // A interface já vai imprimir "Digite a opcao:"
         return opcoes.get(escolha - 1);
+    }
+
+    private void exibirFinal(Heroi heroi, NoMapa posicao) {
+        interfaceJogo.limpar();
+        if (heroi.estaVivo() && posicao.ehFinal()) {
+            System.out.println("\u001B[1;32m>> VITÓRIA! Você derrotou o Boss Final e concluiu sua jornada!\u001B[m\n");
+        } else if (!heroi.estaVivo()) {
+            System.out.println("\u001B[1;31m>> GAME OVER! Você sucumbiu aos perigos da noite...\u001B[m\n");
+        }
+        interfaceJogo.aguardarEnter("\u001B[33m>> Pressione Enter para sair...\u001B[m");
     }
 }
