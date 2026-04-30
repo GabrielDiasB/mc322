@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="jogo.interfacejogo.InterfaceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-04-21T16:16:46.482Z" hostname="Gabriel-Laptop" time="0.024">
+<testsuite name="jogo.interfacejogo.InterfaceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-04-30T18:30:10.192Z" hostname="Skiffs" time="0.016">
   <properties/>
-  <testcase name="leituraDeveIgnorarEntradaInvalidaEAceitarFaixaValida()" classname="jogo.interfacejogo.InterfaceTest" time="0.006"/>
-  <testcase name="deveRetornarDesenhoDoHeroiEArtesDeInimigo()" classname="jogo.interfacejogo.InterfaceTest" time="0.002"/>
+  <testcase name="leituraDeveIgnorarEntradaInvalidaEAceitarFaixaValida()" classname="jogo.interfacejogo.InterfaceTest" time="0.005"/>
+  <testcase name="deveRetornarDesenhoDoHeroiEArtesDeInimigo()" classname="jogo.interfacejogo.InterfaceTest" time="0.001"/>
   <testcase name="deveLerLinhaEConfirmacao()" classname="jogo.interfacejogo.InterfaceTest" time="0.002"/>
-  <testcase name="metodosDeExibicaoNaoDevemFalhar()" classname="jogo.interfacejogo.InterfaceTest" time="0.009"/>
+  <testcase name="metodosDeExibicaoNaoDevemFalhar()" classname="jogo.interfacejogo.InterfaceTest" time="0.004"/>
   <testcase name="deveAguardarEnterSemFalhar()" classname="jogo.interfacejogo.InterfaceTest" time="0.001"/>
-  <system-out><![CDATA[Digite a opcao: ?[31mInteiro invalido. Tente novamente...?[m
+  <system-out><![CDATA[?[33mDigite a opção: ?[m?[31mInteiro invalido. Tente novamente...?[m
 
-Digite a opcao: ?[31mOpcao invalida. Tente novamente...?[m
+?[33mDigite a opção: ?[m?[31mOpcao invalida. Tente novamente...?[m
 
-Digite a opcao: Digite: Continuar? ?[1;36m╔══════════════════════════════════╗?[m
+?[33mDigite a opção: ?[mDigite: Continuar? ?[1;36m╔══════════════════════════════════╗?[m
 ?[1;36m║        CRAFT & COMBATE           ║?[m
 ?[1;36m╚══════════════════════════════════╝?[m
 
@@ -18,7 +18,7 @@ Digite a opcao: Digite: Continuar? ?[1;36m╔═══════════�
 ?[1;36m║        CRAFT & COMBATE           ║?[m
 ?[1;36m╚══════════════════════════════════╝?[m
 
-Alex ?[32mVIDA: [■■■■■■■■■■] 30/30?[m | ?[34mESCUDO: [■■] 2/2?[m | ?[35mXP: [■■■■■] 5/5?[m | EFEITOS: Nenhum?[m
+?[1;36mALEX?[m | ?[32mVIDA [■■■■■■■■■■] 30 HP?[m | ?[34mESCUDO [----------] 2 DEF?[m | ?[35m[■■■■■] 5/5 XP?[m | EFEITOS: Nenhum
 
    O  
   /|\ 

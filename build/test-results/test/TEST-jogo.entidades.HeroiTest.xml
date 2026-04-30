@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="jogo.entidades.HeroiTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-04-21T16:16:46.444Z" hostname="Gabriel-Laptop" time="0.01">
+<testsuite name="jogo.entidades.HeroiTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-04-30T18:30:10.167Z" hostname="Skiffs" time="0.008">
   <properties/>
   <testcase name="testGetExpInicial()" classname="jogo.entidades.HeroiTest" time="0.001"/>
-  <testcase name="testTemLa()" classname="jogo.entidades.HeroiTest" time="0.001"/>
-  <testcase name="testTemDiamante()" classname="jogo.entidades.HeroiTest" time="0.001"/>
-  <testcase name="testTemMadeira()" classname="jogo.entidades.HeroiTest" time="0.001"/>
+  <testcase name="testTemLa()" classname="jogo.entidades.HeroiTest" time="0.0"/>
+  <testcase name="testTemDiamante()" classname="jogo.entidades.HeroiTest" time="0.0"/>
+  <testcase name="testTemMadeira()" classname="jogo.entidades.HeroiTest" time="0.0"/>
   <testcase name="testTemFerro()" classname="jogo.entidades.HeroiTest" time="0.001"/>
   <testcase name="testHeroiCreation()" classname="jogo.entidades.HeroiTest" time="0.001"/>
   <testcase name="testGetExp()" classname="jogo.entidades.HeroiTest" time="0.001"/>

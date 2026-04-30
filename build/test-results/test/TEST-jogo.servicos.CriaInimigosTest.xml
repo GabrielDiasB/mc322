@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="jogo.servicos.CriaInimigosTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-04-21T16:16:46.521Z" hostname="Gabriel-Laptop" time="0.007">
+<testsuite name="jogo.servicos.CriaInimigosTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-04-30T18:30:10.213Z" hostname="Skiffs" time="0.007">
   <properties/>
   <testcase name="deveRetornarNullParaFaseInvalida()" classname="jogo.servicos.CriaInimigosTest" time="0.001"/>
-  <testcase name="deveCriarBossFinalComAtributosEsperados()" classname="jogo.servicos.CriaInimigosTest" time="0.001"/>
+  <testcase name="deveCriarBossFinalComAtributosEsperados()" classname="jogo.servicos.CriaInimigosTest" time="0.0"/>
   <testcase name="deveSortearTodosOsInimigosDaFase0()" classname="jogo.servicos.CriaInimigosTest" time="0.0"/>
-  <testcase name="deveSortearTodosOsInimigosDaFase1()" classname="jogo.servicos.CriaInimigosTest" time="0.0"/>
+  <testcase name="deveSortearTodosOsInimigosDaFase1()" classname="jogo.servicos.CriaInimigosTest" time="0.001"/>
   <testcase name="deveSortearTodosOsInimigosDaFase2()" classname="jogo.servicos.CriaInimigosTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

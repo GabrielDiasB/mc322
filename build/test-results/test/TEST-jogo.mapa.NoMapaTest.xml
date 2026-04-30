@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="jogo.mapa.NoMapaTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-21T16:16:46.517Z" hostname="Gabriel-Laptop" time="0.003">
+<testsuite name="jogo.mapa.NoMapaTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-30T18:30:10.209Z" hostname="Skiffs" time="0.003">
   <properties/>
   <testcase name="deveListarApenasNosNaoVisitados()" classname="jogo.mapa.NoMapaTest" time="0.001"/>
   <testcase name="deveMarcarNoComoVisitado()" classname="jogo.mapa.NoMapaTest" time="0.001"/>

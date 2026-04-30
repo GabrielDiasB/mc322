@@ -108,14 +108,13 @@ public class DequeHeroi {
     public void mostraAtual() {
         for (int i = 0; i < atual.size(); i++) {
             Carta carta = atual.get(i);
-            if (carta == null) {
-                System.out.println("");
+            if (carta != null) {
+                System.out.printf("\u001B[36m[ %d ]\u001B[m \u001B[37m%-18s\u001B[m ==> \u001B[32m%-12s\u001B[m -%dXP\n", 
+                                 (i + 1), carta.getNome(), carta.getDescricao(), carta.getCusto());
             } else {
-                System.out.println("[ " + (i + 1) + " ] " + String.format("%-23s", carta.getNome()) + "==> " + String.format("%-12s",carta.getDescricao()) + "-" + carta.getCusto() + "XP");
+                System.out.printf("\n");
             }
-            
         }
-        
     }
 
     /** Exibe todas as cartas já cadastradas no baralho. */
